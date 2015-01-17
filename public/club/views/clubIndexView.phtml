@@ -1,0 +1,148 @@
+<? /* @var ClubIndexView $this */
+$clubResultId = $this->getResultId();
+$mainBodyId = $this->getParentId();
+$subscriber = $this->getSubscriber();
+
+$subscriberRepresent = new SubscriberViewRepresent($this->subscriber);
+
+$topLeftBannerView = ViewFactory::getRandomViewFromList($viewList);
+
+/* @var Partition $partition */
+$clubActivityPartition = Partition::initEntityByUrl(Constants::$clubActivityPartitionUrl);
+
+/* @var Article[] $workshopList */
+$workshopList = $clubActivityPartition->getItemList();
+
+$clubActivityFormView = new ClubActivitySubscribeFormView($subscriber, $workshopList[0], $clubResultId, $mainBodyId);
+?>
+<TABLE cellpadding="0" cellspacing="0" width="100%" border="0">
+    <TR>
+        <TD colspan="2" style="background: url('/images/banner_club2.jpg') no-repeat 0 0; height:400px; border-bottom-width:1px;
+                               border-top-width:1px;" class="bordercolor_lightgray">
+            &nbsp;
+        </TD>
+    </TR>
+
+    <TR>
+        <TD style="font-size: 6px;">
+            &nbsp;
+        </TD>
+    </TR>
+
+    <TR>
+        <TD style="text-align: center; background: url('/images/club/register_back.jpg') no-repeat 0 0; padding: 10px 0 10px 0;">
+            <FORM action="club_info_form" id="noticeForm" name="noticeForm" method="post">
+                <INPUT type="hidden" name="subscriber" value="<?= $subscriber->getId() ?>">
+                <INPUT type="hidden" name="subscriber_type"
+                       value="<?= $subscriber->getSubscriberType()->getCode() ?>">
+                <TABLE cellpadding="0" cellspacing="0" width="100%" style="text-align:center;">
+                    <TR>
+                        <TD style="padding:10px 0 10px 0;">
+                            <INPUT class="input color_white bordercolor_white" value="<?= $subscriberRepresent->getName() ?>" name="name"
+                                   style="text-align:center; width:342px; height:30px; font-size:16px;;
+                                   background: url('/images/club/register_back_input2.png') no-repeat 0 0;"
+                                   onkeyup="copy_subscriber(this);"
+                                <?= $subscriberRepresent->getOnClick() ?> <?= $subscriberRepresent->getBlocked() ?>>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TD style="padding:0 0 10px 0;">
+                            <INPUT class="input color_white bordercolor_white" value="<?= $subscriberRepresent->getEmail() ?>"
+                                   name="email"
+                                   style="text-align:center; width:342px; height:30px; font-size:16px;
+                                   background: url('/images/club/register_back_input2.png') no-repeat 0 0;"
+                                   onkeyup="copy_subscriber(this);"
+                                <?= $subscriberRepresent->getOnClick() ?> <?= $subscriberRepresent->getBlocked() ?>>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TD style="text-align:center;">
+                            <DIV class="bordercolor_orange color_white"
+                                 style="font-size: 14px; width:342px; height:30px; cursor:pointer; text-align: center;
+                                 background: url('/images/club/register_button.png') no-repeat 0 0; margin: 0 auto;"
+                                 onClick='if (validate(noticeForm)) {
+                                     ajaxPostRequest("/club_info_subscribe/", "noticeForm", "<?= $clubResultId ?>", "<?= $mainBodyId ?>", true);
+                                     }
+                                     return false;'>
+                            </DIV>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </FORM>
+        </TD>
+    </TR>
+
+    <TR>
+        <TD colspan="2" class="bordercolor_lightgray"
+            style="background: url('/images/club/club_11.jpg') no-repeat 0 0; height:444px; vertical-align:top;
+            border-left-width:1px; border-right-width:1px;">
+            <DIV style="position:relative; left:120px; top:350px; width:200px;">
+                <A href="https://vk.com/all_ayurveda"
+                   class="color_gray" style="font-size: 20px; text-decoration:underline;">
+                    vk.com/all_ayurveda
+                </A>
+            </DIV>
+        </TD>
+    </TR>
+
+    <TR>
+        <TD style="font-size: 6px;">
+            &nbsp;
+        </TD>
+    </TR>
+
+    <TR>
+        <TD colspan="2" class="bordercolor_lightgray"
+            style="background: url('/images/club/club_1.jpg') no-repeat 0 0; height:420px; vertical-align:top;
+            border-width:1px; border-top-width:0px;">
+            <DIV style="position:relative; left:100px; top:370px; width:400px;">
+                <A href="#<?= Constants::$clubActivityFormId ?>"
+                   onClick="$('#<?= Constants::$clubActivityFormId ?>').css('display',''); return false;"
+                   class="color_gray" style="font-size: 20px; text-decoration:underline;">
+                    Записаться на ближайшее мероприятие
+                </A>
+            </DIV>
+            <A style="position:relative; left:100px; top:350px;" name="#<?= Constants::$clubActivityFormId ?> "></A>
+            <?= $clubActivityFormView->view() ?>
+        </TD>
+    </TR>
+
+    <TR>
+        <TD style="font-size: 6px;">
+            &nbsp;
+        </TD>
+    </TR>
+
+    <TR>
+        <TD colspan="2">
+            <DIV style="border-width:1px; padding:10px;" class="bordercolor_lightgray">
+                <? include "clubPhotoSliderView.phtml" ?>
+            </DIV>
+        </TD>
+    </TR>
+
+    <TR>
+        <TD style="font-size: 6px;">
+            &nbsp;
+        </TD>
+    </TR>
+
+    <TR>
+        <TD colspan="2" class="bordercolor_lightgray"
+            style="background: url('/images/club/club_2.jpg') no-repeat 0 0; height:400px; vertical-align:top;
+            border-width:1px; border-top-width:0px;">
+            <DIV style="position:relative; left:120px; top:350px; width:200px;">
+                <A href="javascript:void(0)" onClick="ajaxGetRequest('/club_sales_form/', '<?=$clubResultId?>', '<?=$mainBodyId?>', false); return false;"
+                   class="color_gray" style="font-size: 20px; text-decoration:underline;">
+                    Мне интересно
+                </A>
+            </DIV>
+            <DIV style="position:relative; left:620px; top:330px; width:200px;">
+                <A href="/about_as/17963"
+                   class="color_gray" style="font-size: 20px; text-decoration:underline;">
+                    Узнать больше
+                </A>
+            </DIV>
+        </TD>
+    </TR>
+</TABLE>

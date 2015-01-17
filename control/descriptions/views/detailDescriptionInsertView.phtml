@@ -1,0 +1,73 @@
+<?/* @var DetailDescriptionInsertView $this */
+$description = $this->getDescription();
+$image = new Image($description->getId(), ImageType::$description);
+$imageView = new ImageLoaderView($image, $this->getUrl());
+
+?>
+<DIV style='padding:10px 0 5px 15px;'><FONT class="switch FONT17 color2">Добавить описание продукта</FONT></DIV>
+<DIV align='center'>
+    <FORM method='post' action='<?= $this->getUrl() ?>' enctype='multipart/form-data'>
+        <INPUT type='hidden' name='produce' value='<?= $description->getProduce()->getId() ?>'>
+        <INPUT type='hidden' name='id' value='<?= $description->getId() ?>'>
+        <TABLE cellpadding='5' cellspacing='5' width='800px' border='0' align='center'>
+            <TR>
+                <TD class="date red" style="padding:0 10px 0 0;">Название</TD>
+                <TD class="date red">Приоритет</TD>
+                <TD width="400px">&nbsp;</TD>
+            </TR
+            <TR>
+                <TD style="padding: 0 10px 10px 0;"><INPUT class="input" name="title" size="50"
+                                                           value="<?= $description->getTitle() ?>"></TD>
+                <TD style="padding: 0 10px 10px 0;"><INPUT class="input" name="sort"
+                                                           value="<?= $description->getSort() ?>"></TD>
+                <TD></TD>
+            </TR>
+            <TR>
+                <TD class="date red" colspan="2">Анонс</TD>
+            </TR>
+            <TR>
+                <TD colspan="3"><TEXTAREA id="preview" name="preview"><?= $description->getPreview() ?></TEXTAREA></TD>
+            </TR>
+
+            <TR>
+                <TD>&nbsp;</TD>
+            </TR>
+
+            <TR>
+                <TD class="date red" colspan="2">Описание</TD>
+            </TR>
+            <TR>
+                <TD colspan="3"><TEXTAREA id="detail" name="detail"><?= $description->getDetail() ?></TEXTAREA></TD>
+            </TR>
+
+            <TR>
+                <TD>&nbsp;</TD>
+            </TR>
+
+            <TR>
+                <TD colspan='3' class='yellow_foot line_divs' style='verical-align:center;'>
+                    <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                        <TR>
+                            <!-- <TD style='padding: 0 0 0 40px;'>
+                                <INPUT class='big_button' style='text-align:center' type='submit' name='ofill'
+                                       value='Сохранить'>
+                            </TD> -->
+                            <TD style='padding: 0 0 0 40px;'>
+                                <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                                       value='Сохранить и Закрыть'>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+            </TR>
+        </TABLE>
+    </FORM>
+</DIV>
+
+<script type="text/javascript">
+    var editor = CKEDITOR.replace('detail');
+    CKFinder.setupCKEditor(editor, '/control/ckfinder/');
+
+    editor = CKEDITOR.replace('preview');
+    CKFinder.setupCKEditor(editor, '/control/ckfinder/');
+</SCRIPT>

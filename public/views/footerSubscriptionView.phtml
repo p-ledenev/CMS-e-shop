@@ -1,0 +1,21 @@
+<? /* @var FooterSubscriptionView $this */
+$subscriber = $this->getSubscriber();
+$blocked = !$this->allowFormFieldsEdit() ? "disabled" : "";
+?>
+<INPUT type="hidden" name="subscriber" value="<?= $subscriber->getId() ?>">
+<INPUT type="hidden" name="subscriber_type"
+       value="<?= $subscriber->getSubscriberType()->getCode() ?>">
+<TD class="color_orange"
+    style="font-size: 12px; text-align: right; padding:0 10px 0 0; width:100px;">
+    <nobr>ÂÀØÅ ÈÌ‗ <INPUT
+            class="input bordercolor_lightgray"
+            style='border-width: 1px; width:140px;' name="name"
+            value="<?= $subscriber->getName() ?>" <?= $blocked ?>></nobr>
+</TD>
+<TD class="color_orange"
+    style="font-size: 12px; text-align: right; padding:0 0px 0 0; width:100px;">
+    <nobr>EMAIL <INPUT
+            class="input bordercolor_lightgray"
+            style='border-width:1px; width:140px;'
+            name="email" value="<?= $subscriber->getEmail() ?>" <?= $blocked ?>></nobr>
+</TD>

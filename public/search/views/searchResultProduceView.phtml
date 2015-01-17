@@ -1,0 +1,23 @@
+<? /* @var SearchResultProduceView $this */
+$produce = $this->getProduce();
+$producePreviewList = $produce->getPreviewList();
+$partitionList = $produce->getPartitionList();
+
+$url = $produce->createUrlFor();
+$image = new Image($produce->getId(), ImageType::$catalog, $produce->getTitle(), $url);
+?>
+<TR style='background:<?= $this->getColor() ?>; vertical-align:top;' align='center'>
+    <TD style='padding: 15px 0 0 0; border-bottom-width:1px;' width="100%" class='bordercolor_lightgray'>
+        <TABLE cellpadding='0' cellspacing='0' align='left'>
+            <TR>
+                <TD><A target='_blank' href='<?= $url ?>'><IMG border="0" width='100px'
+                                                               src="<?= $image->getThumbUrl() ?>"></A></TD>
+                <TD style='padding: 0 30px 15px 30px; text-align:left;'>
+                    <A target='_blank' href='<?= $url ?>' class="color_brown arial_family">
+                        <?= strtoupper($produce->getTitle()) ?></A>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+    <TD style='padding: 0px 0 0 0; vertical-align: middle; font-weight:700; font-size:16px; border-bottom-width:1px;' class='bordercolor_lightgray'><nobr><?= $produce->getPrice() ?> -</nobr></TD>
+</TR>

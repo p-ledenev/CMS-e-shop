@@ -1,0 +1,36 @@
+<? /* @var ProducePartitionView $this */
+$partition = $this->getFilter()->getPartition();
+$partitionFilter = new PartitionFilter("/", $partition->getCategory());
+
+/* @var Produce[] $produceList */
+$produceList = $this->getFilter()->loadItemList("Produce");
+
+$partitionTreeView = ViewFactory::createPartitionTree($partitionFilter->loadItemList("ProducePartition"), $partition);
+$produceShortListView = new ProduceShortListSquareView($produceList, $partition, $this->getCartResultId(), $this->getInflowResultId(), false);
+$produceDetailListView = new ProduceDetailListSquareView($produceList, $partition, $this->getCartResultId(), $this->getInflowResultId(), false, false);
+?>
+<table width='100%' cellpadding='0' cellspacing='0' border='0' style="border-collapse:collapse;">
+    <TR>
+        <TD style='padding:10px 0 0 0; text-align:left; vertical-align:top; border-right-width:0px; border-top-width:0px;'
+            class="bordercolor_lightgray" rowspan="2"">
+            <? $partitionTreeView->view() ?>
+        </TD>
+
+        <TD style='padding:0px 0 0 0; text-align: center; vertical-align:top; border-left-width:1px; border-bottom-width:1px;'
+            class="bordercolor_lightgray" width="750px">
+            <?
+            $produceShortListView->view();
+            $produceDetailListView->view();
+            ?>
+        </TD>
+    </TR>
+
+    <TR>
+        <TD style="padding:10px 0 0 0; vertical-align:top; height:100%; border-left: solid white 1px;">
+            <?
+            $produceShortListView->viewBottomButton();
+            $produceDetailListView->viewBottomButton();
+            ?>
+        </TD>
+    </TR>
+</TABLE>

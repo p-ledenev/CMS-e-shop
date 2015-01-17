@@ -1,0 +1,134 @@
+<? /* @var ClubActivitySubscribeFormView $this */
+$workshop = $this->getWorkshop();
+$subscriber = $this->getSubscriber();
+
+$resultId = $this->getResultId();
+$parentResultId = $this->getParentId();
+
+$workshop->getPreview();
+
+$subscriberRepresent = new SubscriberViewRepresent($this->subscriber);
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<DIV
+    style="display:<?= ($this->getDisplay() ? "" : "none") ?>; position: relative; top:440px; left:40px; z-index:2; width:500px;"
+    class="bordercolor_lightgray"
+    id="<?= Constants::$clubActivityFormId ?>">
+
+    <TABLE cellpadding="0" cellspacing="0" border="0" align="center"
+           style="text-align:left; width:100%; border-width:1px;" class="backcolor_white bordercolor_lightgray">
+        <FORM action="/club_workshop_subscribe/" method="post" id="workshopForm" name="workshopForm">
+            <INPUT type="hidden" name="item" value="<?= $this->getWorkshop()->getId() ?>">
+            <INPUT type="hidden" name="subscriber" value="<?= $subscriber->getId() ?>">
+            <INPUT type="hidden" name="subscriber_type" value="<?= $subscriber->getSubscriberType()->getCode() ?>">
+
+            <TR>
+                <TD class="color_marsh"
+                    style="font-size: 16px; text-align:center; width:250px; padding:40px 40px 0px 40px;">
+                    <?= $workshop->getPreview() ?>
+                </TD>
+            </TR>
+            <TR>
+                <TD class="color_gray" style="text-align: center; padding:20px 0 0 0;">
+                    <INPUT
+                        class="input bordercolor_lightgray color_orange"
+                        style='border-width:1px; width:200px; text-align:center; font-size:16px; height:30px;'
+                        name="name"
+                        onkeyup="copy_subscriber(this);"
+                        value="<?= $subscriberRepresent->getName() ?>" <?= $subscriberRepresent->getBlocked() ?> <?= $subscriberRepresent->getOnClick() ?>>
+                </TD>
+            </TR>
+            <TR>
+                <TD class="color_gray" style="font-size: 16px; text-align: center; padding:20px 0 0 0;">
+                    <INPUT
+                        class="input bordercolor_lightgray color_orange"
+                        style='border-width:1px; width:200px; text-align:center; font-size:16px; height:30px;'
+                        name="email"
+                        onkeyup="copy_subscriber(this);"
+                        value="<?= $subscriberRepresent->getEmail() ?>" <?= $subscriberRepresent->getBlocked() ?> <?= $subscriberRepresent->getOnClick() ?>>
+                </TD>
+            </TR>
+            <TR>
+                <TD class="color_gray" style="font-size: 16px; text-align: center; padding:20px 0 0 0;">
+                    <INPUT
+                        class="input bordercolor_lightgray color_orange"
+                        style='border-width:1px; width:200px; text-align:center; font-size:16px; height:30px;'
+                        name="phone"
+                        value="<?= $subscriberRepresent->getPhone() ?>" <?= $subscriberRepresent->getBlocked() ?> <?= $subscriberRepresent->getOnClick() ?>>
+                </TD>
+            </TR>
+            <TR>
+                <TD class="color_warmgray"
+                    style="font-size: 16px; vertical-align: middle; text-align: center; padding:20px 0 30px 0;"><A
+                        href="javascript:void(0);" style="text-decoration: none;">
+                        <INPUT type="button" class="backcolor_orange bordercolor_orange color_white"
+                               style="font-size: 16px; display: inline; padding:5px 39px 2px 39px;cursor: pointer;"
+                               onClick="if(validate(workshopForm)) {
+                                   ajaxPostRequest('/club_workshop_subscribe/', 'workshopForm', '<?= $resultId ?>', '<?= $parentResultId ?>',true);
+                                   }
+                                   return false;"
+                               value="ЗАПИСАТЬСЯ"/>
+                </TD>
+            </TR>
+        </FORM>
+
+        <TR>
+            <TD style="text-align:center;">
+                <DIV style="border-bottom-width:1px; text-align:center; width:95%; margin:0 auto;"
+                     class="bordercolor_lightgray"></DIV>
+            </TD>
+        </TR>
+
+        <FORM action="/club_activity_subscribe/" method="post" id="activityForm" name="activityForm">
+            <INPUT type="hidden" name="item" value="<?= $this->getWorkshop()->getId() ?>">
+            <INPUT type="hidden" name="subscriber" value="<?= $subscriber->getId() ?>">
+            <INPUT type="hidden" name="subscriber_type" value="<?= $subscriber->getSubscriberType()->getCode() ?>">
+            <TR>
+                <TD class="color_marsh"
+                    style="font-size: 18px; text-align:center; width:250px; padding:30px 40px 0px 40px;">
+                    Получать информацию о мероприятиях Клуба и других событиях Аюрведы
+                </TD>
+            </TR>
+            <TR>
+                <TD class="color_gray" style="font-size: 16px; text-align:center; padding: 20px 0 0 0;">
+                    <INPUT
+                        class="input bordercolor_lightgray color_orange"
+                        style='border-width:1px; width:200px; text-align:center; font-size: 16px; height:30px;'
+                        name="name"
+                        onkeyup="copy_subscriber(this);"
+                        value="<?= $subscriberRepresent->getName() ?>" <?= $subscriberRepresent->getBlocked() ?> <?= $subscriberRepresent->getOnClick() ?>>
+                </TD>
+            </TR>
+            <TR>
+                <TD class="color_gray" style="font-size: 16px; text-align:center; padding: 20px 0 0 0;">
+                    <INPUT
+                        class="input bordercolor_lightgray color_orange"
+                        style='border-width:1px; width:200px; text-align:center; font-size:16px; height:30px;'
+                        name="email"
+                        onkeyup="copy_subscriber(this);"
+                        value="<?= $subscriberRepresent->getEmail() ?>" <?= $subscriberRepresent->getBlocked() ?> <?= $subscriberRepresent->getOnClick() ?>>
+                </TD>
+            </TR>
+            <TR>
+                <TD class="color_warmgray"
+                    style="font-size: 16px; vertical-align: middle; text-align:center; padding: 20px 0 40px 0;"><A
+                        href="javascript:void(0);" style="text-decoration: none;">
+                        <INPUT type="button" class="backcolor_orange bordercolor_orange color_white"
+                               style="font-size: 16px; display: inline; padding:5px 39px 2px 39px;cursor: pointer;"
+                               onClick="if(validate(activityForm)) {
+                                   ajaxPostRequest('/club_activity_subscribe/', 'activityForm', '<?= $resultId ?>', '<?= $parentResultId ?>',true);
+                                   }
+                                   return false;"
+                               value="ПОЛУЧАТЬ"/>
+                </TD>
+            </TR>
+
+            <TR>
+                <TD style="text-align:right; padding: 0 10px 5px 0; font-size:12px;">
+                    <A href="javascript:void(0);" class="color_red arial_family"
+                       onClick="$('#<?= Constants::$clubActivityFormId ?>').css('display','none'); return false;">закрыть</A>
+                </TD>
+            </TR>
+        </FORM>
+    </TABLE>
+</DIV>

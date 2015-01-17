@@ -1,0 +1,86 @@
+<? /* @var CabinetDealDetailView $this */
+$deal = $this->getDeal();
+$distibuiton = (strlen($deal->getCustomer()->getDistributon()) > 0) ?
+    "номер дистрибьютера: " . $deal->getCustomer()->getDistributon() : "";
+
+$gift = (strlen($deal->getGift()) > 0) ?
+    "<TR><TD class='color_gray' align='right'>Подарок к заказу</TD><TD class='color_marsh'>" . $deal->getGift() . "</TD></TR>" : "";
+?>
+<TABLE width="100%" border='0' cellpadding='0' cellspacing='0' align='center'>
+
+    <TR>
+        <TD style='vertical-align: top;'>
+            <FORM method='post' name="cart_form">
+                <INPUT type="hidden" name="rec" value="1">
+                <TABLE border="0" cellpadding="0" cellspacing="0" align="center" width="700px">
+                    <TR>
+                        <TD valign='top' style='padding: 20px 30px 10px 0px;'>
+                            <TABLE cellpadding="0" cellspacing="0" width="100%">
+                                <TR>
+                                    <TD style="padding:0 0 0 0; font-size:20px;" class="color_marsh">
+                                        <NOBR>Информация о заказе №<?= $deal->getOrderNo() ?></NOBR>
+                                    </TD>
+                                    <TD style="padding:0 0 0 0; font-size:14px; width:30px; text-align:right;">
+                                        <A href="/cabinet" class="color_azure"
+                                           style="text-decoration:underline;">Назад</A>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TD style="text-align:left; font-size:14px;">
+                            <table cellpadding='10' cellspacing='10' border='0' align="left"
+                                   class="customer_info_table">
+                                <TR>
+                                    <TD class='color_gray '>Имя</TD>
+                                    <TD class='color_marsh'>
+                                        <?= $deal->getCustomer()->getName() ?>
+                                        &nbsp;<?= $distibuiton ?>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD class='color_gray' align='right'>Телефон</TD>
+                                    <TD class='color_marsh'><?= $deal->getAddress()->getPhone() ?>
+                                        &nbsp;<?= $deal->getCustomer()->getPhone() ?></TD>
+                                </TR>
+                                <TR>
+                                    <TD class='color_gray' align='right'>E-mail</TD>
+                                    <TD class='color_marsh'><?= $deal->getCustomer()->getEmail() ?></TD>
+                                </TR>
+                                <TR>
+                                    <TD class='color_gray' align='right'>Адрес</TD>
+                                    <TD class='color_marsh'> <?= $deal->getAddress()->toDetailString() ?></TD>
+                                </TR>
+                                <?= $gift ?>
+                                <TR>
+                                    <TD class='color_gray' align='right'>
+                                        <NOBR>Способ оплаты</NOBR>
+                                    </TD>
+                                    <TD class='color_marsh'><?= $deal->getPaymethod()->getParams() ?></TD>
+                                </TR>
+                                <TR>
+                                    <TD class='color_gray' align='right'>
+                                        <NOBR>Время доставки</NOBR>
+                                    </TD>
+                                    <TD class='color_marsh'><?= $deal->getDeliveryTime() ?></TD>
+                                </TR>
+                                <TR>
+                                    <TD class='color_gray' align='right'>
+                                        <NOBR>Дата заказа</NOBR>
+                                    </TD>
+                                    <TD class='color_marsh'><?= date("d.m.Y h:i:s", $deal->getThedate()) ?></TD>
+                                </TR>
+                                <TR>
+                                    <TD class='color_gray' align='right'>
+                                        <NOBR>Статус заказа</NOBR>
+                                    </TD>
+                                    <TD class='color_marsh'><?= $deal->getStatus()->getParams() ?></TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+        </TD>
+    </TR>
+</TABLE>

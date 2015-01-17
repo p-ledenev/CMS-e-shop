@@ -1,0 +1,80 @@
+<? /* @var SubscriptionFilterView $this */ ?>
+<form name='search' method='post' action='/<?= $this->getFilter()->getNavigation()->getUrl() ?>/'>
+    <TABLE width='98%' align='center'>
+        <TR>
+            <TD>
+                <FONT class="switch font17 color2">Список подписок</FONT>
+            </TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE align='left' cellpadding='5' cellspacing='5'>
+                    <TR>
+                        <TD class="date red">Период</TD>
+                        <TD class="date red">Тип</TD>
+                        <TD class="date red">Подписчик</TD>
+                    </TR>
+                    <TR>
+                        <TD class="date red">
+                            <TABLE cellpadding='0' cellspacing='0'>
+                                <TR>
+                                    <TD class="date red">c</TD>
+                                    <TD style='padding:0 0 5px 5px;'><INPUT class='input' name='date_from'
+                                                                            value="<?= date("d.m.Y", $this->filter->getDateFrom()) ?>"
+                                                                            onFocus="this.select();lcs(this)"
+                                                                            onClick="event.cancelBubble=true;this.select();lcs(this)">
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD class="date red"> по</TD>
+                                    <TD style='padding:0 0 0px 5px;'><INPUT class='input' name='date_to'
+                                                                            value="<?= date("d.m.Y", $this->filter->getDateTo()) ?>"
+                                                                            onFocus="this.select();lcs(this)"
+                                                                            onClick="event.cancelBubble=true;this.select();lcs(this)">
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD valign='top'>
+                            <? $selected[$this->filter->getSubscriptionType()->getCode()] = "selected" ?>
+                            <SELECT name='subscription_type' style='width:200px;'>
+                                <?
+                                /* @var SubscriptionType $item */
+                                foreach (DealStatus::getAllItems("SubscriptionType") as $item) {
+                                    echo "<OPTION value='" . $item->getCode() . "' " .
+                                        $selected[$item->getCode()] . ">" . $item->getParams()['title'] . "</OPTION>";
+                                }
+                                ?>
+                            </SELECT>
+                        </TD>
+                        <TD valign='top'>
+                            <? $selected[$this->filter->getSubscriberType()->getCode()] = "selected" ?>
+                            <SELECT name='subscriber_type' style='width:200px;'>
+                                <?
+                                /* @var SubscriptionType $item */
+                                foreach (DealStatus::getAllItems("SubscriberType") as $item) {
+                                    echo "<OPTION value='" . $item->getCode() . "' " .
+                                        $selected[$item->getCode()] . ">" . $item->getParams()['title'] . "</OPTION>";
+                                }
+                                ?>
+                            </SELECT>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+        <TR>
+            <TD class="yellow_foot line_divs">
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tser' type="submit" value="Показать">
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tres' type="submit" value="Показать все">
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+    </TABLE>

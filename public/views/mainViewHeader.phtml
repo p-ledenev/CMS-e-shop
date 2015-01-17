@@ -1,0 +1,96 @@
+<?
+/* @var MainView $this */
+if ($this->getStrInfo())
+    $strError = "<TR><TD class='date color_green arial_family bordercolor_lightgray'
+                style='font-weight:normal;padding:10;text-align:left; border-left-width:1px; border-right-width:1px;'>> " .
+        $this->getStrInfo() . "</TD></TR>";
+
+if ($this->getStrError())
+    $strError = "<TR><TD class='date color_red arial_family bordercolor_lightgray'
+                style='font-weight:normal;padding:10;text-align:left;border-left-width:1px; border-right-width:1px;'>> " .
+        $this->getStrError() . "</TD></TR>";
+
+$issueOrderDisplay = (!$this->getCart()->isEmpty()) ? "" : "none";
+
+$filter = new CategoryFilter("/", CategoryType::$market);
+$menuView = MenuView::forTableMenu($filter->loadItemList("Category"), $this->getSelectedCategory());
+?>
+<TABLE border='0' cellspacing="0" cellpadding="0" width='1000px'
+       style='width:1000px; text-align:center; background-color:white;' height="100%"
+       align='center' id="<?= Constants::$mainBodyId ?>">
+
+    <TR>
+        <TD style='padding:0px 0 0 0; background:url(/images/head.jpg) no-repeat 0 0; vertical-align:top;
+                   border-left-width:1px; border-right-width:1px; width:100%'
+            height="125px" class="bordercolor_lightgray">
+            <? $menuView->view() ?>
+            <TABLE width='100%' height='90px' border='0' cellpadding='0' cellspacing='0' align="center">
+                <TR>
+                    <TD style="padding:8px 7px 0 20px; color:white;">
+                        <A style="font-weight: normal; text-decoration:none;" class="color_white"
+                           href="/"><IMG border="0" src="/images/logo.png"></A>
+                    </TD>
+                    <TD style="padding:12px 0 0 0;"><IMG border="0" src="/images/phone.png"></TD>
+                    <TD width="100%" style="vertical-align: bottom; padding: 0 14px 0 0; text-align: right;">
+                        <DIV id="issue_order"
+                             style="padding: 6px 0px 0px 0; text-align:right; display: <?= $issueOrderDisplay ?>;">
+                            <A href="/showcart/" class="color_white" style="text-decoration: none;">
+                                <IMG src="/images/checkout.jpg" border="0">
+                            </A></DIV>
+                    </TD>
+                </TR>
+            </TABLE>
+        </TD>
+    </TR>
+
+    <TR>
+        <TD style='padding:5px 0 5px 0; vertical-align:top; border-left-width:1px; border-right-width:1px; width:100%; height:36px;'
+            class="bordercolor_lightgray">
+            <TABLE width='100%' border='0' cellpadding='0' cellspacing='0'>
+                <TR>
+                    <TD style='text-align:left; padding:0 25px 0 20px; font-size: 14px;'
+                        class="color_darkgray">
+                        <IMG border="0" src="/images/deliver.jpg"/>
+                    </TD>
+                    <FORM name="top_search" action="/search" method="post">
+                        <TD style='padding: 0px 20px 0 0;'>
+                            <TABLE cellpadding="0" cellspacing="0" border="0">
+                                <TR>
+                                    <TD>
+                                        <INPUT class="input bordercolor_lightgray color_darkgray" name="produce_title"
+                                               style='border-width:1px; height:28px; font-size:16px; padding:0 0 0 5px; width:270px;'>
+                                    </TD>
+                                    <TD style="vertical-align:top; font-size:16px; padding:5px 10px 0px 10px"
+                                        class="backcolor_orange bordercolor_orange">
+                                        <A href="javascript:void(0);" style="text-decoration:none;"
+                                           onClick="document.forms['top_search'].submit();" class="color_white">
+                                            ПОИСК
+                                        </A></TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </FORM>
+                    <TD style='text-align:left; font-size: 14px; padding: 0 0 0 0px; width:100px;'
+                        class="color_darkgray">
+                        <DIV
+                            style="vertical-align: middle; text-align:center; height:20px; border-bottom-width:0px;"
+                            class="bordercolor_gray">
+                            <A class="color_darkgray" style="font-size:14px;" href="/cabinet/">
+                                <NOBR>ВАШ КАБИНЕТ</NOBR>
+                            </A>
+                        </DIV>
+                    </TD>
+                    <TD style='text-align:right; padding:0 20px 0 20px; font-size:14px; width:150px;'>
+                        <A href='/showcart/' class="color_green arial_family" style="text-decoration: none;">Корзина:
+                            <span id='head_produce_count'><?= $this->getCart()->countProduceAmount() ?></span>
+                            товаров<BR>на сумму:
+                            <span id='head_produce_amount'><?= $this->getCart()->countProducePurchase() ?></span> р.</A>
+                    </TD>
+                </TR>
+            </TABLE>
+        </TD>
+    </TR>
+    <?= $strError ?>
+    <TR>
+        <TD valign='top' style='vertical-align:top; height:100%;'
+            class="bordercolor_lightgray">

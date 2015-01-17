@@ -1,0 +1,23 @@
+<? /* @var YandexCategoryLeafView $this */
+$category = $this->getCategory();
+$produceList = $category->getProduceList();
+$left = $this->countLeftPadding();
+?>
+<DIV style='padding:5px 5px 5px <?= $left ?>; font-size:16px; color:#0066cc;'>
+    <?= $category->getName() ?>
+</DIV>
+
+<DIV style='padding:5px 5px 10px <?= $left ?>;'>
+    <? foreach ($produceList as $produce) : ?>
+        <DIV style="padding:0 0 5px 20px;">
+            <A style='color:#3798db; font-size:14px;'
+               href="/control/yandex/insert.php?id=<?= $produce->getId() ?>"><?= $produce->getProduce()->getTitle() ?></A>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <A class='date' style='color:#D43424'
+               onClick="delConfirm('/control/yandex/?delete=yes&yid=<?= $produce->getId() ?>', 'Вы действительно хотите удалить продукт из яндекс каталога?');
+                   return false;"
+               href='javascript:void(0);'>del
+            </A>
+        </DIV>
+    <? endforeach; ?>
+</DIV>

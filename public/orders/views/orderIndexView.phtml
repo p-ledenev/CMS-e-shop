@@ -1,0 +1,353 @@
+<?/* @var OrderIndexView $this
+ * @var Deal $deal
+ */
+$customer = $this->customer;
+$customer->initEntityByIdWithReferences();
+$cart = $this->cart;
+
+$deal = Deal::createFrom($cart, $customer, null);
+
+$giftForm = "";
+foreach ($cart->getGiftStrategyList() as $strategy)
+    $giftForm .= "<INPUT type='hidden' name='" . $strategy->getId() . "'>";
+
+$giftView = new OrderGiftStrategiesView($cart, $deal);
+$addressView = new SelectAddressListView($customer, $giftForm);
+$customerView = new CabinetCustomerInfoView($cart, $customer);
+?>
+<SCRIPT>
+    function validate_address(name_form) {
+
+        forma = document.forms[name_form];
+
+        for (i = 0; i < forma.elements.length; i++) {
+            if (forma.elements[i].value == "" && forma.elements[i].type != "hidden" &&
+                forma.elements[i].name != "build" && forma.elements[i].name != "dopinfo" &&
+                forma.elements[i].name != "c_index" && forma.elements[i].name != "flat") {
+
+                alert("Заполните все обязательные поля");
+
+                return  false;
+            }
+        }
+
+        if (validate_gift(name_form) == true) return true;
+        else return false;
+    }
+
+    function validate_gift(forma) {
+
+        var giftFormList = Array(
+            <? foreach($cart->getGiftStrategyList() as $strategy)
+                echo "'".$strategy->getId()."',";
+            ?>
+            'non_exist_form'
+        );
+
+        var allGiftsSelected = true;
+        for (var i = 0; i < giftFormList.length; i++) {
+
+            var giftForm = document.forms[giftFormList[i]];
+
+            if (giftForm) {
+
+                var formButtons = giftForm.elements[giftFormList[i]];
+                var giftSelected = false;
+
+                if (formButtons.length != null) {
+                    for (var i = 0; i < formButtons.length; i++)
+                        if (formButtons[i].checked) giftSelected = true;
+                }
+                else {
+                    select_gift(giftForm.name, formButtons.value);
+                    giftSelected = true;
+                }
+
+                if (giftSelected == false) allGiftsSelected = false;
+            }
+        }
+
+        if (allGiftsSelected == true) {
+
+            document.forms[forma].submit();
+            return true;
+        }
+
+        alert("Выберите подарок");
+        return  false;
+    }
+</SCRIPT>
+
+
+<TABLE width="100%" border='0' cellpadding='0' cellspacing='0' align='center'>
+
+<TR>
+<TD style='vertical-align: top;'>
+<TABLE border="0" cellpadding="0" cellspacing="0" align="center" width="700px">
+<TR>
+    <TD valign='top' style='padding: 20px 30px 20px 0px;'>
+        <DIV style="padding:0 0 0 0; font-size: 20px" class="color_marsh">
+            <NOBR>Оформление заказа / адрес доставки</NOBR>
+        </DIV>
+    </TD>
+</TR>
+<TR>
+    <TD style='vertical-align: top;'>
+        <TABLE width='100%' cellpadding='0' cellapscing='0' border='0'>
+            <TR>
+                <TD style='padding:5px; font-size: 16px;' class="color_brown arial_family">
+                    Добрый день, <?= $customer->getName() ?>! Рады принять
+                    Ваш <?= $customer->getIsNewCustomer() ? "новый " : "" ?>заказ.
+                </TD>
+            </TR>
+            <TR>
+                <TD style='padding:0px; font-size: 14px;' class="color_brown arial_family">
+                    <?
+                    $customerView->view();
+                    ?>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<?
+$giftView->view();
+$addressView->view();
+?>
+
+<TR>
+    <TD style='padding: 10px 0 0 0;'>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD width='100%' align='left' style='padding: 20px 0 10px 30px; font-size:16px;'
+        class='color_marsh arial_family'>
+        <?= $customer->getIsNewCustomer() ? "Укажите адрес доставки" : "... или укажите новый адрес доставки"; ?>
+    </TD>
+</TR>
+
+<TR>
+<TD width='100%' style='padding: 10px 0 20px 0;'>
+<TABLE cellpadding='1' cellspacing='1' border='0' align='center' width='610px'>
+
+<TR>
+    <TD style='padding:5 0 5 0;' width='30px'>
+        <INPUT id='radio_newa_mo' type='radio' name='aaa' value='1'
+               onClick='select_address_type("newa_mo"); return true;'>
+    </TD>
+    <TD style='padding:5 0 5 0; text-align:left;'>
+        <A
+            href='javascript:void(0);' class="color_orange arial_family"
+            onClick='select_address_type("newa_mo"); return false;'>
+            Доставка курьером по Москве и ближайшему Подмосковью
+        </A>
+    </TD>
+</TR>
+<TR>
+    <TD colspan="2">
+        <DIV id='newa_mo' style='display:none;'>
+            <FORM name='newa_mo' method='post' action='/orders/'>
+                <INPUT type='hidden' name='a_new' value='true'>
+                <?= $giftForm ?>
+                <INPUT type='hidden' name='in_moscow' value='1'>
+                <TABLE width='600px' align='left' cellpadding='20' cellspacing='20' border='0'>
+                    <TR>
+                        <TD style='text-align:right; padding:0 10px 0 0; vertical-align: top; font-size: 14px;'
+                            class="color_brown arial_family">Адрес доставки:
+                        </TD>
+                        <TD><TEXTAREA name='full_address' cols='50' maxlength='2000'
+                                      rows='4'></TEXTAREA></TD>
+                    </TR>
+                    <TR>
+                        <TD style='text-align:right; padding:0 10px 0 0; vertical-align: top; font-size: 14px;'
+                            class="color_brown arial_family">Дополнительная<br>информация:
+                        </TD>
+                        <TD><TEXTAREA name='dopinfo' cols='50' maxlength='2000'
+                                      rows='4'></TEXTAREA></TD>
+                    </TR>
+                    <TR>
+                        <TD></TD>
+                        <TD align='center' style='padding:0px 0 0 0;'>
+                            <A href='javascript:void(0);' style='text-decoration:none;'
+                               onClick='validate_address("newa_mo"); return false;'>
+                                <DIV class='backcolor_orange bordercolor_orange color_white'
+                                     style='padding: 5px 10px 5px 10px; width:75px; text-align:center; font-size:14px;'>
+                                    ДАЛЕЕ
+                                </DIV>
+                            </A>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </FORM>
+        </DIV>
+    </TD>
+</TR>
+
+<TR>
+    <TD style='padding:5 0 5 0;' width='30px'>
+        <INPUT
+            id='radio_newa_region' type='radio' name='aaa' value='2'
+            onClick='select_address_type("newa_region"); return true;'>
+    </TD>
+    <TD style='padding:5 0 5 0; text-align:left;'>
+        <A
+            href='javascript: void(0);' class="color_orange arial_family"
+            onClick='select_address_type("newa_region"); return false;'>
+            Доставка почтой по России
+        </A>
+    </TD>
+</TR>
+<TR>
+    <TD colspan="2">
+        <DIV id='newa_region' style='display:none;'>
+            <FORM name='newa_region' method='post' action='/orders/'>
+                <INPUT type='hidden' name='a_new' value='true'>
+                <?= $giftForm ?>
+                <TABLE width='600px' align='left' cellpadding='1' cellspacing='1' border='0'>
+                    <TR>
+                        <TD valign='top' align='center'>
+                            <TABLE cellpadding='10' cellspacing='10' border='0' valign='top'
+                                   align='center'>
+                                <TR>
+                                    <TD style='text-align:right; font-size: 14px;' class="color_brown arial_family">
+                                        Населенный
+                                        пункт,<br>регион,
+                                        район:
+                                    </TD>
+                                    <TD><INPUT class='input' name='city' maxlength='100' size='20'>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; font-size: 14px;' class="color_brown arial_family">Индекс:
+                                    </TD>
+                                    <TD><INPUT class='input' name='c_index' maxlength='100'
+                                               size='20'></TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; font-size: 14px;' class="color_brown arial_family">Улица:
+                                    </TD>
+                                    <TD><INPUT class='input' name='street' maxlength='50' size='20'>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; font-size: 14px;' class="color_brown arial_family">Дом:</TD>
+                                    <TD><INPUT class='input' name='house' maxlength='100' size='20'>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD valign='top' align='left'>
+                            <TABLE cellpadding='10' cellspacing='10' border='0' valign='top'
+                                   align='left'>
+                                <TR>
+                                    <TD style='text-align:right;font-size: 14px;' class="color_brown arial_family">Корпус:
+                                    </TD>
+                                    <TD><INPUT class='input' name='build' maxlength='100' size='20'>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; height:40px; font-size: 14px;'
+                                        class="color_brown arial_family">
+                                        Квартира:
+                                    </TD>
+                                    <TD><INPUT class='input' name='flat' maxlength='100' size='20'>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; font-size: 14px;' class="color_brown arial_family">
+                                        Дополнительная<BR>информация:
+                                    </TD>
+                                    <TD><textarea name='dopinfo' cols='17' maxlength='2000'
+                                                  rows='4'></textarea></TD>
+                                </TR>
+                                <TR>
+                                    <TD>&nbsp;</TD>
+                                    <TD style='text-align:center; padding:10px 0 0 0;'>
+                                        <A href='javascript:void(0);'
+                                           style='text-decoration:none;'
+                                           onClick='validate_address("newa_region"); return false;'>
+                                            <DIV class='backcolor_orange bordercolor_orange color_white'
+                                                 style='padding: 5px 10px 5px 10px; width:75px; text-align:center; font-size:14px;'>
+                                                ДАЛЕЕ
+                                            </DIV>
+                                        </A>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </FORM>
+        </DIV>
+    </TD>
+</TR>
+<TR>
+    <TD style='padding:5 0 5 0;' width='30px'>
+        <INPUT
+            id='radio_selfa' type='radio' name='aaa' value='3'
+            onClick='javascript:select_address_type("selfa"); return true;'>
+    </TD>
+    <TD style='padding:5 0 5 0; text-align:left;'>
+        <A
+            href='javascript: void(0);' class="color_orange arial_family"
+            onClick='javascript:select_address_type("selfa"); return false;'>
+            Самовывоз
+        </A>
+    </TD>
+</TR>
+<TR>
+    <TD colspan="2">
+        <DIV id='selfa' style='display:none;'>
+            <FORM name='selfa' method='post' action='/orders/'>
+                <INPUT type='hidden' name='a_chs' value='true'>
+                <INPUT type='hidden' name='address_id' value='5158'>
+                <?= $giftForm ?>
+                <TABLE align='left' cellpadding='0' cellspacing='0' border='0'>
+                    <?
+                    if (!$customer->getIsNewCustomer()) {
+                        ?>
+                        <TR>
+                            <TD style='text-align:left; font-size:14px; padding:10px 20px 0 30px;' class="color_brown arial_family">
+                                Телефон
+                                для уточнения
+                            </TD>
+                            <TD width='210' style='text-align:right; padding:10px 0 0 0;'><INPUT class='input'
+                                                                                                 name='phone'
+                                                                                                 maxlength='100'
+                                                                                                 size='30'>
+                            </TD>
+                        </TR>
+                    <?
+                    }
+                    ?>
+                    <TR>
+                        <TD>&nbsp;</TD>
+                        <TD style='text-align:center; padding:10px 0 0 0;'>
+                            <A href='javascript:void(0);'
+                               style='text-decoration:none;'
+                               onClick='validate_address("selfa"); return false;'>
+                                <DIV class='backcolor_orange bordercolor_orange color_white'
+                                     style='padding: 5px 10px 5px 10px; width:75px; text-align:center; font-size:14px;'>
+                                    ДАЛЕЕ
+                                </DIV>
+                            </A>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </FORM>
+        </DIV>
+    </TD>
+</TR>
+</TABLE>
+</TD>
+</TR>
+
+<TR>
+    <TD style='padding: 20px 0 0 0;'>&nbsp;</TD>
+</TR>
+
+</TABLE>
+</TD>
+</TR>
+</TABLE>

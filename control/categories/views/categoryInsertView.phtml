@@ -1,0 +1,143 @@
+<? /* @var CategoryInsertView $this */
+$category = $this->getCategory();
+?>
+<FORM name='category' method='post' action='/control/categories/insert.php' enctype='multipart/form-data'>
+    <INPUT type='hidden' name='id' value="<?= $category->getId() ?>">
+    <INPUT type='hidden' name='visible' value="0">
+    <TABLE cellspacing=0 cellPadding=0 width="100%" align=center border=0>
+        <TR>
+            <TD style='padding:0 0 20 0;'><FONT class="switch font17 color2">Информация о каталоге</FONT></TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE cellpadding='5' cellspacing='5' border='0' width="600px">
+                    <TR>
+                        <TD class="date red" align='middle'>Название</TD>
+                        <TD class="date red" align='middle'>URL</TD>
+                        <TD class="date red" align='middle'>Видимый</TD>
+                    </TR>
+                    <TR>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='name'
+                                                                   value="<?= $category->getName() ?>"></TD>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='url'
+                                                                   value="<?= $category->getUrl() ?>"</TD>
+                        <TD class="date red" align='middle'><INPUT type='checkbox' class="input" name='visible'
+                                                                   value="1"
+                                <?= ($category->getVisible() ? "checked" : "") ?>></TD>
+                    </TR>
+                    <TR>
+                        <TD class="date red" align='middle'>Приоритет</TD>
+                        <TD class="date red" align='middle'>Тип</TD>
+                        <TD>&nbsp;</TD>
+                    </TR>
+                    <TR>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='sort'
+                                                                   value="<?= $category->getSort() ?>"</TD>
+                        <TD class="date red" align='middle'>
+                            <SELECT name='type'>
+                                <?
+                                /* @var CategoryType $item */
+                                foreach (CategoryType::getAllItems("CategoryType") as $item) {
+                                    $selected = ($category->getType()->equals($item)) ? "selected" : "";
+                                    $arParams = $item->getParams();
+                                    echo "<option value='" . $item->getCode() . "' $selected>" . $arParams['description'] . "</option>";
+                                }
+                                ?>
+                            </SELECT>
+                        </TD>
+                        <TD>&nbsp;</TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <?
+        $imageList = Array();
+        $imageList[] = new Image($category->getId(), ImageType::$category);
+        $imageList[] = new Image($category->getId(), ImageType::$category2);
+
+        foreach ($imageList as $image) {
+            $imageView = new ImageLoaderView($image, "/control/categories/insert.php");
+
+            echo "<TR><TD valign='top'>";
+            $imageView->view();
+            echo "</TD></TR>";
+        }
+        ?>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD>
+                <TABLE border='0'>
+                    <TR>
+                        <TD class="date red">Анонс</TD>
+                    </TR>
+                    <TR>
+                        <TD>
+                    <TR>
+                        <TD><TEXTAREA id="preview" name="preview"><?= $category->getPreview() ?></TEXTAREA></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD>
+                <TABLE>
+                    <TR>
+                        <TD class="date red">Детально</TD>
+                    </TR>
+                    <TR>
+                        <TD><TEXTAREA id="detail" name="detail"><?= $category->getDetail() ?></TEXTAREA></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD class='yellow_foot line_divs' style='verical-align:center;'>
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' style='text-align:center' type='submit' name='ofill'
+                                   value='Сохранить'>
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                                   value='Сохранить и Закрыть'>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+    </TABLE>
+
+</FORM>
+
+<SCRIPT>
+
+    refresh_image("image_catalog_category");
+
+    var ed = Array('preview', 'detail');
+    for (var i = 0; i < 2; i++) {
+        var editor = CKEDITOR.replace(ed[i]);
+        CKFinder.setupCKEditor(editor, '/control/ckfinder/');
+    }
+
+</SCRIPT>

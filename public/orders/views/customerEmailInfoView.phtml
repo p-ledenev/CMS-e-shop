@@ -1,0 +1,26 @@
+<? /* @var CustomerEmailInfoView $this */
+$customer = $this->getCustomer();
+?>
+<TABLE cellpadding='5' cellspacing='5' border='0' style='text-align:left;' align='left'>
+    <TR>
+        <TD>Добрый день, <?= $customer->getName() ?></TD>
+    </TR>
+    <TR>
+        <TD>Для смены пароля перейдите по
+            <A style='text-decoration:underline; color:#004499;' target="_blank"
+               href="<?= $_SERVER['HTTP_HOST'] ?>/change/<?= $customer->getCheckword() ?>">ссылке</A>:
+        </TD>
+    </TR>
+    <TR>
+        <TD><?= $_SERVER['HTTP_HOST'] ?>/change/<?= $customer->getCheckword() ?></TD>
+    </TR>
+    <TR>
+        <TD>Ваша 'Контрольная строка': <?= $customer->getCheckword() ?></TD>
+    </TR>
+    <TR>
+        <TD>---</TD>
+    </TR>
+    <TR>
+        <TD>Письмо сгенерированно автоматически</TD>
+    </TR>
+</TABLE>

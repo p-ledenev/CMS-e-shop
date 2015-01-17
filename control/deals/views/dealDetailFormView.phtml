@@ -1,0 +1,99 @@
+<? /* @var DealInsertView $this */
+$deal = $this->deal;
+
+if (!$deal->getAddress()->getInMoscow()) {
+
+    if ($deal->getAmountTotal() <= 0)
+        $deal->setAmountTotal($deal->getAmountWithDiscont());
+
+    if ($deal->getAmountDeclared() <= 0)
+        $deal->setAmountDeclared($deal->getAmountWithDiscont());
+
+    $amountTotal = $deal->getAmountTotal();
+    $amountDeclared = $deal->getAmountDeclared();
+    $postDate = ($deal->getPostDate()) ? date("d.m.Y", $deal->getPostDate()) : "";
+    $postId = $deal->getPostId();
+    $postInvoice = $deal->getPostInvoice();
+    $transportCompany = $deal->getTransportCompany();
+
+    $totalAmountField = "<td style='padding:0 0 0 60px;' class='date red'><nobr>Итоговая сумма</nobr></td><td><input class='input' name='amount_total' value='$amountTotal'
+                             onkeyup='document.forms[\"deal\"].elements[\"amount_declared\"].value=this.value; return true;'></td>";
+
+    $sendDateField = "<td style='padding:0 0 0 60px;' class='date red'><nobr>Дата отправки</nobr></td><td><input class='input' name='post_date' value='$postDate' onFocus='this.select();lcs(this)'
+                                               onClick='event.cancelBubble=true;this.select();lcs(this)'/></td>";
+
+    $postIdField = "<td style='padding:0 0 0 60px;' class='date red'><nobr>Почтовый id</nobr></td><td><input class='input' name='post_id' value='$postId'/></td>";
+
+    $postInvoiceField = "<td style='padding:0 0 0 60px;' class='date red'><nobr>Номер накладной</nobr></td><td><input class='input' name='post_invoice' value='$postInvoice'/></td>";
+
+    $transportCompanyField = "<td class='date red'><nobr>Транспортная компания</nobr></td><td><input class='input' name='transport_company' value='$transportCompany'/></td>";
+
+    $amountDeclaredField = "<td class='date red'><nobr>Cумма объяв. ценности</nobr></td><td><input class='input' name='amount_declared' value='$amountDeclared'
+        onkeyup='document.forms[\"print\"].elements[\"print_summ\"].value=this.value; return true;'></td>";
+}
+?>
+<INPUT type='hidden' id='is_package' name='is_package' value='<?= ($deal->getIsPackage() == true ? "1" : "0") ?>'>
+<TABLE cellpadding='10' cellspacing='10' border='0'>
+    <tr>
+        <td class='date red'>Статус заказа</td>
+        <td class='txt black'><select name='status'>";
+                <?
+                /* @var DealStatus $item */
+                foreach (DealStatus::getAllItems("DealStatus") as $item) {
+                    $selected = ($deal->getStatus()->equals($item)) ? "selected" : "";
+                    echo "<option value='" . $item->getCode() . "' $selected>" . $item->getParams() . "</option>";
+                }
+                ?>
+            </select>
+        </td>
+        <?= $totalAmountField ?>
+    </tr>
+    <tr>
+        <td class='date red'>Способ оплаты</td>
+        <td class='txt black'><select name='paymethod'> ";
+                <?
+                /* @var Paymethod $item */
+                foreach (Paymethod::getAllItems("Paymethod") as $item) {
+                    $selected = ($deal->getPaymethod()->equals($item)) ? "selected" : "";
+                    echo "<option value='" . $item->getCode() . "' $selected>" . $item->getParams() . "</option>";
+                }
+                ?>
+            </select></td>
+        <?= $sendDateField ?>
+    </tr>
+    <tr>
+        <?= $transportCompanyField ?>
+        <?= $postIdField ?>
+    </tr>
+    <tr>
+        <?= $amountDeclaredField ?>
+        <?= $postInvoiceField ?>
+    </tr>
+
+    <? if ($deal->getCustomer()->getDeposit() > 0) { ?>
+        <tr>
+            <td class='date red'>Использовать депозит</td>
+            <td class='txt black'><input type='checkbox' name='use_deposit' value='1'/></td>
+            <td colpan='2'></td>
+        </tr>
+    <? } ?>
+
+    <tr>
+        <td colspan="4" style="padding:10px 0 0 0;">
+            <table>
+                <tr>
+                    <td class="date red" style="padding:0 0 2px 0;">
+                        Комментарий администратора
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="4">
+                        <textarea name="admin_comment" cols="75" rows="5"><?= $deal->getAdminComment() ?></textarea>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    </form>
+</table>

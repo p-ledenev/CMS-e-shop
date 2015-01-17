@@ -1,0 +1,286 @@
+<? /* @var ProduceDetailView $this */
+$produce = $this->getProduce();
+$partition = $this->getPartition();
+
+$cartResultId = $this->getCartResultId();
+$inflowResultId = $this->getInflowResultId();
+$mainBodyId = Constants::$mainBodyId;
+
+$partitionFilter = new PartitionFilter("/", $partition->getCategory());
+$partitionListView = ViewFactory::createPartitionTree($partitionFilter->loadItemList("ProducePartition"), $partition);
+
+$programList = $produce->getProgramList();
+$previewList = $produce->getPreviewList();
+$detailList = $produce->getDetailList();
+
+$navigateView = new ProduceNavigationView($partition);
+$previewView = new DescriptionPreviewListView($previewList);
+$detailView = new DescriptionDetailListView($detailList);
+
+$concatProduceListView = new ProduceDetailListSquareView($this->getProduce()->getProgramList(), $partition, $cartResultId, $inflowResultId, true, false);
+$concatArticleListView = new ArticleListTableView($this->getProduce()->getArticleList());
+
+$commentInsertView = new CommentInsertView($this->getComment(), $this->getCaptcha());
+$commentShortListView = new CommentShortListView($this->getProduce()->getCommentList());
+$commentFullListView = new CommentFullListView($this->getProduce()->getCommentList(), false);
+
+$image = new Image($produce->getId(), ImageType::$catalog);
+$cardImage = new Image($produce->getId(), ImageType::$catalog2);
+
+$similarFormulaSubcategory = Subcategory::initEntityByUrl("Subcategory", Constants::$similarFormulaSubcategoryUrl);
+
+/* @var ProducePartition $similarFormulaPartition */
+$similarFormulaPartition = $produce->findPartitionBy($similarFormulaSubcategory);
+
+$similarFormulaProduceList = $similarFormulaPartition->excludeProduceFromList($produce);
+if ($similarFormulaPartition->isPersisted())
+    $similarFormulaView = new ProduceListTableView($similarFormulaProduceList, $similarFormulaPartition);
+
+$promotionPartitionUrlList = Array(Constants::$specailOfferPartitionUrl, Constants::$promotionPartitionUrl,
+    Constants::$newestPartitionUrl, Constants::$newDeliveryPartitionUrl, Constants::$newPricePartitionUrl);
+
+$promotionPartition = $produce->inOneOfPartitionList($promotionPartitionUrlList);
+
+$promotionImage = new Image($promotionPartition->getId(), ImageType::$promotionDetail);
+if ($promotionImage->exist())
+    $strPromotionImage = "<DIV style='position: absolute; border: solid red 0px; padding:0px 0 0 35px; z-index:2'>
+                            <IMG src='" . $promotionImage->getFullUrl() . "' border='0'>
+                          </DIV>";
+?>
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+
+<TR>
+<TD style='padding:10px 0 0 0px; width:250px; text-align: left; vertical-align: top; border-right-width: 1px;'
+    class="bordercolor_lightgray">
+    <? $partitionListView->view() ?>
+</TD>
+
+<TD style='text-align:center; padding: 10px 30px 0 30px;'>
+<TABLE cellpadding='0' cellspacing='0' border='0' width="100%">
+    <TR>
+        <TD style="text-align: left; padding 0 0 0px 0;"><?= $navigateView->view() ?></TD>
+    </TR>
+</TABLE>
+<TABLE cellpadding='0' cellspacing='0' border='0' style="padding:10px 0 0 0;">
+    <TR>
+        <TD rowspan='4' valign='top'
+            style='padding:0px 0px 0px 0px; vertical-align:bottom;
+                   text-align: left; vertical-align: top; position: relative;'>
+            <?=$strPromotionImage?>
+            <IMG src="<?= $image->getFullUrl() ?>" border="0" width="300px">
+        </TD>
+        <TD style='padding:0px 10px 20px 20px; vertical-align: top; font-size:20px; font-weight: bold; height:1px;'
+            class="color_brown">
+            <?= $produce->getTitle() ?>, <?= $produce->getVendor() ?>
+        </TD>
+    <TR>
+        <TD style='text-align:left; font-style:normal; padding:0px 20px 0 20px; vertical-align: top; font-size:14px; height:1px;'
+            class="color_brown arial_family">
+            <?= $produce->getPreview() ?>
+        </TD>
+    </TR>
+    <? if (count($produce->getDosheEffectList()) > 0) : ?>
+        <TR>
+            <TD style="padding: 0px 0 20px 70px; vertical-align: bottom; text-align: left;">
+                <TABLE cellpadding='0' cellspasing='0' border='0' align="left"
+                       class='catalog_table'>
+                    <TR><? foreach ($produce->getDosheEffectList() as $index => $dosheEffect) {
+                            $dosheParams = $dosheEffect->getDoshe()->getParams();
+                            $directionParams = $dosheEffect->getValue()->getParams();
+                            $title = "<IMG border='0' src='/images/doshes/" . $dosheParams['imageName'] . "_" . $directionParams['imageName'] . ".png'>";
+
+                            echo "<TD style='text-align: center; padding: 0 10px 0 30px;'>
+                                    $title
+                              </TD>";
+                        }
+                        ?>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+    <? endif; ?>
+    <TR>
+        <TD style="padding: 0px 0 20px 30px; vertical-align: bottom; text-align: left;">
+            <TABLE cellpadding='0' cellspasing='0' border='0' align="left"
+                   class='catalog_table'>
+                <TR>
+                    <TD class='catalog_table_td_p color_orange arial_family'
+                        style='border-top:0; font-style:normal; font-size:14px; text-align:center;'>
+                        Производитель
+                    </TD>
+                    <TD class='catalog_table_td_p color_orange arial_family'
+                        style='border-top:0; font-style:normal; font-size:14px; text-align:center;'>
+                        Страна
+                    </TD>
+                    <TD class="color_orange arial_family"
+                        style='border-top:0; font-style:normal; font-size:14px; text-align:center;'>
+                        Объем
+                    </TD>
+                </TR>
+                <TR>
+                    <TD class='catalog_table_td_p color_darkgray arial_family'
+                        style='width:100px; border-top:0; font-style:normal; font-size:14px; text-align: center; padding: 0 20px 0 20px;'>
+                        <?= $produce->getVendor() ?></TD>
+                    <TD class='catalog_table_td_p color_darkgray arial_family'
+                        style='border-top:0; font-style:normal; font-size:14px;  text-align: center; padding: 0 20px 0 20px;'>
+                        <?= $produce->getVendorLocation() ?></TD>
+                    <TD class="color_darkgray arial_family"
+                        style='border-top:0; font-style:normal; font-size:14px;  text-align: center; padding: 0 20px 0 20px;'>
+                        <?= $produce->getCapacity() ?></TD>
+                </TR>
+            </TABLE>
+        </TD>
+    </TR>
+</TABLE>
+
+<DIV style="padding:20px 0px 0 0;">&nbsp;</DIV>
+
+<TABLE class="bordercolor_lightgray" style="border-width:1px;" height="60px" width="100%" border="0">
+    <TR>
+        <TD style="font-size: 24px; padding: 0 0px 0 0px; text-align: center;font-weight: bold;"
+            class="color_brown"
+            width="100%">
+            <NOBR><SPAN style="font-size:12px;"
+                        class="color_darkgray arial_family">Цена</SPAN>&nbsp;<?= $produce->getPrice() ?>
+                рублей
+            </NOBR>
+        </TD>
+        <TD style="padding:15px 0px 0px 0px; vertical-align: top;">
+            <? if ($produce->getQuantity()->equals(ProduceQuantity::$presence)) { ?>
+                <FORM id="<?= Constants::$addToCartAmountFormId ?>"
+                      name="<?= Constants::$addToCartAmountFormId ?>">
+                    <TABLE cellpadding="0" cellspacing="0" border="0">
+                        <TR>
+                            <TD style="padding: 0 10px 0 0;">
+                                <INPUT type="text" name="amount" onclick="value=''; return false;"
+                                       style="border-width:1px; height:38px; width:38px; text-align:center; font-weight:500;
+                                                  font-size:18px; cursor:pointer;"
+                                       class=bordercolor_lightgray input" value="1">
+
+                            </TD>
+                            <TD style="padding: 0px 10px 0px 10px;" class="backcolor_yellow">
+                                <A style='font-size:18px; font-weight:500; text-decoration: none;'
+                                   class='color_brown'
+                                   href='javascript:void(0);'
+                                   onClick='ajaxPostRequest("/cartadd/<?= $produce->getId() ?>/", "<?= Constants::$addToCartAmountFormId ?>", "<?= $cartResultId ?>", "<?= Constants::$mainBodyId ?>", true);
+                                       refreshCartVidgetsWith(<?= $produce->getPrice() ?>, document.forms["<?= Constants::$addToCartAmountFormId ?>"].elements["amount"]); return false;'>
+                                    <NOBR>В КОРЗИНУ</NOBR>
+                                </A>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </FORM>
+            <? } else { ?>
+                <DIV style="vertical-align: middle; padding:10px 40px 10px 40px;" class="backcolor_gray">
+                    <A href='javascript:void(0);' style="text-decoration: none;"
+                       onClick='ajaxGetRequest("/produce_notice_form/<?= $produce->getId() ?>/", "<?= $inflowResultId ?>", "<?= $mainBodyId ?>", false); return false;'>
+                        <FONT style='font-size:18px; font-weight:500;' class='color_brown'>
+                            ОЖИДАЕТСЯ
+                        </FONT>
+                    </A>
+                </DIV>
+            <? } ?>
+        </TD>
+        <TD style="padding:10px 20px 10px 20px; background: url('/images/arrow.png') center no-repeat;">
+            &nbsp;
+        </TD>
+        <TD style="padding:10px 20px 10px 0px;">
+            <DIV
+                style="vertical-align: middle; padding:10px 20px 10px 20px; font-size:16px; font-weight:500;"
+                class="backcolor_lime color_brown">
+                <A href="/showcart" class="color_brown" style="text-decoration: none;">
+                    <NOBR>Товаров
+                        <span id='detail_produce_count'><?= $this->getCart()->countProduceAmount() ?></span>
+                        на
+                                    <span
+                                        id='detail_produce_amount'><?= $this->getCart()->countProducePurchase() ?></span>
+                        рублей
+                    </NOBR>
+                </A>
+            </DIV>
+        </TD>
+    </TR>
+</TABLE>
+
+<TABLE cellpadding="0" cellspacing="0" border="0">
+    <TR>
+        <TD style="padding:30px 0 0 0px;">
+            <DIV style='height: 30px; border-bottom-width: 1px; padding: 0px 0 0px 5px; font-size:20px;'
+                 class='bordercolor_lime color_lime'>
+                ОПИСАНИЕ
+            </DIV>
+            <DIV style="padding: 5px;"></DIV>
+            <?
+            if ($cardImage->exist())
+                echo "<DIV style='text-align:center;'><IMG border='0' src='" . $cardImage->getSourceUrl() . "'></DIV>";
+            else
+                $previewView->view();
+            ?>
+        </TD>
+    </TR>
+    <TR>
+        <TD style='text-align:justify; padding-top:10px;'>
+            <? $detailView->view() ?>
+        </TD>
+    </TR>
+    <? if (count($produce->getProgramList()) > 0) : ?>
+        <TR>
+            <TD style='text-align:justify; padding-top:10px;'>
+                <DIV style='height: 30px; border-bottom-width: 1px; padding: 0px 0 0px 5px; font-size:20px;'
+                     class='bordercolor_lime color_lime'>
+                    С ЭТИМ ТОВАРОМ ПОКУПАЮТ
+                </DIV>
+                <DIV style="padding:10px"></DIV>
+                <? $concatProduceListView->view() ?>
+            </TD>
+        </TR>
+    <? endif; ?>
+    <? if (count($produce->getArticleList()) > 0) : ?>
+        <TR>
+            <TD style='text-align:justify; padding-top:40px;'>
+                <? $concatArticleListView->view() ?>
+            </TD>
+        </TR>
+    <? endif; ?>
+    <? if (count($similarFormulaProduceList) > 0) : ?>
+        <TR>
+            <TD style='text-align:justify; padding-top:40px;'>
+                <? $similarFormulaView->view() ?>
+            </TD>
+        </TR>
+    <? endif; ?>
+    <? if (count($produce->getCommentList()) > 0) : ?>
+        <TR>
+            <TD style='text-align:justify; padding-top:10px;'>
+                <? $commentShortListView->view() ?>
+                <? $commentFullListView->view() ?>
+            </TD>
+        </TR>
+    <? endif; ?>
+</TABLE>
+
+<TABLE cellpadding='0' cellspacing='0' border='0' align='left' width="100%">
+    <TR>
+        <TD colspan='2'
+            style='height: 30px; border-bottom-width: 1px; padding: 20px 0 0px 5px; font-size:20px;'
+            class='bordercolor_lime color_lime'>
+            ОСТАВИТЬ ОТЗЫВ
+        </TD>
+    <TR>
+        <TD>&nbsp;</TD>
+    </TR>
+    <TR>
+        <TD style="text-align: left;"><? $commentInsertView->view() ?></TD>
+    </TR>
+    </TR>
+</TABLE>
+</TD>
+</TR>
+
+<TR>
+    <TD></TD>
+    <TD style='padding:20px 0 0 0px; text-align: left; vertical-align: top; border-top-width:1px;' colspan="3"
+        class="bordercolor_lightgray"></TD>
+</TR>
+</TABLE>
+

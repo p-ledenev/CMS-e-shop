@@ -1,0 +1,89 @@
+<?
+/* @var DealInsertView $this */
+$deal = $this->deal;
+$distibuiton = (strlen($deal->getCustomer()->getDistributon()) > 0) ?
+    "номер дистрибьютера: " . $deal->getCustomer()->getDistributon() : "";
+
+$gift = (strlen($deal->getGift()) > 0) ?
+    "<TR><TD class='date red' align='right'>Подарок к заказу</TD><TD class='txt black'>" . $deal->getGift() . "</TD></TR>" : "";
+?>
+
+<table cellpadding='10' cellspacing='10' border='0' width="700px">
+    <TR>
+        <TD class='date red' align='right'>Имя</TD>
+        <TD class='txt black'>
+            <A class='blank'
+               href='/control/clients/insert.php?id=<?= $deal->getCustomer()->getId() ?>'><?= $deal->getCustomer()->getName() ?></A>
+            &nbsp;<?= $distibuiton ?>
+        </TD>
+    </TR>
+    <? if (!$deal->getAddress()->getInMoscow()) { ?>
+        <TR>
+            <TD class='date red' align='right'>Почтовое ФИО</TD>
+            <TD class='txt black'>
+                <input class='input' name='post_sname' value='<?= $deal->getCustomer()->getPostSecondName() ?>'>&nbsp;&nbsp;
+                <input class='input' name='post_fname' value='<?= $deal->getCustomer()->getPostFirstName() ?>'>&nbsp;&nbsp;
+                <input class='input' name='post_mname' value='<?= $deal->getCustomer()->getPostMiddleName() ?>'>&nbsp;&nbsp;
+            </TD>
+        </TR>
+    <? } ?>
+    <TR>
+        <TD class='date red' align='right'>Телефон</TD>
+        <TD class='txt black'><?= $deal->getAddress()->getPhone() ?>&nbsp;<?= $deal->getCustomer()->getPhone() ?></TD>
+    </TR>
+    <TR>
+        <TD class='date red' align='right'>E-mail</TD>
+        <TD class='txt black'><?= $deal->getCustomer()->getEmail() ?></TD>
+    </TR>
+    <?= $gift ?>
+    <TR>
+        <TD class='date red' align='right'>
+            <NOBR>Способ оплаты</NOBR>
+        </TD>
+        <TD class='txt black'><?= $deal->getPaymethod()->getParams() ?></TD>
+    </TR>
+    <TR>
+        <TD class='date red' align='right'>
+            <NOBR>Время доставки</NOBR>
+        </TD>
+        <TD class='txt black'><?= $deal->getDeliveryTime() ?></TD>
+    </TR>
+    <TR>
+        <TD class='date red' align='right'>
+            <NOBR>Дата заказа</NOBR>
+        </TD>
+        <TD class='txt black'><?= date("d.m.Y h:i:s", $deal->getThedate()) ?></TD>
+    </TR>
+    <TR>
+        <TD class='date red' align='right'>
+            <NOBR>Статус заказа</NOBR>
+        </TD>
+        <TD class='txt black'><?= $deal->getStatus()->getParams() ?></TD>
+    </TR>
+    <TR>
+        <TD class='txt red' align='right'>Заказы</TD>
+        <TD class='txt black'><?= count($deal->getCustomer()->getDealList()) ?></TD>
+    </TR>
+    <TR>
+        <TD class='date red' align='right'>
+            <A href="javascript:void(0);" class='date red' style="color: #D43424;">Адрес</A></TD>
+        <TD class='txt black'>
+            <A target='_blank' class='blank'
+               href='/control/clients/modify_address.php?aid=<?= $deal->getAddress()->getId() ?>'
+               onClick='javascript:ShowWin(this.href, 500, 620); return false;'>
+                <?= $deal->getAddress()->toDetailString() ?>
+            </A>
+        </TD>
+    </TR>
+    <TR>
+        <TD class='date red' align='right'>
+            Доп. инфо по адресу
+        <TD class='txt black'>
+            <?= $deal->getAddress()->getDopInfo() ?>
+        </TD>
+    </TR>
+    <TR>
+        <TD class='txt red' align='right'>Комментарий<BR>администратора</TD>
+        <TD class='txt black' style="vertical-align:top;"><?= $deal->getCustomer()->getAdminComment() ?></TD>
+    </TR>
+</TABLE>

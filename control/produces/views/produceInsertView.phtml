@@ -1,0 +1,415 @@
+<? /* @var ProduceInsertView $this */
+$produce = $this->getProduce();
+
+$previewView = new DescriptionPreviewListView($produce->getPreviewList(), "/control/descriptions/insert_preview.php", $produce->getId(), $produce->getId() > 0);
+$detailView = new DescriptionPreviewListView($produce->getDetailList(), "/control/descriptions/insert_detail.php", $produce->getId(), $produce->getId() > 0);
+
+$commentFullListView = new CommentFullListView($produce->getCommentList(), "/control/produces/insert.php?id=" . $produce->getId(), false);
+$commentShortListView = new CommentShortListView($produce->getCommentList(), "/control/produces/insert.php?id=" . $produce->getId());
+?>
+<form name='produce' method='post' action='/control/produces/insert.php' enctype='multipart/form-data'>
+<INPUT type='hidden' name='id' value="<?= $produce->getId() ?>">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border='0'>
+<TR>
+    <TD style='padding:0 0 20 0;'>
+        <FONT class="switch font17 color2" style='padding:0 10px 0 0'>Информация о продукте</FONT>
+        <? if ($produce->isPersisted()) { ?>
+            (<A target="_blank" href="<?= $produce->createUrlFor() ?>">Просмотреть на сайте</A>)
+        <? } ?>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellpadding='5' cellspacing='5' border='0' width="100%">
+            <TR>
+                <TD class="date red" align='middle'>Название</TD>
+                <TD class="date red" align='middle'>Производитель</TD>
+                <TD class="date red" align='middle'>Страна</TD>
+                <TD class="date red" align='middle'>Срок годности</TD>
+            </TR>
+            <TR>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='250' size='30' name='title'
+                                                           value="<?= $produce->getSQLValueFor("title") ?>"></TD>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='vendor'
+                                                           value="<?= $produce->getSQLValueFor("vendor") ?>"></TD>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30'
+                                                           name='vendor_location'
+                                                           value="<?= $produce->getSQLValueFor("vendorLocation") ?>">
+                </TD>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='expiry'
+                                                           value="<?= $produce->getSQLValueFor("expiry") ?>"></TD>
+            </TR>
+            <TR>
+                <TD class="date red" align='middle'>Цена</TD>
+                <TD class="date red" align='middle'>Старая цена</TD>
+                <TD class="date red" align='middle'>Наличие</TD>
+                <TD class="date red" align='middle'></TD>
+            </TR>
+            <TR>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='price'
+                                                           value="<?= $produce->getPrice() ?>"></TD>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30'
+                                                           name='special_price'
+                                                           value="<?= $produce->getSpecialPrice() ?>"></TD>
+                <TD class="date red" align='middle'>
+                    <select name='quantity'>";
+                        <?
+                        /* @var ProduceQuantity $item */
+                        foreach (ProduceQuantity::getAllItems("ProduceQuantity") as $item) {
+                            $selected = ($produce->getQuantity()->equals($item)) ? "selected" : "";
+                            echo "<option value='" . $item->getCode() . "' $selected>" . $item->getParams()['title'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </TD>
+                <TD class="date red" align='middle'>
+                </TD>
+            </TR>
+            <TR>
+                <TD class="date red" align='middle'>Объем</TD>
+                <TD class="date red" align='middle'>Аудио каталог</TD>
+                <TD class="date red" align='middle'>Приоритет</TD>
+                <TD></TD>
+            </TR>
+            <TR>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30'
+                                                           name='capacity'
+                                                           value="<?= $produce->getCapacity() ?>"></TD>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='audio'
+                                                           value="<?= $produce->getaudio() ?>"></TD>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='sort'
+                                                           value="<?= $produce->getSort() ?>"></TD>
+                <TD></TD>
+            </TR>
+            <TR><?
+                /* @var Doshe $doshe */
+                foreach (Doshe::getAllItems("Doshe") as $index => $doshe) {
+                    $title = $doshe->getParams();
+                    echo "<TD class='date red' align='middle'>".$title['name']."</TD>";
+                }
+                ?>
+                <TD></TD>
+            </TR>
+            <TR><?
+                /* @var Doshe $doshe */
+                foreach (Doshe::getAllItems("Doshe") as $index => $doshe) {
+
+                    $dosheEffect = $produce->getDosheEffectBy($doshe);
+                    $options = "";
+                    /* @var EffectDirection $effectDirection */
+                    foreach (EffectDirection::getAllItems("EffectDirection") as $effectDirection) {
+                        $title = $effectDirection->getParams();
+                        $selected = ($effectDirection->equals($dosheEffect->getValue())) ? "selected" : "";
+                        $options .= "<OPTION value='" . $effectDirection->getCode() . "' $selected>" . $title['value'] . "</OPTION>";
+                    }
+
+                    echo "<INPUT type='hidden' name='doshes[$index][doshe]' value='" . $doshe->getCode() . "'>";
+                    echo "<TD><SELECT name='doshes[$index][value]'>$options</SELECT>";
+                }
+                ?>
+                <TD></TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD>
+        <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+            <TR>
+                <TD valign='top'>
+                    <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                        <TR>
+                            <TD class="date red" align='middle' width='45'>Раздел</TD>
+                            <TD>
+                                <NOBR>
+                                    <INPUT class="input" maxLength='50' size='30' name='partition_name'
+                                           value="">
+                                    <INPUT type='hidden' name='partition' value="">
+                                    <INPUT type='button' value=' ...'
+                                           onClick='javascript:ShowWin("/control/partitions/select.php?form=produce&field=partition&type=market&default=5", 500, 600)'>
+                                </NOBR>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+                <TD align='left' valign='top' style='padding:0 0 0 20;'>
+                    <TABLE cellpadding='5' cellspacing='5' align='left' valign='top'>
+                        <TR>
+                            <TD class="date red">Размещен в разделах</TD>
+                        </TR>
+                        <?
+                        foreach ($produce->getPartitionList() as $partition) {
+                            ?>
+                            <TR>
+                                <TD class='date' style='font - size:12px; color:#555;'>
+                                    <?= $partition->getCategory()->getName() ?> > <?= $partition->getName() ?></TD>
+                                <TD><A class='red'
+                                       onClick="delConfirm('/control/produces/insert.php?delete=yes&pid=<?= $partition->getId() ?>&id=<?= $produce->getId() ?>',
+                                           'Вы действительно хотите удалить товар из раздела?'); return false;"
+                                       href="/">del</A></TD>
+                            </TR>
+                        <?
+                        }
+                        ?>
+                        </TD></TR>
+                    </TABLE>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD valign='top'>
+        <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+            <TR>
+                <TD valign='top'>
+                    <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                        <TR>
+                            <TD class="date red" align='middle' width='45'>Статья</TD>
+                            <TD>
+                                <NOBR><INPUT class="input" maxLength='50' size='30' name='article_name'
+                                             value="">
+                                    <INPUT type='hidden' name='article' value="">
+                                    <INPUT type='button' value='...'
+                                           onClick='javascript:ShowWin("/control/articles/select.php?form=produce&field=article", 800, 600)'>
+                                </NOBR>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+                <TD align='left' valign='top' style='padding:0 0 0 20;'>
+                    <TABLE cellpadding='5' cellspacing='5' align='left' valign='top'>
+                        <TR>
+                            <TD class="date red">Статьи о товаре</TD>
+                        </TR>
+                        <?
+                        foreach ($produce->getArticleList() as $article) {
+                            ?>
+                            <TR>
+                                <TD class='date' style='font-size:12px; color:#555;'>
+                                    <?= $article->getPartition()->getCategory()->getName() ?> >
+                                    <?= $article->getPartition()->getName() ?> > <?= $article->getTitle() ?></TD>
+                                <TD><A class='date red'
+                                       onClick="delConfirm('/control/produces/insert.php?delete=yes&aid=<?= $article->getId() ?>&id=<?= $produce->getId() ?>',
+                                           'Вы действительно хотите удалить связь статьи с товаром?'); return false;"
+                                       href="/">del</A></TD>
+                            </TR>
+                        <?
+                        }
+                        ?>
+                        </TD></TR>
+                    </TABLE>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD valign='top'>
+        <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+            <TR>
+                <TD valign='top'>
+                    <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                        <TR>
+                            <TD class="date red" align='middle' width='45'>Продукт</TD>
+                            <TD>
+                                <NOBR><INPUT class="input" maxLength='50' size='30' name='program_name'
+                                             value="">
+                                    <INPUT type='hidden' name='program' value="">
+                                    <INPUT type='button' value='...'
+                                           onClick='javascript:ShowWin("/control/produces/select.php?form=produce&field=program", 800, 600)'>
+                                </NOBR>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+                <TD align='left' valign='top' style='padding:0 0 0 20;'>
+                    <TABLE cellpadding='5' cellspacing='5' align='left' valign='top'>
+                        <TR>
+                            <TD class="date red">Сопутствующие продукты</TD>
+                        </TR>
+                        <?
+                        foreach ($produce->getProgramList() as $program) {
+                            $partitionList = $program->getPartitionList();
+                            ?>
+                            <TR>
+                                <TD class='date' style='font-size:12px; color:#555;'>
+                                    <?= $partitionList[0]->getCategory()->getName() ?> >
+                                    <?= $partitionList[0]->getName() ?> > <?= $program->getTitle() ?></TD>
+                                <TD><A class='date red'
+                                       onClick="delConfirm('/control/produces/insert.php?delete=yes&rid=<?= $program->getId() ?>&id=<?= $produce->getId() ?>',
+                                           'Вы действительно хотите удалить товар из программы?'); return false;"
+                                       href="/">del</A></TD>
+                            </TR>
+                        <?
+                        }
+                        ?>
+                        </TD></TR>
+                    </TABLE>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<?
+/* @var Image[] $imageList */
+$imageList[] = new Image($produce->getId(), ImageType::$catalog);
+$imageList[] = new Image($produce->getId(), ImageType::$catalog2);
+$imageList[] = new Image($produce->getId(), ImageType::$sertificate);
+
+
+foreach ($imageList as $image) {
+
+    $imageView = new ImageLoaderView($image, "/control/produces/insert.php");
+
+    echo "<TR><TD valign='top'>";
+
+    $imageView->view();
+
+    echo "</TD></TR><TR><TD>&nbsp;</TD></TR>";
+}
+?>
+
+<TR>
+    <TD>
+        <TABLE cellpadding='5' cellspacing='5' border='0'>
+            <TR>
+                <TD class="date red" valign='middle' style='padding:0 0 0 5px;'>
+                    В кач-ве подарка пост. клиента при покупке на сумму
+                </TD>
+                <TD><SELECT name='gift_amount'>
+                        <?
+                        foreach (GiftAmount::getAllItems("GiftAmount") as $item) {
+                            $selected = GiftAmount::getItemBy($produce->getGiftAmount(), "GiftAmount")->equals($item) ? "selected" : "";
+                            $amountType = $item->getParams();
+                            echo "<OPTION value='" . $item->getCode() . "' $selected>" . $amountType[2] . "</OPTION>";
+                        }
+                        ?>
+                    </SELECT></TD>
+                <TD class="date red" style='padding:0 0 0 0px;'>руб.</TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>
+        <TABLE>
+            <TR>
+                <TD class="date red" style='padding:30px 0px 3px 5px;'>
+                    Анонс
+                </TD>
+            </TR>
+            <TR>
+                <TD style="text-align: left; padding:0 0 0 5px;">
+                    <TEXTAREA rows="5" cols="70" style="text-align: left;"
+                              name="preview"><?= $produce->getPreview() ?></TEXTAREA>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD class='yellow_foot line_divs' style='verical-align:center;'>
+        <TABLE cellpadding='0' cellsapcing='0' border='0'>
+            <TR>
+                <TD style='padding: 0 0 0 40px;'>
+                    <INPUT class='big_button' style='text-align:center' type='submit' name='ofill' value='Сохранить'>
+                </TD>
+                <TD style='padding: 0 0 0 40px;'>
+                    <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                           value='Сохранить и Закрыть'>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD>
+        <TABLE width="100%">
+            <TR>
+                <TD width='50%' style='padding:20px 0 0px 0;'><FONT class="switch font17 color2">Описание</FONT></TD>
+                <TD style='padding:20px 0 0px 0;'><FONT class="switch font17 color2">Закладки</FONT></TD>
+            </TR>
+            <TR>
+                <TD style="vertical-align: top;"><? $previewView->view() ?></TD>
+                <TD style="vertical-align: top;"><? $detailView->view() ?></TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<? if (count($produce->getCommentList()) > 0) : ?>
+    <TR>
+        <TD style='text-align:justify; padding-top:10px;'>
+            <? $commentShortListView->view() ?>
+            <? $commentFullListView->view() ?>
+        </TD>
+    </TR>
+
+    <TR>
+        <TD>&nbsp;</TD>
+    </TR>
+<? endif; ?>
+
+<TR>
+    <TD class='yellow_foot line_divs' style='verical-align:center;'>
+        <TABLE cellpadding='0' cellsapcing='0' border='0'>
+            <TR>
+                <TD style='padding: 0 0 0 40px;'>
+                    <INPUT class='big_button' style='text-align:center' type='submit' name='ofill' value='Сохранить'>
+                </TD>
+                <TD style='padding: 0 0 0 40px;'>
+                    <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                           value='Сохранить и Закрыть'>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+</TABLE>
+
+</FORM>
+
+<script type="text/javascript">
+    <?
+    foreach ($imageList as $image) {
+        echo "refresh_image(\"image_" . $image->getType()->getCode() ."\");";
+    }
+    ?>
+</SCRIPT>

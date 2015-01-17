@@ -1,0 +1,29 @@
+<? /* @var ShowCartProduceView $this */
+$dealProduce = $this->produce;
+$produce = $this->produce->getProduce();
+$producePreviewList = $produce->getPreviewList();
+$partitionList = $produce->getPartitionList();
+
+$url = $produce->createUrlFor();
+$image = new Image($produce->getId(), ImageType::$catalog, $produce->getTitle(), $url);
+?>
+<TR style='background:<?= $this->getColor() ?>; vertical-align:top;' align='center'>
+    <TD style='padding: 15px 0 0 0;' width="400px">
+        <TABLE cellpadding='0' cellspacing='0' align='left' border="0">
+            <TR>
+                <TD><A target='_blank' href='<?= $url ?>'><IMG border="0" width='100px' src="<?=$image->getThumbUrl()?>"></A></TD>
+                <TD style='padding: 0 0 15px 5px; text-align:left;'>
+                    <A target='_blank' href='<?= $url ?>' class="color_brown" style="font-size: 16px;">
+                        <?= strtoupper($produce->getTitle()) ?></A>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+    <TD style='padding: 0px 0 0 0; vertical-align: middle; font-weight:bold;'><?= $dealProduce->getPrice() ?> -</TD>
+    <TD style='padding: 0px 0 0 0; vertical-align: middle;'>
+        <INPUT type='hidden' name='produce[]' value='<?= $produce->getId() ?>'>
+        <INPUT class='input' name='amount[]' value='<?= $dealProduce->getAmount() ?>'
+               style='width:30px; height:30px; text-align:center; border-color:#cccccc; font-size:16px; font-weight:bold;'>
+    </td>
+    <TD style='font-weight:bold; padding: 0px 0 0 0; vertical-align: middle;' class="color_orange"><?= ($dealProduce->getPrice() * $dealProduce->getAmount()) ?></TD>
+</TR>

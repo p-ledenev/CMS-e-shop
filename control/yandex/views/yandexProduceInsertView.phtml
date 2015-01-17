@@ -1,0 +1,131 @@
+<? /* @var YandexProduceInsertView $this */
+$produce = $this->getProduce();
+?>
+<FORM name='produce' method='post' action='/control/yandex/insert.php' enctype='multipart/form-data'>
+    <INPUT type='hidden' name='id' value="<?= $produce->getId() ?>">
+    <INPUT type='hidden' name='visible' value="0">
+    <TABLE cellspacing=0 cellPadding=0 width="100%" align=center border=0>
+        <TR>
+            <TD style='padding:0 0 20 0;'><FONT class="switch font17 color2">Информация о яндекс продукте</FONT></TD>
+        </TR>
+
+        <TR>
+            <TD valign='top'>
+                <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                    <TR>
+                        <TD valign='top'>
+                            <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                                <TR>
+                                    <TD class="date red" align='middle' width='45'>
+                                        <nobr>Продукт магазина</nobr>
+                                    </TD>
+                                    <TD>
+                                        <NOBR><INPUT class="input" maxLength='50' size='60' name='produce_name'
+                                                     value="<?= $produce->getProduce()->getSQLValueFor("title") ?>">
+                                            <INPUT type='hidden' name='produce'
+                                                   value="<?= $produce->getProduce()->getId() ?>">
+                                            <INPUT type='button' value='...'
+                                                   onClick='javascript:ShowWin("/control/produces/select.php?form=produce&field=produce", 800, 600)'>
+                                        </NOBR>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD valign='top'>
+                <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                    <TR>
+                        <TD valign='top'>
+                            <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                                <TR>
+                                    <TD class="date red" style="text-align:left; width:117px;">
+                                        <nobr>Яндекс каталог</nobr>
+                                    </TD>
+                                    <TD>
+                                        <NOBR><INPUT class="input" maxLength='50' size='60' name='yandex_category_name'
+                                                     value="<?= $produce->getCategory()->getSQLValueFor("name") ?>">
+                                            <INPUT type='hidden' name='yandex_category'
+                                                   value="<?= $produce->getCategory()->getId() ?>">
+                                            <INPUT type='button' value='...'
+                                                   onClick='javascript:ShowWin("/control/yandex/select.php?form=produce&field=yandex_category", 800, 600)'>
+                                        </NOBR>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD>
+                <TABLE cellpadding='5' cellspacing='5' border='0' width="70%">
+                    <TR>
+                        <TD class="date red" align='middle'>Ставка за клик (центы):</TD>
+                    </TR>
+                    <TR>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='rate'
+                                                                   value="<?= $produce->getRate() ?>"></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD>
+                <TABLE border='0'>
+                    <TR>
+                        <TD class="date red">Анонс</TD>
+                    </TR>
+                    <TR>
+                        <TD>
+                    <TR>
+                        <TD><TEXTAREA id="description" name="description" cols="100"
+                                      rows="5"><?= $produce->getDescription() ?></TEXTAREA></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD class='yellow_foot line_divs' style='verical-align:center;'>
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' style='text-align:center' type='submit' name='ofill'
+                                   value='Сохранить'>
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                                   value='Сохранить и Закрыть'>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+    </TABLE>
+
+</FORM>

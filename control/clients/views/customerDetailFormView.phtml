@@ -1,0 +1,144 @@
+<?/* @var CustomerDetailFormView $this */
+$customer = $this->getCustomer();
+?>
+<form name='client' method='post' action='/control/clients/insert.php' enctype='multipart/form-data'>
+    <INPUT type='hidden' name='id' value="<?= $customer->getId() ?>">
+    <TABLE cellspacing=0 cellpadding=0 width="100%" align=center border=0>
+        <TR>
+            <TD style='padding:0 0 5px 0;'><FONT class="switch font17 color2">Покупатель</FONT></TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE cellpadding='5' cellspacing='5' border='0' width="50%">
+                    <TR>
+                        <TD class="date red" align='right'>Имя</TD>
+                        <TD class="date red" align='right'>Email</TD>
+                        <TD class="date red" align='right'>Телефон</TD>
+                    </TR>
+                    <TR>
+                        <TD><INPUT class="input" maxLength='50' size='30' name='name'
+                                   value="<?= $customer->getName() ?>">
+                        </TD>
+                        <TD><INPUT class="input" maxLength='50' size='30' name='email'
+                                   value="<?= $customer->getEmail() ?>"
+                                   disabled>
+                        </TD>
+                        <TD><INPUT class="input" maxLength='50' size='30' name='phone'
+                                   value="<?= $customer->getPhone() ?>">
+                        </TD>
+                    </TR>
+
+                    <TR>
+                        <TD colspan='3' class="date red" align='left'>Почтовое ФИО</TD>
+                    </TR>
+
+                    <TR>
+                        <TD><INPUT class="input" maxLength='50' size='30' name='post_sname'
+                                   value="<?= $customer->getPostSecondName() ?>"></TD>
+                        <TD><INPUT class="input" maxLength='50' size='30' name='post_fname'
+                                   value="<?= $customer->getPostFirstName() ?>"></TD>
+                        <TD><INPUT class="input" maxLength='50' size='30' name='post_mname'
+                                   value="<?= $customer->getPostMiddleName() ?>"></TD>
+                    </TR>
+
+                    <TR>
+                        <TD class="date red" align='right'>Постоянная скидка</TD>
+                        <TD class="date red" align='right'>Номер дистрибьютера</TD>
+                        <TD></TD>
+                    </TR>
+                    <TR>
+                        <TD><INPUT class="input" maxLength='50' size='30' name='discont_percent'
+                                   value="<?= $customer->getDiscontPercent() ?>">
+                        </TD>
+                        <TD><INPUT class="input" maxLength='50' size='30' name='distribution'
+                                   value="<?= $customer->getDistributon() ?>"></TD>
+                        <TD></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD style="text-align:left; padding:10px 0 0 0;">
+                <TABLE width="70%" cellpadding="5" cellspacing="5">
+                    <TR>
+                        <TD class="date red" style='text-align:center;'>Отправлять рассылку</TD>
+                        <TD class="date red" style='text-align:center;'>Звонок клиенту</TD>
+                        <TD class="date red" style='text-align:center;'>Приветственное письмо</TD>
+                        <TD class="date red" style='text-align:center;'>Купон к годовщине</TD>
+                    </TR>
+                    <TR>
+                        <TD style='text-align:center;'><INPUT type='checkbox' name='in_mailing'
+                                                              value="1" <?= ($customer->getInMailing() ? "checked" : "") ?>>
+                        </TD>
+                        <TD style='text-align:center'><INPUT type='checkbox' name='is_called'
+                                                             value="1" <?= ($customer->getIsCalled() ? "checked" : "") ?>>
+                        </TD>
+                        <TD style='text-align:center'><INPUT type='checkbox' name='is_welcome_letter'
+                                                             value="1" <?= ($customer->getIsWelcomeLetter() ? "checked" : "") ?>>
+                        </TD>
+                        <TD style='text-align:center'><INPUT type='checkbox' name='is_anniversary_coupon'
+                                                             value="1" <?= ($customer->getIsAnniversaryCoupon() ? "checked" : "") ?>>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TD class="date red" style='text-align:center;'>Письмо к первому заказу</TD>
+                        <TD class="date red" style='text-align:center;'>СМС после первого заказа</TD>
+                        <TD class="date red" style='text-align:center;'>Подарок ко дню рождения</TD>
+                        <TD class="date red" style='text-align:center;'></TD>
+                    </TR>
+                    <TR>
+                        <TD style='text-align:center;'><INPUT type='checkbox' name='is_first_deal_letter'
+                                                              value="1" <?= ($customer->getIsFirstDealLetter() ? "checked" : "") ?>>
+                        </TD>
+                        <TD style='text-align:center'><INPUT type='checkbox' name='is_first_deal_sms'
+                                                             value="1" <?= ($customer->getIsFirstDealSMS() ? "checked" : "") ?>>
+                        </TD>
+                        <TD style='text-align:center'><INPUT type='checkbox' name='is_birthday_present'
+                                                             value="1" <?= ($customer->getIsBirthdayPresent() ? "checked" : "") ?>>
+                        </TD>
+                        <TD style='text-align:center'></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD style="padding:10px 0 0 0;">
+                <TABLE cellpadding="5" cellspacing="5">
+                    <TR>
+                        <TD style='text-align:left;' class="date red">
+                            Комментарий администратора
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TD>
+                            <TEXTAREA name="admin_comment" rows="5" cols="78"><?= $customer->getAdminComment() ?></TEXTAREA>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD class='yellow_foot line_divs' style='verical-align:center;'>
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' style='text-align:center' type='submit' name='ofill'
+                                   value='Сохранить'>
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                                   value='Сохранить и Закрыть'>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+    </TABLE>
+</FORM>

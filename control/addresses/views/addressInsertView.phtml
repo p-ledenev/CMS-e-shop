@@ -1,0 +1,97 @@
+<? /* @var AddressInsertView $this */
+$address = $this->getAddress();
+
+if ($this->getStrInfo())
+    $strError = "<div class='date green' style='font-weight:bold;padding:10;'>> " . $this->getStrInfo() . "</div>";
+
+if ($this->getStrError())
+    $strError = "<DIV class='date color1' style='font-weight:bold; padding:10;'>> " . $this->getStrError() . "</DIV>";
+?>
+<DIV style='padding:10px 0 5px 15px;'><FONT class="switch FONT17 color2">Добавить данные об адресе доставки</FONT></DIV>
+<DIV align='center'>
+    <FORM method='post' action='<?=$this->getUrl()?>' enctype='multipart/form-data'>
+        <INPUT type='hidden' name='cid' value='<?= $address->getCustomer()->getId() ?>'>
+        <INPUT type='hidden' name='aid' value='<?= $address->getId() ?>'>
+        <TABLE cellpadding='0' cellspacing='0' width='470px' border='0' align='center'>
+            <TR>
+                <TD>
+                    <?= $strError ?>
+                    <TABLE width='400' align='center' cellpadding='10' cellspacing='10' border='0' backround='#FFCCCC'>
+                        <TR>
+                            <TD class='date red' style='text-align:right;' width='125'><FONT color='red'>*&nbsp;</FONT>Населенный
+                                пункт,
+                                регион, район:
+                            </TD>
+                            <TD><INPUT class='input' name='city' value='<?= $address->getCity() ?>' maxlength='100'
+                                       size='30'>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <TD class='date red' style='text-align:right;'>Индекс:</TD>
+                            <TD><INPUT class='input' name='c_index' value='<?= $address->getCIndex() ?>' maxlength='100'
+                                       size='30'></TD>
+                        </TR>
+                        <TR>
+                            <TD class='date red' style='text-align:right;'><FONT color='red'>*&nbsp;</FONT>Улица:</TD>
+                            <TD><INPUT class='input' name='street' value='<?= $address->getStreet() ?>' maxlength='50'
+                                       size='30'>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <TD class='date red' style='text-align:right;'><FONT color='red'>*&nbsp;</FONT>Дом:</TD>
+                            <TD><INPUT class='input' name='house' value='<?= $address->getHouse() ?>' maxlength='100'
+                                       size='30'>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <TD class='date red' style='text-align:right;'>Корпус:</TD>
+                            <TD><INPUT class='input' name='build' value='<?= $address->getBuild() ?>' maxlength='100'
+                                       size='30'>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <TD class='date red' style='text-align:right;'>Квартира:</TD>
+                            <TD><INPUT class='input' name='flat' value='<?= $address->getFlat() ?>' maxlength='100'
+                                       size='30'>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <TD class='date red' style='text-align:right;'><FONT color='red'>*&nbsp;</FONT>Телефон:</TD>
+                            <TD><INPUT class='input' name='phone' value='<?= $address->getPhone() ?>' maxlength='100'
+                                       size='30'>
+                            </TD>
+                        </TR>
+                        </TR>
+                        <TR>
+                            <TD class='date red' style='text-align:right;'>Московский адрес:</TD>
+                            <TD><INPUT type='checkbox' name='in_moscow'
+                                       value='1' <?= ($address->getInMoscow()) ? "checked" : "" ?>>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+            </TR>
+            <TR>
+                <TD class='date red' style='text-align:left; padding:0 0 5px 5px;'>Полный адрес:</TD>
+            </TR>
+            <TR>
+                <TD><TEXTAREA name='full_address' cols='56' maxlength='2000'
+                              rows='4'><?= $address->getFullAddress() ?></TEXTAREA></TD>
+            </TR>
+            <TR>
+                <TD class='date red' style='text-align:left; padding:10px 0 5px 5px;'>Дополнительная информация:</TD>
+            </TR>
+            <TR>
+                <TD style='padding:0 0 10px 0;'><TEXTAREA name='dopinfo' cols='56' maxlength='2000'
+                                                          rows='4'><?= $address->getDopInfo() ?></TEXTAREA></TD>
+            </TR>
+            <TR>
+                <TD class="yellow_foot line_divs" style='verical-align:center;' colspan='2'><INPUT class='big_button'
+                                                                                                   type='submit'
+                                                                                                   name='padd'
+                                                                                                   value='Сохранить'>
+                </TD>
+            </TR>
+        </TABLE>
+</DIV>
+</FORM>

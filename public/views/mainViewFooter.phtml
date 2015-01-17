@@ -1,0 +1,289 @@
+<? /* @var MainView $this */
+$resultId = $this->getSubscribeResultId();
+$customer = $this->getCustomer();
+$subscriber = $this->getSubscriber();
+
+$footerSubscriptionView = new FooterSubscriptionView($customer->isPersisted() ? $customer : $subscriber);
+?>
+</TD></TR>
+
+<IMG style="display:none;" src="/images/footer/Club_2.png">
+<IMG style="display:none;" src="/images/footer/Contact_2.png">
+<IMG style="display:none;" src="/images/footer/Kak_sdelat_zacaz_2.png">
+<IMG style="display:none;" src="/images/footer/Konsultazii_2.png">
+<IMG style="display:none;" src="/images/footer/Lychnj_kabinet_2.png">
+<IMG style="display:none;" src="/images/footer/Novosty_2.png">
+<IMG style="display:none;" src="/images/footer/O_nas_2.png">
+<IMG style="display:none;" src="/images/footer/Oplata_2.png">
+<IMG style="display:none;" src="/images/footer/Otzivi_2.png">
+<IMG style="display:none;" src="/images/footer/Programma_skidok_2.png">
+<IMG style="display:none;" src="/images/footer/Spezii_2.png">
+<IMG style="display:none;" src="/images/footer/Sredstva_2.png">
+<IMG style="display:none;" src="/images/footer/Uchod_2.png">
+<IMG style="display:none;" src="/images/footer/VK_2.png">
+<IMG style="display:none;" src="/images/footer/Bio_2.png">
+
+<TR>
+    <TD style="font-size:10px;">&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD class="bordercolor_lightgray"
+        style="text-align: left; height: 28px; font-size: 12px; border-width:1px; border-bottom:0px;">
+        <FORM action="/news_subscribe/" method="post" id="subscribeForm" name="subscribeForm"
+              accept-charset="ISO-8859-1">
+            <TABLE cellpadding="0" cellspacing="0" border="0" align="left"
+                   style="text-align:left; padding:5px 0 5px 0;" width="100%">
+                <TR>
+                    <TD class="color_orange" style="font-size: 14px; text-align: left; padding:0 0 0 20px;">
+                        <nobr>ПОЛЕЗНАЯ РАССЫЛКА AYURVEDAMARKET</nobr>
+                    </TD><? $footerSubscriptionView->view() ?>
+                    <TD class="color_warmgray"
+                        style="font-size: 12px; vertical-align: middle; text-align: right; padding: 0 25px 0 0; width:180px;">
+                        <A
+                            href="javascript:void(0);" style="text-decoration: none;">
+                            <DIV class="backcolor_orange bordercolor_orange color_white"
+                                 style="font-size: 12px; display: inline; padding:5px 39px 2px 39px;cursor: pointer;"
+                                 onclick='if(validate(subscribeForm)) {
+                                     ajaxPostRequest("/news_subscribe/", "subscribeForm", "<?= $resultId ?>", "<?= Constants::$mainBodyId ?>", true);
+                                     }
+                                     return false;'>
+                                ПОДПИСАТЬСЯ
+                            </DIV>
+                        </A></TD>
+                </TR>
+            </TABLE>
+        </FORM>
+    </TD>
+</TR>
+
+<TR>
+    <TD class="bordercolor_lightgray"
+        style="padding: 40px 0px 40px 0px; border-width:1px; border-bottom-width:0px; text-align:left;">
+        <TABLE width='100%' cellpadding='0' cellspacing='0' border="0" style="text-align:left;">
+            <TR>
+                <TD style="padding: 5px 0px 20px 40px; width:260px; font-size:28px;" class="color_black">
+                    Популярное
+                </TD>
+                <TD style="padding: 5px 0px 20px 20px; width:240px; font-size:28px;" class="color_black">
+                    Для клиентов
+                </TD>
+                <TD style="padding: 5px 0px 20px 20px; width:240px; font-size:28px;" class="color_black">
+                    Сервис
+                </TD>
+                <TD style="padding: 5px 0px 20px 20px; width:260px; font-size:28px;" class="color_black">
+                    Ayurvedamarket
+                </TD>
+            </TR>
+            <TR>
+                <TD style="padding: 5px 0px 5px 40px;">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/ozdorovitelnye_sredstva/'>
+                        <DIV
+                            style="background: url('/images/footer/Sredstva_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/Sredstva_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Sredstva_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/about_as/17963/'>
+                        <DIV
+                            style="background: url('/images/footer/Programma_skidok_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/Programma_skidok_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Programma_skidok_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <DIV style="font-size: 22px;" class="color_black">+7 (495) 5-187-188</DIV>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <!--<A style="font-size: 12px;" class="color_warmgray" href=''>-->
+                    <DIV
+                        style="background: url('/images/footer/Otzivi_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                    <onmouseover
+                    ="return false;setBackImage(this, '/images/footer/Otzivi_2.png'); this.style.opacity=1.0;"
+                    onmouseout="setBackImage(this, '/images/footer/Otzivi_1.png');
+                    this.style.opacity = 0.5;"></DIV>
+                    <!--</A>-->
+                </TD>
+            </TR>
+            <TR>
+                <TD style="padding: 5px 0px 5px 40px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/spices/'>
+                        <DIV
+                            style="background: url('/images/footer/Spezii_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/Spezii_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Spezii_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/cabinet/'>
+                        <DIV
+                            style="background: url('/images/footer/Lychnj_kabinet_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onClick="setBackImage(this, '/images/footer/Lychnj_kabinet_2.png'); this.style.opacity=1.0;"
+                            onmouseover="setBackImage(this, '/images/footer/Lychnj_kabinet_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Lychnj_kabinet_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/about_as/17962'>
+                        <DIV
+                            style="background: url('/images/footer/Kak_sdelat_zacaz_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/Kak_sdelat_zacaz_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Kak_sdelat_zacaz_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <!--<A style="font-size: 12px;" class="color_warmgray" href=''>-->
+                    <DIV
+                        style="background: url('/images/footer/Novosty_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                        onmouseover="return false;setBackImage(this, '/images/footer/Novosty_2.png'); this.style.opacity=1.0;"
+                        onmouseout="setBackImage(this, '/images/footer/Novosty_1.png'); this.style.opacity=0.5;"></DIV>
+                    <!-- </A>-->
+                </TD>
+            </TR>
+            <TR>
+                <TD style="padding: 5px 0px 5px 40px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/gel_skin/'>
+                        <DIV
+                            style="background: url('/images/footer/Uchod_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/Uchod_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Uchod_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <!--<A style="font-size: 12px;" class="color_warmgray" href=''>-->
+                    <DIV
+                        style="background: url('/images/footer/Konsultazii_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                        onmouseover="return false;setBackImage(this, '/images/footer/Konsultazii_2.png'); this.style.opacity=1.0;"
+                        onmouseout="setBackImage(this, '/images/footer/Konsultazii_1.png'); this.style.opacity=0.5;"></DIV>
+                    <!--</A>-->
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/about_as/19363'>
+                        <DIV
+                            style="background: url('/images/footer/Contact_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/Contact_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Contact_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <!--<A style="font-size: 12px;" class="color_warmgray" href=''>-->
+                    <DIV
+                        style="background: url('/images/footer/O_nas_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                        onmouseover="return false;setBackImage(this, '/images/footer/O_nas_2.png'); this.style.opacity=1.0;"
+                        onmouseout="setBackImage(this, '/images/footer/O_nas_1.png'); this.style.opacity=0.5;"></DIV>
+                    <!--</A>-->
+                </TD>
+            </TR>
+            <TR>
+                <TD style="padding: 5px 0px 5px 40px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/227/'>
+                        <DIV
+                            style="background: url('/images/footer/Bio_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/Bio_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Bio_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/club/'>
+                        <DIV
+                            style="background: url('/images/footer/Club_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/Club_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Club_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='/about_as/19365'>
+                        <DIV
+                            style="background: url('/images/footer/Oplata_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/Oplata_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/Oplata_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+                <TD style="padding: 5px 0px 5px 20px">
+                    <A style="font-size: 12px;" class="color_warmgray" href='http://vk.com/all_ayurveda'>
+                        <DIV
+                            style="background: url('/images/footer/VK_1.png') no-repeat 0 0; height:20px; opacity:0.5;"
+                            onmouseover="setBackImage(this, '/images/footer/VK_2.png'); this.style.opacity=1.0;"
+                            onmouseout="setBackImage(this, '/images/footer/VK_1.png'); this.style.opacity=0.5;"></DIV>
+                    </A>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD class="color_warmgray bordercolor_lightgray"
+        style="text-align: left;font-size: 14px;  border-width:1px; padding: 0px 0 0px 20px">
+        <FORM name="bottom_search" action="/search" method="post">
+            <TABLE cellpadding="0" cellspacing="0" border="0" align="left" style="text-align: left;" width="100%">
+                <TR>
+                    <TD class="color_warmgray" style="font-size: 14px; text-align:left; padding:0 0 0 40px; height: 33px;
+                    background: url('/images/search_label.jpg') no-repeat 0 0;">
+                        ЕСЛИ ВЫ НЕ УВИДЕЛИ, ЧТО ИСКАЛИ, ПОПРОБУЙТЕ СПРОСИТЬ ЗДЕСЬ
+                    </TD>
+                    <TD style="width: 365px; text-align: right;">
+                        <INPUT class="input bordercolor_lightgray color_gray"
+                               style='border-width:1px; padding:0 0 0 5px; width:335px;'
+                               name="produce_title" size="30" value="                Более 1500 аюрведических товаров"
+                               onclick="this.value=''; this.style.color='#333333'; return false;">
+                    </TD>
+                    <TD style="vertical-align: middle; width:90px;"><A href="javascript:void(0);"
+                                                                       style="text-decoration: none;"
+                                                                       onClick="document.forms['bottom_search'].submit();">
+                            <DIV class="backcolor_orange bordercolor_orange color_white"
+                                 style="font-size: 12px; display: inline; padding:4px 10px 3px 10px;">
+                                ПОИСК
+                            </DIV>
+                        </A></TD>
+                </TR>
+            </TABLE>
+        </FORM>
+    </TD>
+</TR>
+
+<TR>
+    <TD style="border-left-width:1px; border-right-width:1px; font-size:10px; background-color:white;"
+        class="bordercolor_lightgray">
+        &nbsp;</TD>
+</TR>
+
+<TR>
+    <TD style="font-size:10px; background-color:white; padding:0px 28px 10px 0; text-align: right;
+    border-left-width:1px; border-right-width:1px; "
+        class="bordercolor_lightgray">
+        <table align="right" cellpadding="0" cellspacing="0">
+            <tr>
+                <td style="padding:0 20px 0 0;">
+                    <!-- HotLog -->
+                    <span id="hotlog_counter"></span>
+                    <span id="hotlog_dyn"></span>
+                    <script type="text/javascript">
+                        var hot_s = document.createElement('script');
+                        hot_s.type = 'text/javascript';
+                        hot_s.async = true;
+                        hot_s.src = 'http://js.hotlog.ru/dcounter/2260967.js';
+                        hot_d = document.getElementById('hotlog_dyn');
+                        hot_d.appendChild(hot_s);
+                    </script>
+                    <noscript>
+                        <a href="http://click.hotlog.ru/?2260967" target="_blank"><img
+                                src="http://hit41.hotlog.ru/cgi-bin/hotlog/count?s=2260967&amp;im=600" border="0"
+                                alt="HotLog"></a>
+                    </noscript>
+                    <!-- /HotLog -->
+                </td>
+
+                <td>
+                    <a href="http://clck.yandex.ru/redir/dtype=stred/pid=47/cid=2508/*http://market.yandex.ru/shop/6941/reviews"><img
+                            src="http://clck.yandex.ru/redir/dtype=stred/pid=47/cid=2505/*http://grade.market.yandex.ru/?id=6941&action=image&size=0"
+                            border="0" width="88" height="31"
+                            alt="Читайте отзывы покупателей и оценивайте качество магазина на Яндекс.Маркете"/></a>
+                </td>
+            </tr>
+        </table>
+    </TD>
+</TR>
+
+</TABLE>

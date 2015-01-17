@@ -1,0 +1,78 @@
+<? /* @var CabinetCustomerInfoView $this */
+$customer = $this->getCustomer();
+$cart = $this->getCart();
+
+$deal = Deal::createFrom($cart, $customer, null);
+
+$orderWord = "заказов";
+if ($customer->countTotalDealsWithoutReject() < 5) $orderWord = "заказа";
+if ($customer->countTotalDealsWithoutReject() == 1) $orderWord = "заказ";
+
+$discontStrategy = $cart->getDiscontStrategy();
+
+$customerDiscontPercent = $discontStrategy->getCustomerDiscontPercent();
+$nextDiscontLevel = $discontStrategy->getNextDiscontLevel();
+$restToNextLevel = $discontStrategy->getRestToNextDiscontLevel();
+$isAchieveNextLevel = $discontStrategy->isAchieveNextDiscontLevelBy($deal);
+?>
+<TABLE cellspacing='0' cellpadding='0' border='0' align="left">
+    <TR>
+        <TD style='padding:5px; font-size: 14px;' class="color_brown arial_family">
+            Надеемся, Вам понравился наш магазин и Вы станете постоянным покупателем www.ayurvedamarket.ru.
+        </TD>
+    </TR>
+    <?
+    if ($customer->countTotalDealsWithoutReject() > 0) {
+        ?>
+        <TR>
+            <TD style='padding:5px; font-size: 14px;' class="color_brown arial_family">
+                Ранее Вы сделали <?= $customer->countTotalDealsWithoutReject() ?>&nbsp;<?= $orderWord ?>&nbsp;на
+                сумму&nbsp;<?= $customer->calculateDealListPurchaseWithDiscont() ?> руб.&nbsp;
+                В Системе накопительных скидок учтено <?= $customer->calculateDealListPurchaseInAccomulate() ?>
+                руб.
+            </TD>
+        </TR>
+    <?
+    }
+    ?>
+    <?
+    if ($customerDiscontPercent > 0) {
+        ?>
+        <TR>
+            <TD style='padding:5px; font-size: 14px;' class="color_brown arial_family">
+                У Вас есть накопительная скидка в размере <?= $customerDiscontPercent ?>%.
+            </TD>
+        </TR>
+    <?
+    }
+    ?>
+    <?
+    if ($nextDiscontLevel > 0 && strlen($customer->getDistributon()) <= 0) {
+        ?>
+        <TR>
+            <TD style='padding:5px; font-size: 14px;' class="color_brown arial_family">
+                До получения скидки в <?= $nextDiscontLevel ?>% Вам осталось приобрести продукцию,
+                не участвующую в акциях*, на сумму <?= $restToNextLevel ?> руб.
+            </TD>
+        </TR>
+    <?
+    }
+    ?>
+    <?
+    if ($isAchieveNextLevel && strlen($customer->getDistributon()) <= 0) {
+        ?>
+        <TR>
+            <TD style='padding:5px; font-size: 14px;' class="color_brown arial_family">
+                Со следующего заказа у Вас скидка постоянного
+                клиента <?= $nextDiscontLevel ?>%</TD>
+        </TR>
+    <?
+    }
+    ?>
+    <TR>
+        <TD style='padding:5px; font-style:italic; font-size: 14px;' class="color_orange arial_family">
+            *продукция, продающаяся уже со значительными скидками и отмеченная маркерами "Уникальная цена" и
+            "Спецпредложение".
+        </TD>
+    </TR>
+</TABLE>

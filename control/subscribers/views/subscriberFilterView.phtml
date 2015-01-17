@@ -1,0 +1,43 @@
+<?/* @var SubscriberFilterView $this */
+$filter = $this->getFilter();
+?>
+<form name='search' method='post' action='/<?= $filter->getNavigation()->getUrl() ?>/'>
+    <TABLE width='98%' align='center'>
+        <TR>
+            <TD>
+                <FONT class="switch font17 color2">Список подписчиков</FONT>
+            </TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE align='left' cellpadding='5' cellspacing='5'>
+                    <TR>
+                        <TD class="date red">Имя</TD>
+                        <TD class="date red" style='vertical-align:bottom;'>Email</TD>
+                    </TR>
+
+                    <TR>
+                        <TD valign='top'><INPUT class='input' name='name' size='50'
+                                                value='<?= $filter->getName() ?>'></TD>
+                        <TD valign='top'><INPUT class='input' name='email' size='50'
+                                                value='<?= $filter->getEmail() ?>'></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+        <TR>
+            <TD class="yellow_foot line_divs">
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tser' type="submit" value="Показать">
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tres' type="submit" value="Показать все">
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+    </TABLE>
+</FORM>

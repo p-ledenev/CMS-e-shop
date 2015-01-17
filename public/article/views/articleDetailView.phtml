@@ -1,0 +1,55 @@
+<? /* @var ArticleDetailView $this */
+$article = $this->getArticle();
+$partition = $this->getPartition();
+
+$programList = $article->getProgramList();
+$produceList = $article->getProduceList();
+$preview = $article->getPreview();
+$detail = $article->getDetail();
+
+$commentInsertView = new CommentInsertView($this->getComment(), $this->getCaptcha());
+$commentShortListView = new CommentShortListView($this->getArticle()->getCommentList());
+$commentFullListView = new CommentFullListView($this->getArticle()->getCommentList(), false);
+
+if (count($produceList) > 0)
+    $href = $produceList[0]->createUrlFor();
+
+$image = new Image($article->getId(), ImageType::$articleDetail);
+?>
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+
+    <TR>
+        <TD style='text-align:center; padding: 0px 0px 0 0px;'>
+            <? if ($image->exist())
+                echo "<DIV style='border-bottom-width:1px;' class='bordercolor_lightgray'>
+                        <A href='$href'><IMG border='0' src='" . $image->getSourceUrl() . "'/></A></DIV>";
+            ?>
+            <DIV style="padding:40px 40px 0 40px;" class="arial_family">
+                <?= $preview ?>
+            </DIV>
+            <DIV style="padding:0px 40px 0 40px;" class="arial_family">
+                <?= $detail ?>
+            </DIV>
+        </TD>
+    </TR>
+</TABLE>
+
+<?
+/*
+         <TABLE cellpadding='0' cellspacing='0' border='0' align='left' width="100%">
+            <TR>
+                <TD colspan='2'
+                    style='height: 30px; border-bottom-width: 1px; padding: 20px 0 0px 5px; font-size:20px;'
+                    class='bordercolor_lime color_lime'>
+                    Œ—“¿¬»“‹ Œ“«€¬
+                </TD>
+            <TR>
+                <TD>&nbsp;</TD>
+            </TR>
+            <TR>
+                <TD style="text-align: left;"><? $commentInsertView->view() ?></TD>
+            </TR>
+        </TABLE>
+ */
+?>
+

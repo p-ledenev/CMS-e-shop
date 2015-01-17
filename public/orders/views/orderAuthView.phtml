@@ -1,0 +1,193 @@
+<? /* @var OrderAuthView $this */
+$customer = $this->getCustomer();
+?>
+<TABLE width="100%" border='0' cellpadding='0' cellspacing='0' align='center'>
+    <TR>
+        <TD style='vertical-align: top;'>
+            <TABLE border="0" cellpadding="0" cellspacing="0" align="center" width="700px">
+                <TR>
+                    <TD valign='top' style='padding: 20px 30px 20px 0px;'>
+                        <DIV style="padding:0 0 0 0; font-size: 20px" class="color_marsh">
+                            <NOBR>Оформление заказа / авторизация</NOBR>
+                        </DIV>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD style='vertical-align: top;'>
+                        <FORM name='auth_form' method='post' action='/auth/'>
+                            <INPUT class='input' type='hidden' name='customer_auth' value='true'>
+                            <TABLE width='100%' class="backcolor_lightgray" border="0">
+                                <TR>
+                                    <TD colspan="2" width='100%' align='left' class="color_brown arial_family"
+                                        style='padding: 10px 0 30px 20px; font-size:16px;'>
+                                        Для зарегистрированных пользователей
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; padding:0 30px 0 0; font-size:14px; width:65px;'
+                                        class="color_gray arial_family">E-mail:
+                                    </TD>
+                                    <TD><INPUT class='input' name='email' maxlength='50' size='20'
+                                               value="<?= $customer->getEmail() ?>">
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; padding:20px 30px 0 0; font-size:14px;'
+                                        class="color_gray arial_family">
+                                        Пароль:
+                                    </TD>
+                                    <TD style="padding:20px 0 0 0;"><INPUT class='input' type='password'
+                                                                           name='password'
+                                                                           maxlength='50' size='20'>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:center; padding:10px 30px 0 0; font-size:14px;'
+                                        class="color_gray arial_family" colspan="2">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <INPUT class='input' type='checkbox' name='remember_me' checked>
+                                                </td>
+                                                <td class="color_orange arial_family">Запомнить меня</td>
+                                            </tr>
+                                        </table>
+                                    </TD>
+                                    <TD style="padding:20px 0 0 0;">
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD colspan='2' style='text-align:left; padding: 20px 0px 20px 290px;'>
+                                        <A href="javascript:void(0);"
+                                           onClick="validateAndSubmit(auth_form); return false;"
+                                           style="text-decoration: none;">
+
+                                            <DIV class="backcolor_orange bordercolor_orange color_white"
+                                                 style="font-size: 14px; display: inline; padding:3px 30px 3px 30px;">
+                                                ДАЛЕЕ
+                                            </DIV>
+                                        </A>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </FORM>
+                    </TD>
+                </TR>
+
+                <TR>
+                    <TD>&nbsp;</TD>
+                </TR>
+
+                <TR>
+                    <TD style='vertical-align: top; padding: 20px 0 0 0;'>
+                        <FORM name='newcustomer_form' method='post' action='/auth/'>
+                            <INPUT class='input' type='hidden' name='customer_new' value='true'>
+                            <TABLE width='100%' border="0">
+                                <TR>
+                                    <TD colspan="2" width='100%' align='left' class="color_brown arial_family"
+                                        style='padding: 10px 0 30px 20px; font-size:16px;'>
+                                        Для тех, кто покупает в первый раз
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; padding:0 30px 0 0; font-size:14px; width:65px;'
+                                        class="color_gray arial_family">E-mail:
+                                    </TD>
+                                    <TD><INPUT class='input' name='email' maxlength='50' size='20'>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; padding:20px 30px 0 0; font-size:14px;'
+                                        class="color_gray arial_family">
+                                        Имя:
+                                    </TD>
+                                    <TD style="padding:20px 0 0 0;"><INPUT class='input'
+                                                                           name='name'
+                                                                           maxlength='50' size='20'>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD style='text-align:right; padding:20px 30px 0 0; font-size:14px;'
+                                        class="color_gray arial_family">
+                                        Телефон:
+                                    </TD>
+                                    <TD style="padding:20px 0 0 0;"><INPUT class='input'
+                                                                           name='phone'
+                                                                           maxlength='50' size='20'>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD colspan='2' style='text-align:left; padding: 20px 0px 20px 290px;'>
+                                        <A href="javascript:void(0);"
+                                           onClick="validateAndSubmit(newcustomer_form); return false;"
+                                           style="text-decoration: none;">
+
+                                            <DIV class="backcolor_orange bordercolor_orange color_white"
+                                                 style="font-size: 14px; display: inline; padding:3px 30px 3px 30px;">
+                                                ДАЛЕЕ
+                                            </DIV>
+                                        </A>
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD colspan='2' style='text-align:center; padding: 0 0 0 0px; font-size: 12px;'
+                                        class="color_orange arial_family">
+                                        <NOBR><INPUT name='sendme' type='checkbox' value='1' checked>&nbsp;&nbsp;Я хочу
+                                            получать полезную информацию от проекта Вся Аюрведа
+                                        </NOBR>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </FORM>
+                    </TD>
+                </TR>
+                <!--
+                                <TR>
+                                    <TD>&nbsp;</TD>
+                                </TR>
+
+                                <TR>
+                                    <TD style='vertical-align:top; padding:20px 0 0 0;'>
+                                        <FORM name='changecustomer_form' method='post' action='/cauth/'>
+                                            <INPUT class='input' type='hidden' name='customer_change' value='true'>
+                                            <TABLE width='100%' border="0">
+                                                <TR>
+                                                    <TD colspan="2" width='100%' align='left' class="color_brown arial_family"
+                                                        style='padding: 10px 0 30px 20px; font-size:16px;'>
+                                                        Если Вы забыли свой пароль
+                                                    </TD>
+                                                </TR>
+                                                <TR>
+                                                    <TD style='text-align:right; padding:0 30px 0 0; font-size:14px; width:65px;'
+                                                        class="color_gray arial_family">E-mail:
+                                                    </TD>
+                                                    <TD><INPUT class='input' name='email' maxlength='50' size='20'>
+                                                    </TD>
+                                                </TR>
+                                                <TR>
+                                                    <TD colspan='2' style='text-align:left; padding: 20px 0px 20px 290px;'>
+                                                        <A href="javascript:void(0);"
+                                                           onClick="validateAndSubmit(changecustomer_form); return false;"
+                                                           style="text-decoration: none;">
+
+                                                            <DIV class="backcolor_orange bordercolor_orange color_white"
+                                                                 style="font-size: 14px; display: inline; padding:3px 30px 3px 30px;">
+                                                                ДАЛЕЕ
+                                                            </DIV>
+                                                        </A>
+                                                    </TD>
+                                                </TR>
+                                            </TABLE>
+                                        </FORM>
+                                    </TD>
+                                </TR>
+
+                                <TR>
+                                    <TD>&nbsp;</TD>
+                                </TR>
+                -->
+            </TABLE>
+            </FORM>
+        </TD>
+    </TR>
+</TABLE>

@@ -1,0 +1,88 @@
+<?/* @var ProduceFilterView $this */
+$filter = $this->getFilter();
+$categoryFilter = new CategoryFilter("/control/produces/", CategoryType::$market, false);
+
+/* @var Category[] $categoryList */
+$categoryList = $categoryFilter->loadItemList("Category");
+?>
+<form name='search' method='post' action='/<?= $filter->getNavigation()->getUrl() ?>/'>
+    <TABLE width='98%' align='center'>
+        <TR>
+            <TD>
+                <FONT class="switch font17 color2">Список продукции</FONT>
+            </TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE align='left' cellpadding='5' cellspacing='5'>
+                    <TR>
+                        <TD class="date red">Каталог</TD>
+                        <TD>
+                            <SELECT class='input' name='category_id' onChange="javascript:select_category();"
+                                    style='width:300px;'>
+                                <OPTION value='-1'>- - -</OPTION>
+                                <?
+                                foreach ($categoryList as $category) {
+
+                                    $selected = ($category->equals($filter->getCategory())) ? "selected" : "";
+                                    echo "<option value='" . $category->getId() . "' $selected>" . $category->getName() . "</OPTION>";
+                                }
+                                ?>
+                            </SELECT>
+                        </TD>
+                        <TD class="date red" style='vertical-align:bottom;'>Наименование</TD>
+                    </TR>
+
+                    <TR>
+                        <TD class="date red">Раздел</td>
+                        <TD>
+                            <?
+                            foreach ($categoryList as $category) {
+                                $display = ($category->equals($filter->getCategory())) ? "" : "none";
+
+                                echo "<div id='" . $category->getId() . "' style='display:$display;'>\n
+			                          <SELECT name='partition[" . $category->getId() . "]' style='width:300px;'>
+			                          <OPTION value='-1'>- - -</OPTION>";
+
+                                $partitionFilter = new PartitionFilter("/control/partitions", $category, null, false, false);
+                                /* @var ProducePartition[] $partitionList */
+                                $partitionList = $partitionFilter->loadItemList("ProducePartition");
+                                $subcategory = "";
+
+                                foreach ($partitionList as $partition) {
+
+                                    if ($partition->getSubcategory()->getName() != $subcategory) {
+                                        echo "<option value='0' class='txt' style='color:#AAA'>" . $partition->getSubcategory()->getName() . "</OPTION>";
+                                        $subcategory = $partition->getSubcategory()->getName();
+                                    }
+
+                                    $selected = ($filter->getPartition() && $partition->equals($filter->getPartition())) ? "selected" : "";
+                                    echo "<option value='" . $partition->getId() . "' $selected>" . $partition->getName() . "</OPTION>";
+                                }
+                                echo "</SELECT>
+			                    </DIV>";
+                            }
+                            ?>
+                        </TD>
+                        <TD valign='top'><INPUT class='input' name='produce_title' size='50'
+                                                value='<?= $filter->getSQLValueFor("produceTitle") ?>'></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+        <TR>
+            <TD class="yellow_foot line_divs">
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tser' type="submit" value="Показать">
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tres' type="submit" value="Показать все">
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+    </TABLE>
+</FORM>

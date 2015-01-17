@@ -1,0 +1,70 @@
+<?/* @var PartitionFilterView $this */
+$filter = $this->getFilter();
+$categoryFilter = new CategoryFilter("/control/categories", $this->getType(), false);
+$subcategoryFilter = new SubcategoryFilter("/control/subcategories", false);
+
+/* @var Category[] $categoryList
+ * @var Subcategory[] $subcategoryList
+ */
+$categoryList = $categoryFilter->loadItemList("Category");
+$subcategoryList = $subcategoryFilter->loadItemList("Subcategory");
+?>
+<form name='search' method='post' action='/<?= $filter->getNavigation()->getUrl() ?>/'>
+    <TABLE width='98%' align='center'>
+        <TR>
+            <TD>
+                <FONT class="switch font17 color2">Разделы</FONT>
+            </TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE align='left' cellpadding='5' cellspacing='5'>
+                    <TR>
+                        <TD class="date red">Каталог</TD>
+                        <TD>
+                            <SELECT class='input' name='category_id' style='width:300px;'>
+                                <?
+                                foreach ($categoryList as $category) {
+
+                                    $selected = ($category->equals($filter->getCategory())) ? "selected" : "";
+                                    echo "<option value='" . $category->getId() . "' $selected>" . $category->getName() . "</OPTION>";
+                                }
+                                ?>
+                            </SELECT>
+                        </TD>
+                    </TR>
+
+                    <TR>
+                        <TD class="date red">Подкаталог</td>
+                        <TD>
+                            <SELECT class='input' name='subcategory_id' style='width:300px;'>
+                                <OPTION>---</OPTION>
+                                <?
+                                foreach ($subcategoryList as $subcategory) {
+
+                                    $selected = ($filter->getSubcategory() && $subcategory->equals($filter->getSubcategory())) ? "selected" : "";
+                                    echo "<option value='" . $subcategory->getId() . "' $selected>" . $subcategory->getName() . "</OPTION>";
+                                }
+                                echo "</SELECT>";
+                                ?>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+        <TR>
+            <TD class="yellow_foot line_divs">
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tser' type="submit" value="Показать">
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tres' type="submit" value="Показать все">
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+    </TABLE>
+</FORM>

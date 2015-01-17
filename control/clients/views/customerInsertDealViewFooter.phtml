@@ -1,0 +1,53 @@
+<? /* @var CustomerInsertDealView $this */
+$deal = $this->getDeal();
+?>
+</TABLE>
+</TD>
+</TR>
+<TR>
+    <TD style='padding:20px 0 0 0;'>
+        <TABLE cellpadding='10' cellspacing='10' border='0'>
+            <TR>
+                <TD class='date red'>Подарок к заказу:</TD>
+                <TD><INPUT class='input' type='text' name='gift' size='55' value='<?= $deal->getGift() ?>'>
+                </TD>
+            </TR>
+
+            <TR>
+                <TD class='date red'>Способ оплаты:</TD>
+                <td class='txt black'><select name='paymethod'> ";
+                        <?
+                        /* @var DealStatus $item */
+                        foreach (Paymethod::getAllItems("Paymethod") as $item) {
+                            $selected = ($deal->getPaymethod()->equals($item)) ? "selected" : "";
+                            echo "<option value='" . $item->getCode() . "' $selected>" . $item->getParams() . "</option>";
+                        }
+                        ?>
+                    </select></td>
+            </TR>
+
+            <TR>
+                <TD class='date red'>Время доставки:</TD>
+                <TD style='text-align:left;'>с&nbsp;<SELECT name='d_time_f'>
+                        <? for ($i = 10; $i < 20; $i++) echo "<OPTION value='" . $i . "'>" . $i . "</OPTION>\n"; ?>
+                    </SELECT>&nbsp;&nbsp;
+                    до&nbsp;<SELECT name='d_time_t'>
+                        <? for ($i = 10; $i < 20; $i++) echo "<OPTION value='" . $i . "' selected>" . $i . "</OPTION>\n"; ?>
+                    </SELECT>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD class="yellow_foot line_divs" style='verical-align:center;'>
+        <INPUT class="big_button" style='text-align:center' type='submit' name='cfill'
+               value='Сохранить'>
+    </TD>
+</TR>
+</TABLE>
+</FORM>

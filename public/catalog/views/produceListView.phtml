@@ -1,0 +1,60 @@
+<? /* @var ProduceShortListView $this */
+$produceList = $this->getProduceList();
+$display = ($this->getDisplay() == true) ? "" : "none";
+$viewId = $this->getViewId();
+$partition = $this->getPartition();
+$cartResultId = $this->getCartResultId();
+$inflowResultId = $this->getInflowResultId();
+?>
+<TABLE cellpadding='0' cellspacing='0' border='0' align='center' width='100%' style="display:<?= $display ?>;"
+       id="<?= $viewId ?>">
+    <TR><?
+        foreach ($produceList as $number => $produce) {
+
+            if ($number >= $this->getCount())
+                break;
+
+            $produceId = $produce->getId();
+            $mainBodyId = Constants::$mainBodyId;
+
+            $cartButton = "<A style='padding: 5px 10px 5px 10px; border-width: 1px; font-size:14px;' class='backcolor_lime color_marsh'
+                href='javascript:void(0);'
+                onClick='ajaxGetRequest(\"/cartadd/$produceId/\", \"$cartResultId\", \"$mainBodyId\", true); refreshCartVidgetsWith(490); return false;'>В КОРЗИНУ</A>";
+
+            $inflowButton = "<A class='color_azure' style='text-decoration: underline; font-size: 12px;'
+                            href='javascript:void(0);'
+                            onClick='ajaxGetRequest(\"/notice_form/$produceId/\",\"$inflowResultId\", \"$mainBodyId\", false); return false;'>Сообщить о поступлении</A>";
+
+            $button = ($produce->getQuantity()->equals(ProduceQuantity::$presence)) ? $cartButton : $inflowButton;
+
+            $image = new Image($produce->getId(), ImageType::$catalog);
+
+            $rightBorder = "border-right: 1px solid #BBB;";
+            $bottomBorder = "border-bottom: 1px solid #BBB;";
+
+            if (!$this->getShowExternalBorders()) {
+                if ($number % 3 == 2 || ($number + 1 == $this->getCount() && $this->getCount() < 3)) $rightBorder = "";
+                if (ceil($this->getCount() / 3) == ceil(($number + 1) / 3)) $bottomBorder = "";
+            }
+
+            if ($number % 3 == 0) echo "</TR><TR>";
+
+            echo "<TD style='$rightBorder $bottomBorder text-align:center; padding: 20px 30px 20px 30px; font-size:6px;' width='33%'>
+                        <TABLE style='text-align:center;' border='0' cellpadding='10' cellspacing='10'><TR><TD style='height:120px'>
+                        <A href='/" . $partition->getUrl() . "/" . $produce->getId() . "/'>
+                        <IMG height='120px' border='0' src='" . $image->getThumbUrl() . "'>
+                        </A>
+                        </TD></TR>
+                        <TR><TD style='height:50px; vertical-align:middle;'>
+                        <A class='color_brown' style='font-size:14px;' href='/" . $partition->getUrl() . "/" . $produce->getId() . "/'>" .
+                $produce->getTitle()
+                . "</A></TD></TR>
+                <TR><TD class='color_gray' style='font-size:18px; padding:5px 0 0 0; font-weight:500;'>" .
+                $produce->getPrice()
+                . " - </TD></TR>
+                <TR><TD>
+                $button</TD></TR></TABLE></TD>";
+        }
+        ?>
+    </TR>
+</TABLE>

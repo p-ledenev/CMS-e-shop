@@ -1,0 +1,62 @@
+<? /* @var CommentInsertView $this */
+$comment = $this->getComment();
+$captcha = $this->getCaptcha();
+?>
+<TABLE cellpadding='0' cellspacing='0' width='600' border='0' align="left">
+    <FORM name="add_comment_form" id="add_comment_form" method='post'>
+        <INPUT type="hidden" name="rec" value="1">
+        <INPUT type='hidden' name='item' value='<?= $comment->getItem()->getId() ?>'>
+        <TR>
+            <TD>
+                <TABLE cellpadding='0' cellspacing='0' width='100%' border='0'>
+                    <TR>
+                        <TD align='left' class="color_marsh arial_family" style="font-size: 14px; padding: 0 0 10px 0;">
+                            Представтесь
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TD>
+                            <INPUT class='input' type='text' name='name' size='30' maxlength='50'
+                                   value='<?= $comment->getName() ?>'>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE cellpadding='0' cellspacing='0' width='100%'>
+                    <TR>
+                        <TD class="color_marsh arial_family" style="font-size: 14px; padding: 10px 0 10px 0;">Ваше сообщение</TD>
+                    <TR>
+                    <TR>
+                        <TD><TEXTAREA name='comment' cols='60' rows='5'
+                                      maxlength='2500'><?= $comment->getComment() ?></TEXTAREA>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE align='left' cellpadding='0' cellspacing='0' border='0'>
+                    <TR>
+                        <TD align='left' style="padding: 20px 20px 10px 0;"><IMG border="0" src="/captcha"></TD>
+                        <TD align='left' style="padding: 20px 20px 10px 0;"><INPUT style='height: 28px;' type="text"
+                                                                                   class="input"
+                                                                                   name="validate"></TD>
+                        <TD align='left' style="padding: 18px 20px 10px 0;">
+                            <A onClick='document.add_comment_form.submit(); return false;'
+                               href="javascript:void(0);" style="text-decoration: none;">
+                                <DIV class="backcolor_orange bordercolor_orange color_white"
+                                     style="font-size: 12px; display: inline; padding:7px 20px 6px 20px;cursor: pointer;">
+                                    ОТПРАВИТЬ
+                                </DIV>
+                            </A>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+    </FORM>
+</TABLE>

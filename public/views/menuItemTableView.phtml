@@ -1,0 +1,93 @@
+<?
+/* @var MenuItemTableView $this */
+$category = $this->getCategory();
+$categoryList = $this->getCategoryList();
+$subcategoryFilter = new SubcategoryFilter($category->getUrl());
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/mobile_detect/Mobile_Detect.php';
+$detect = new Mobile_Detect();
+
+$activeId = "active_" . $category->getId();
+$nonActiveId = "nonActive_" . $category->getId();
+$categoryId = $category->getId();
+$active = ($this->getIsSelected()) ? true : false;
+
+$onDesktopEvent = "onMouseOut='show_partition_menu(this, \"$categoryId\", \"$active\"); return false;' " .
+    "onMouseOver='show_partition_menu(this, \"$categoryId\", \"$active\"); return false;' ";
+
+if ($detect->isMobile() || $detect->isTablet()) {
+
+    $itemList = "[-1";
+    foreach ($categoryList as $item)
+        $itemList .= $item->getId() . ",";
+    $itemList = "]";
+
+    $onMobileEvent = "onClick='show_mobile_partition_menu(this, \"$categoryId\", \"$active\", $itemList); return false;'";
+}
+/* @var Image $activeImage */
+$activeImage = new Image($category->getId(), ImageType::$category2);
+/* @var Image $nonActiveImage */
+$nonActiveImage = new Image($category->getId(), ImageType::$category);
+
+$active = "none";
+$nonActive = "";
+if ($this->getIsSelected()) {
+    $active = "";
+    $nonActive = "none";
+}
+
+$categoryName = "<IMG id='$activeId' border='0' style='display:$active;' src='" . $activeImage->getSourceUrl() . "'>" .
+    "<IMG id='$nonActiveId' border='0' style='display:$nonActive;' src='" . $nonActiveImage->getSourceUrl() . "'>"
+?>
+<TD style='text-align:center; height:35px; vertical-align:middle; padding:0 0px 0 0px;' <?= $onDesktopEvent ?>>
+    <DIV style="vertical-align:middle;" <?= $onMobileEvent ?>>
+        <NOBR><A style='text-decoration: none; padding: 0px 0px 0 0px; cursor:default;' class='color_marsh'
+                 href='javascript:void(0);'><?= $categoryName ?></A></NOBR>
+    </DIV>
+
+    <DIV class='partition_menu' style='display:none;' id='<?= $category->getId() ?>'>
+        <TABLE cellpadding='0' cellspacing='0' border="0"
+               style="border-collapse:collapse; background-color:white; border-width:1px;"
+               class='bordercolor_lightgray'>
+            <TR>
+                <TD colspan="10" style="padding:10px 0 0 0;"></TD>
+            </TR>
+            <TR><?
+                foreach ($subcategoryFilter->loadItemList("Subcategory") as $subcategory) {
+
+                    $partitionList = $category->getPartitionListBy($subcategory);
+
+                    $head = "<TD style='vertical-align:top; padding:0px 5px 5px 5px; border-right: solid #e8e7e7 1px;'>
+                          <TABLE cellpadding='3' cellspacing='3' border='0'>";
+
+                    $content = "";
+                    /* @var ProducePartition $partition */
+                    foreach ($partitionList as $partition) {
+
+                        /* @var Produce[] $itemList [] */
+                        $itemList = $partition->getItemList();
+
+                        if (count($itemList) <= 0 || !$partition->isAnyProduceAvailable())
+                            continue;
+
+                        $url = (count($itemList) > 1) ? "/" . $partition->getUrl() . "/" : $itemList[0]->createUrlFor($partition);
+                        $partitionName = $partition->getName();
+
+                        $content .= "
+                        <TR><TD style='padding:5px 10px 5px 10px;'>
+                            <A class='color_marsh' style='font-size:16px;' href='$url'><nobr>$partitionName</nobr></A>
+                        </TD></TR>";
+                    }
+
+                    $foot = "</TABLE></TD>";
+
+                    if (strlen($content) > 0)
+                        echo $head . $content . $foot;
+                }
+                ?>
+            <TR>
+                <TD colspan="10" style="padding:0px 0 5px 0;"></TD>
+            </TR>
+        </TABLE>
+    </DIV>
+</TD>

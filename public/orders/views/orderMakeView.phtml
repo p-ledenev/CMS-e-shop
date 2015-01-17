@@ -1,0 +1,172 @@
+<? /* @var OrderMakeView $this */
+$deal = $this->getDeal();
+
+$giftView = new OrderGiftListView($deal);
+$cartView = new CabinetDealProduceListView($deal);
+?>
+<TABLE width="100%" border='0' cellpadding='0' cellspacing='0' align='center'>
+
+    <TR>
+        <TD style='vertical-align:top;'>
+            <TABLE border="0" cellpadding="0" cellspacing="0" align="center" width="700px">
+                <TR>
+                    <TD valign='top' style='padding: 20px 30px 20px 0px;'>
+                        <DIV style="padding:0 0 0 0; font-size: 20px" class="color_marsh">
+                            <NOBR>Оформление заказа / подтверждение</NOBR>
+                        </DIV>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD style='vertical-align: top;'>
+                        <TABLE width='100%' cellpadding='0' cellapscing='0' border='0'>
+                            <TR>
+                                <TD style='font-size:14px; font-style:normal;' class="color_brown arial_family">
+                                    <?= $deal->getCustomer()->getName() ?>, подтвердите, пожалуйста, составленный Вами
+                                    заказ.
+                                </TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+
+                <TR>
+                    <TD>
+                        <TABLE width='100%'>
+                            <TR>
+                                <TD style='padding: 30px 0 10px 30px; font-size:16px;'
+                                    class='color_marsh arial_family'>
+                                    Ваш список покупок
+                                </TD>
+                            </TR>
+
+                            <TR>
+                                <TD style='padding: 10px 0px 0 30px; text-align:left;'>
+                                    <?= $cartView->view() ?>
+                                </TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+
+                <TR>
+                    <TD style="padding: 0px 0 0 0;">
+                        <? $giftView->view(); ?>
+                    </TD>
+                </TR>
+
+                <TR>
+                    <TD style="padding: 20px 0 0 0;">&nbsp;</TD>
+                </TR>
+
+                <TR>
+                    <TD>
+                        <TABLE width='100%' cellpadding='0' cellapscing='0' border='0'>
+                            <TR>
+                                <TD style='padding: 0px 0 10px 30px; font-size:16px;'
+                                    class='color_marsh arial_family'>
+                                    Ваш адрес доставки
+                                </TD>
+                            </TR>
+                            <TR>
+                                <TD style='padding: 10px 40px 20px 30px;text-align:left; font-size:14px;'
+                                    class="color_brown arial_family">
+                                    <?= $deal->getAddress()->toDetailString() ?>
+                                </TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+
+                <TR>
+                    <TD style="padding:0px 0 0 0;">&nbsp;</TD>
+                </TR>
+
+                <TR>
+                    <TD class="backcolor_lightgray">
+                        <FORM name='send' method='post' action='/send/'>
+                            <TABLE width='100%' cellpadding='0' cellspacing='0' border='0' align='left'>
+                                <TR>
+                                    <TD colspan='2' style='padding: 30px 0 15px 30px; font-size:16px;'
+                                        class='color_marsh arial_family'>
+                                        Выберите время доставки
+                                    </TD>
+                                </TR>
+
+                                <TR>
+                                    <TD style='text-align:right; padding:0px 15px 20px 30px; font-size: 14px;'
+                                        class="color_brown arial_family">
+                                        <NOBR>Время доставки:</NOBR>
+                                    </TD>
+                                    <TD width='100%' style='text-align:left; padding:0px 0 20px 0; font-size: 14px;'
+                                        class="color_brown arial_family">&nbsp;&nbsp;с&nbsp;<SELECT
+                                            name='d_time_f'>
+                                            <?
+                                            for ($i = 10; $i < 20; $i++) echo "<OPTION value='" . $i . "'>" . $i . "</OPTION>\n";
+                                            ?>
+                                        </SELECT>&nbsp;&nbsp;
+                                        по&nbsp;<SELECT name='d_time_t'>
+                                            <?
+                                            for ($i = 10; $i < 20; $i++) echo "<OPTION value='" . $i . "' selected>" . $i . "</OPTION>\n";
+                                            ?>
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                    </TD>
+                </TR>
+
+                <TR>
+                    <TD>&nbsp;</TD>
+                </TR>
+
+                <TR>
+                    <TD>
+                        <TABLE width='100%'>
+                            <TR>
+                                <TD style='padding: 20px 0 10px 30px; border-bottom-width: 1px'
+                                    class='color_marsh arial_family'>
+                                    Выберите систему оплаты
+                                </TD>
+                            </TR>
+
+                            <TR>
+                                <TD style='padding: 0 0 30px 30px;'>
+                                    <TABLE width='450' align='left' cellpadding='0' cellspacing='0' border='0'>
+                                        <TR>
+                                            <TD style='text-align:left; padding:0px 20px 0 0; font-size: 14px;'
+                                                class="color_brown arial_family">Способ оплаты:
+                                            </TD>
+                                            <TD style='padding:0px 0 0 0;'>
+                                                <SELECT name='paymethod'>
+                                                    <?
+                                                    if ($deal->getAddress()->getInMoscow()) {
+                                                        echo "<OPTION value='" . Paymethod::$money->getCode() . "'>" . Paymethod::$money->getParams() . "</OPTION>";
+                                                    } else {
+                                                        echo "<OPTION value='" . Paymethod::$bank->getCode() . "'>" . Paymethod::$bank->getParams() . "</OPTION>";
+                                                        echo "<OPTION value='" . Paymethod::$post->getCode() . "'>" . Paymethod::$post->getParams() . "</OPTION>";
+                                                    }
+                                                    ?>
+                                                </SELECT>
+                                            </TD>
+                                            <TD style='padding:0px 0 0 0;'>
+                                                <A href='javascript:void(0);'
+                                                   style='text-decoration:none;'
+                                                   onClick='document.forms["send"].submit(); return false;'>
+                                                    <DIV class='backcolor_orange bordercolor_orange color_white'
+                                                         style='padding: 5px 10px 5px 10px; width:130px; text-align:center; font-size:14px;'>
+                                                        ПОДТВЕРДИТЬ
+                                                    </DIV>
+                                                </A>
+                                            </TD>
+                                        </TR>
+                                        </FORM>
+                                    </TABLE>
+                                </TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+            </TABLE>
+        </TD>
+    </TR>
+</TABLE>

@@ -1,0 +1,19 @@
+<?
+/* @var SelectView $this */
+$formName = $this->getFormName();
+$fieldName = $this->getFieldName();
+$displayFieldName = ($this->getDisplayFieldName()) ? $this->getDisplayFieldName() : $fieldName . "_name";
+$entity = $this->getEntity();
+?>
+<TR>
+    <TD>
+        <A href='javascript:void(0)'
+           onClick="window.opener.document.forms['<?= $formName ?>'].elements['<?= $fieldName ?>'].value='<?= $entity->getId() ?>';
+               window.opener.document.forms['<?= $formName ?>'].elements['<?= $displayFieldName ?>'].value='<?= mysql_real_escape_string(htmlspecialchars($entity->toShortString(), ENT_COMPAT, 'cp1251')) ?>';
+               window.close();"><FONT class='switch purple'><?= $entity->toDetailString() ?></FONT></A>
+<TR>
+    <TD><FONT class='switch purple'></FONT></TD>
+</TR>
+<TR>
+    <TD><FONT class='switch purple'></FONT></TD>
+</TR>

@@ -1,0 +1,40 @@
+<? /* @var ImageLoaderView $this */
+$image = $this->getImage();
+$url = $this->getUrl();
+
+$url .= (strstr($url, "?") === false) ? "/?" : "&";
+?>
+<TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+    <TR>
+        <TD valign='top'>
+            <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                <TR>
+                    <TD class="date red"
+                        align='middle'><?= $image->getType()->getParams() ?></TD>
+                    <TD><INPUT type='file' class="input" maxLength='50' size='30'
+                               name='image_<?= $image->getType()->getCode() ?>'></TD>
+                </TR>
+            </TABLE>
+        </TD><?
+        if ($image->exist()) {
+            ?>
+            <TD align='left' valign='top' style='padding:0 0 0 20;'>
+            <TABLE cellpadding='5' cellspacing='5' align='left' valign='top'>
+                <TR>
+                    <TD class="date red"><A target='_blank'
+                                            href='<?= $image->getFullUrl() ?>'>
+                            <IMG name='image_<?= $image->getType()->getCode() ?>' border='0'
+                                 src='<?= $image->getThumbUrl() ?>''>
+                    </TD>
+                    <TD class="date red" style='padding:0 0 0 20;'>
+                        <A class='red'
+                           onClick="delConfirm('<?= $url ?>delete=yes&iid=<?= $image->getType()->getCode() ?>&id=<?= $image->getName() ?>',
+                               '¬ы действительно хотите удалить изображение?'); return false;"
+                           href="/">del</A></TD>
+                </TR>
+            </TABLE>
+            </TD><?
+        }
+        ?>
+    </TR>
+</TABLE>

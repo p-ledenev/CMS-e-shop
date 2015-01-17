@@ -1,0 +1,49 @@
+<? /* @var ProduceSubscribeView $this */
+$resultId = $this->getResultId();
+$parentResultId = $this->getParentId();
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<FORM name="notice" action="/notice/" method="post" id="noticeForm">
+    <INPUT type="hidden" name="item" value="<?= $this->getProduce()->getId() ?>"/>
+    <TABLE cellpadding="0" cellspacing="0" border="0" align="center" style="text-align:left; width:100%;" class="backcolor_lightgray">
+        <TR>
+            <TD class="color_marsh" style="font-size: 12px; text-align:center; width:250px; padding:10px 0 10px 0;">
+                УВЕДОМЛЕНИЕ О НАЛИЧИИ
+            </TD>
+        </TR>
+        <TR>
+            <TD class="color_gray" style="font-size: 12px; text-align: right; padding:10px 110px 10px 0;">
+                email&nbsp;&nbsp;
+                <INPUT
+                    class="input bordercolor_lightgray"
+                    style='border-width: 1px;'
+                    name="email" size="20">
+            </TD>
+        </TR>
+        <TR>
+            <TD class="color_gray" style="font-size: 12px; text-align: right; padding:10px 110px 10px 0;">
+                ваше имя&nbsp;&nbsp;
+                <INPUT
+                    class="input bordercolor_lightgray"
+                    style='border-width: 1px;' name="name" size="20">
+            </TD>
+        </TR>
+        <TR>
+            <TD class="color_warmgray"
+                style="font-size: 12px; vertical-align: middle; text-align: center; padding:10px 0 10px 0;"><A
+                    href="javascript:void(0);" style="text-decoration: none;">
+                    <INPUT type="button" class="backcolor_gray bordercolor_gray color_white"
+                           style="font-size: 12px; display: inline; padding:5px 39px 2px 39px;cursor: pointer;"
+                           onClick="ajaxPostRequest('/notice/', 'noticeForm', '<?= $resultId ?>', '<?= $parentResultId ?>',true); return false;"
+                           value="ПОДПИСАТЬСЯ">
+                    </INPUT>
+                </A></TD>
+        </TR>
+        <TR>
+            <TD style="text-align:right; padding: 0 10px 5px 0; font-size:12px;">
+                <A href="javascript:void(0);" class="color_red"
+                   onClick="hideElementBy('<?= $resultId ?>'); restoreElement('<?= $parentResultId ?>'); return false;">закрыть</A>
+            </TD>
+        </TR>
+    </TABLE>
+</FORM>

@@ -1,0 +1,269 @@
+<?/* @var ArticleInsertView $this */
+$article = $this->getArticle();
+?>
+<FORM name='article' method='post' action='/control/articles/insert.php' enctype='multipart/form-data'>
+<INPUT type='hidden' name='id' value="<?= $article->getId() ?>">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
+<TR>
+    <TD style='padding:0 0 20 0;'>
+        <FONT class="switch font17 color2">Материалы для статьи</FONT>
+        <? if ($article->isPersisted()) { ?>
+            (<A target="_blank" href="<?= $article->createUrl() ?>">Просмотреть на сайте</A>)
+        <? } ?>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellpadding='5' cellspacing='5' border='0' width="70%">
+            <TR>
+                <TD class="date red" align='middle'>Название</TD>
+                <TD class="date red" align='middle'>Дата публикации</TD>
+                <TD class="date red" align='middle'>Приоритет</TD>
+            </TR>
+            <TR>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='100' size='30' name='title'
+                                                           value="<?= $article->getTitle() ?>"></TD>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='date'
+                                                           value="<?= date("d.m.Y", $article->getDate()) ?>"
+                                                           onFocus="this.select();lcs(this)"
+                                                           onClick="event.cancelBubble=true;this.select();lcs(this)">
+                </TD>
+                <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='sort'
+                                                           value="<?= $article->getSort() ?>"></TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD>
+        <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+            <TR>
+                <TD valign='top'>
+                    <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                        <TR>
+                            <TD class="date red" align='middle' width='45'>Раздел</TD>
+                            <TD><INPUT class="input" maxLength='50' size='30' name='partition_name'
+                                       value="<?= $article->getPartition()->getName() ?>">
+                                <INPUT type='hidden' name='partition'
+                                       value="<?= $article->getPartition()->getId() ?>">
+                                <INPUT type='button' value=' ...'
+                                       onClick='javascript:ShowWin("/control/partitions/select.php?form=article&field=partition&type=material&default=13043", 500, 600)'>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD valign='top'>
+        <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+            <TR>
+                <TD valign='top'>
+                    <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                        <TR>
+                            <TD class="date red" align='middle' width='45'>Статья</TD>
+                            <TD><INPUT class="input" maxLength='50' size='30' name='program_name'
+                                       value="">
+                                <INPUT type='hidden' name='program' value="">
+                                <INPUT type='button' value='...'
+                                       onClick='javascript:ShowWin("/control/articles/select.php?form=article&field=program", 800, 600)'>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+                <TD align='left' valign='top' style='padding:0 0 0 20;'>
+                    <TABLE cellpadding='5' cellspacing='5' align='left' valign='top'>
+                        <TR>
+                            <TD class="date red">Коррелирующие статьи</TD>
+                        </TR>
+                        <?
+                        foreach ($article->getProgramList() as $program) {
+                            ?>
+                            <TR>
+                                <TD class='date' style='font-size:12px; color:#555;'>
+                                    <?= $program->getPartition()->getCategory()->getName() ?> >
+                                    <?= $program->getPartition()->getName() ?> > <?= $program->getTitle() ?></TD>
+                                <TD><A class='red'
+                                       onClick="delConfirm('/control/articles/insert.php?delete=yes&rid=<?= $program->getId() ?>&id=<?= $article->getId() ?>',
+                                           'Вы действительно хотите удалить статью из программы?'); return false;"
+                                       href="/">del</A></TD>
+                            </TR>
+                        <?
+                        }
+                        ?>
+                        </TD></TR>
+                    </TABLE>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD valign='top'>
+        <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+            <TR>
+                <TD valign='top'>
+                    <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                        <TR>
+                            <TD class="date red" align='middle' width='45'>Продукт</TD>
+                            <TD><INPUT class="input" maxLength='50' size='30' name='produce_name'
+                                       value="">
+                                <INPUT type='hidden' name='produce' value="">
+                                <INPUT type='button' value='...'
+                                       onClick='javascript:ShowWin("/control/produces/select.php?form=article&field=produce", 800, 600)'>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+                <TD align='left' valign='top' style='padding:0 0 0 20;'>
+                    <TABLE cellpadding='5' cellspacing='5' align='left' valign='top'>
+                        <TR>
+                            <TD class="date red">Сопутствующие продукты</TD>
+                        </TR>
+                        <?
+                        foreach ($article->getProduceList() as $produce) {
+                            $partitionList = $produce->getPartitionList();
+                            ?>
+                            <TR>
+                                <TD class='date' style='font-size:12px; color:#555;'>
+                                    <?= $partitionList[0]->getCategory()->getName() ?> >
+                                    <?= $partitionList[0]->getName() ?> > <?= $produce->getTitle() ?></TD>
+                                <TD><A class='red'
+                                       onClick="delConfirm('/control/articles/insert.php?delete=yes&pid=<?= $produce->getId() ?>&id=<?= $article->getId() ?>',
+                                           'Вы действительно хотите удалить товар из программы?'); return false;"
+                                       href="/">del</A></TD>
+                            </TR>
+                        <?
+                        }
+                        ?>
+                        </TD></TR>
+                    </TABLE>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<?
+/* @var Image[] $imageList */
+$imageList[] = new Image($article->getId(), ImageType::$articlePreview);
+$imageList[] = new Image($article->getId(), ImageType::$articleDetail);
+
+foreach ($imageList as $image) {
+
+    $imageView = new ImageLoaderView($image, "/control/articles/insert.php");
+
+    echo "<TR><TD valign='top'>";
+
+    $imageView->view();
+
+    echo "</TD></TR><TR><TD>&nbsp;</TD></TR>";
+}
+?>
+
+<TR>
+    <TD class='yellow_foot line_divs' style='verical-align:center;'>
+        <TABLE cellpadding='0' cellsapcing='0' border='0'>
+            <TR>
+                <TD style='padding: 0 0 0 40px;'>
+                    <INPUT class='big_button' style='text-align:center' type='submit' name='ofill' value='Сохранить'>
+                </TD>
+                <TD style='padding: 0 0 0 40px;'>
+                    <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                           value='Сохранить и Закрыть'>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>
+        <TABLE>
+            <TR>
+                <TD class="date red">Анонс</TD>
+            </TR>
+            <TR>
+                <TD><TEXTAREA id="preview" name="preview"><?= $article->getPreview() ?></TEXTAREA></TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD>
+        <TABLE>
+            <TR>
+                <TD class="date red">Статья</TD>
+            </TR>
+            <TR>
+                <TD><TEXTAREA id="detail" name="detail"><?= $article->getDetail() ?></TEXTAREA></TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+<TR>
+    <TD>&nbsp;</TD>
+</TR>
+
+<TR>
+    <TD class='yellow_foot line_divs' style='verical-align:center;'>
+        <TABLE cellpadding='0' cellsapcing='0' border='0'>
+            <TR>
+                <TD style='padding: 0 0 0 40px;'>
+                    <INPUT class='big_button' style='text-align:center' type='submit' name='ofill' value='Сохранить'>
+                </TD>
+                <TD style='padding: 0 0 0 40px;'>
+                    <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                           value='Сохранить и Закрыть'>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+
+</TABLE>
+
+</FORM>
+
+<SCRIPT>
+
+    <?
+    foreach ($imageList as $image) {
+        echo "refresh_image(\"image_" . $image->getType()->getCode() ."\");";
+    }
+    ?>
+
+    var ed = Array('preview', 'detail');
+    for (var i = 0; i < 2; i++) {
+        var editor = CKEDITOR.replace(ed[i]);
+        CKFinder.setupCKEditor(editor, '/control/ckfinder/');
+    }
+
+</SCRIPT>

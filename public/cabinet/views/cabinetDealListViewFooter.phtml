@@ -1,0 +1,39 @@
+<? /* @var CabinetDealListView $this */
+$total = $amount = $amountWithDiscont = 0;
+foreach ($this->customer->getDealList() as $deal) {
+    if (!$deal->getStatus()->equals(DealStatus::$reject)) {
+        $total++;
+        $amount += $deal->getAmount();
+        $amountWithDiscont += $deal->getAmountWithDiscont();
+    }
+}
+?>
+
+<TR>
+    <TD colspan='2' class='txt' style='text-align:right; padding:3px 10px 3px 0px; font-size:14px;'>
+        Итого без скидки:
+    </TD>
+    <TD colspan='2' style='text-align:left; padding:0px 0px 0px 10px; color:#1668A7; font-size:14px;'><?= $amount ?> руб.</TD>
+    <TD colspan='4'>&nbsp;</TD>
+</TR>
+<TR>
+    <TD colspan='2' class='txt' style='text-align:right; padding:3px 10px 3px 0px; font-size:14px;'>Итого со скидкой:
+    </TD>
+    <TD colspan='2' style='text-align:left; padding:0px 0px 0px 10px; color:#1668A7; font-size:14px;'><?= $amountWithDiscont ?> руб.
+    </TD>
+    <TD colspan='4'>&nbsp;</TD>
+</TR>
+<TR>
+    <TD colspan='2' class='txt' style='text-align:right; padding:3px 10px 3px 0px; font-size:14px;'>
+        Всего заказов:
+    </TD>
+    <TD colspan='2' style='text-align:left; padding:0px 0px 0px 10px; color:#1668A7; font-size:14px;'><?= $total ?> шт.</TD>
+    <TD colspan='4'>&nbsp;</TD>
+</TR>
+</table>
+</TD>
+</TR>
+</TABLE>
+</TD>
+</TR>
+</TABLE>

@@ -1,0 +1,48 @@
+<?/* @var SubscriberDetailView $this */
+$subscriber = $this->getSubscriber();
+
+$subscriptionList = $subscriber->getSubscriptionList();
+$subscriptionListView = new SubscriptionListTableView($subscriptionList, "/control/subscribers");
+?>
+<FORM name='subscriber' method='post' action='/control/subscribers/insert.php' enctype='multipart/form-data'>
+    <INPUT type='hidden' name='id' value="<?= $subscriber->getId() ?>">
+    <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
+        <TR>
+            <TD style="padding:0px 0 10px 0;"><FONT class="switch font17 color2">Подписчик</FONT></TD>
+        </TR>
+
+        <TR>
+            <TD>
+                <TABLE cellpadding='5' cellspacing='5' border='0' width="70%">
+                    <TR>
+                        <TD class="date red" align='middle'>Дата создания</TD>
+                        <TD class="date red" align='middle'>Имя</TD>
+                        <TD class="date red" align='middle'>Email</TD>
+                    </TR>
+                    <TR>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='date'
+                                                                   value="<?= date("d.m.Y", $subscriber->getDateCreate()) ?>"
+                                                                   disabled>
+                        </TD>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='100' size='30' name='name'
+                                                                   value="<?= $subscriber->getName() ?>" disabled></TD>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='100' size='30' name='email'
+                                                                   value="<?= $subscriber->getEmail() ?>" disabled></TD>
+
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD style="padding:20px 0 10px 0;"><FONT class="switch font17 color2">Подписки</FONT></TD>
+        </TR>
+
+        <TR>
+            <TD>
+                <? $subscriptionListView->view() ?>
+            </TD>
+        </TR>
+
+    </TABLE>
+</FORM>

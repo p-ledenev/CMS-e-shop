@@ -1,0 +1,176 @@
+<?/* @var PartitionInsertView $this */
+$partition = $this->getPartititon();
+?>
+<FORM name='partition' method='post' action='/control/partitions/insert.php' enctype='multipart/form-data'>
+    <INPUT type='hidden' name='id' value="<?= $partition->getId() ?>">
+    <INPUT type="hidden" name="visible" value="0">
+    <INPUT type="hidden" name="onmain" value="0">
+    <TABLE cellspacing=0 cellPadding=0 width="100%" align=center border=0>
+        <TR>
+            <TD style='padding:0 0 20 0;'><FONT class="switch font17 color2">Информация о разделе</FONT></TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE cellpadding='5' cellspacing='5' border='0' width="80%">
+                    <TR>
+                        <TD class="date red" align='middle'>Название</TD>
+                        <TD class="date red" align='middle'>URL</TD>
+                        <TD class="date red" align='middle'>Приоритет</TD>
+                        <TD class="date red" style="text-align: center;">Видимый</TD>
+                        <TD class="date red" style="text-align: center;">В топ</TD>
+                    </TR>
+                    <TR>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='name'
+                                                                   value="<?= $partition->getSQLValueFor("name") ?>">
+                        </TD>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='url'
+                                                                   value="<?= $partition->getUrl() ?>"</TD>
+                        <TD class="date red" align='middle'><INPUT class="input" maxLength='50' size='30' name='sort'
+                                                                   value="<?= $partition->getSort() ?>"</TD>
+                        <TD class="date red" style="text-align: center;"><INPUT type="checkbox" maxLength='50' size='30'
+                                                                                name='visible'
+                                                                                value="1" <?= $partition->getVisible() ? "checked" : "" ?>>
+                        </TD>
+                        <TD class="date red" style="text-align: center;"><INPUT type="checkbox" maxLength='50' size='30'
+                                                                                name='onmain'
+                                                                                value="1" <?= $partition->getOnMain() ? "checked" : "" ?>>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD>
+                <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                    <TR>
+                        <TD valign='top'>
+                            <TABLE cellpadding='5' cellspacing='5' border='0' valign='top'>
+                                <TR>
+                                    <TD class="date red" align='middle'>Каталог</TD>
+                                    <TD>
+                                        <INPUT type='hidden' name='category'
+                                               value="<?= $partition->getCategory()->getId() ?>">
+                                        <INPUT class="input" maxLength='50' size='40' name='category_name'
+                                               value="<?= $partition->getCategory()->getName() ?>">
+                                        <INPUT type='button' value='...'
+                                               onClick='javascript:ShowWin("/control/categories/select.php?form=partition&field=category", 400, 500)'>
+                                    </TD>
+
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD class="date red" align='middle'>Подкаталог</TD>
+                                    <TD>
+                                        <INPUT type='hidden' name='subcategory'
+                                               value="<?= $partition->getSubcategory()->getId() ?>">
+                                        <INPUT class="input" maxLength='50' size='40' name='subcategory_name'
+                                               value="<?= $partition->getSubcategory()->getName() ?>">
+                                        <INPUT type='button' value='...'
+                                               onClick='javascript:ShowWin("/control/subcategories/select.php?form_name=partition&field_name=subcategory", 400, 500)'>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <?
+        $imageList = Array();
+        $imageList[] = new Image($partition->getId(), ImageType::$partition);
+        $imageList[] = new Image($partition->getId(), ImageType::$tops);
+        $imageList[] = new Image($partition->getId(), ImageType::$promotionPreview);
+        $imageList[] = new Image($partition->getId(), ImageType::$promotionDetail);
+
+        foreach ($imageList as $image) {
+
+            $imageView = new ImageLoaderView($image, "/control/partitions/insert.php");
+
+            echo "<TR><TD valign='top'>";
+            $imageView->view();
+            echo "</TD></TR>";
+        }
+        ?>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD>
+                <TABLE border='0'>
+                    <TR>
+                        <TD class="date red">Анонс</TD>
+                    </TR>
+                    <TR>
+                        <TD><TEXTAREA id="preview" name="preview"><?= $partition->getPreview() ?></TEXTAREA>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD>
+                <TABLE>
+                    <TR>
+                        <TD class="date red">Детально</TD>
+                    </TR>
+                    <TR>
+                        <TD><TEXTAREA id="detail" name="detail"><?= $partition->getDetail() ?></TEXTAREA>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD>&nbsp;</TD>
+        </TR>
+
+        <TR>
+            <TD class='yellow_foot line_divs' style='verical-align:center;'>
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' style='text-align:center' type='submit' name='ofill'
+                                   value='Сохранить'>
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                                   value='Сохранить и Закрыть'>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+    </TABLE>
+
+</FORM>
+
+<SCRIPT>
+
+    refresh_image("image_catalog_partition");
+
+    var ed = Array('preview', 'detail');
+    for (var i = 0; i < 2; i++) {
+        var editor = CKEDITOR.replace(ed[i]);
+        CKFinder.setupCKEditor(editor, '/control/ckfinder/');
+    }
+
+</SCRIPT>

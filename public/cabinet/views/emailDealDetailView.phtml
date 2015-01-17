@@ -1,0 +1,78 @@
+<? /* @var CabinetDealDetailView $this */
+$deal = $this->getDeal();
+$distibuiton = (strlen($deal->getCustomer()->getDistributon()) > 0) ?
+    "номер дистрибьютера: " . $deal->getCustomer()->getDistributon() : "";
+
+$gift = (strlen($deal->getGift()) > 0) ?
+    "<TR><TD style='color:#939598;' align='right'>Подарок к заказу</TD><TD style='color: #3F3D1D;'>" . $deal->getGift() . "</TD></TR>" : "";
+?>
+<TABLE width="700px" border='0' cellpadding='0' cellspacing='0' align='center'>
+    <TR>
+        <TD style='vertical-align: top;'>
+            <TABLE border="0" cellpadding="0" cellspacing="0" align="center" width="700px">
+                <TR>
+                    <TD valign='top' style='padding: 20px 30px 10px 0px;'>
+                        <TABLE cellpadding="0" cellspacing="0" width="100%">
+                            <TR>
+                                <TD style="padding:0 0 0 0; font-size:20px;color:#3F3D1D;">
+                                    <NOBR>Информация о заказе №<?= $deal->getOrderNo() ?></NOBR>
+                                </TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD style="text-align:left; font-size:14px;">
+                        <table cellpadding='10' cellspacing='10' border='0' align="left">
+                            <TR>
+                                <TD style='color:#939598;'>Имя</TD>
+                                <TD style='color: #3F3D1D;'>
+                                    <?= $deal->getCustomer()->getName() ?>
+                                    &nbsp;<?= $distibuiton ?>
+                                </TD>
+                            </TR>
+                            <TR>
+                                <TD style='color:#939598;' align='right'>Телефон</TD>
+                                <TD style='color: #3F3D1D;'><?= $deal->getAddress()->getPhone() ?>
+                                    &nbsp;<?= $deal->getCustomer()->getPhone() ?></TD>
+                            </TR>
+                            <TR>
+                                <TD style='color:#939598;' align='right'>E-mail</TD>
+                                <TD style='color: #3F3D1D;'><?= $deal->getCustomer()->getEmail() ?></TD>
+                            </TR>
+                            <TR>
+                                <TD style='color:#939598;' align='right'>Адрес</TD>
+                                <TD style='color: #3F3D1D;'> <?= $deal->getAddress()->toDetailString() ?></TD>
+                            </TR>
+                            <?= $gift ?>
+                            <TR>
+                                <TD style='color:#939598;' align='right'>
+                                    <NOBR>Способ оплаты</NOBR>
+                                </TD>
+                                <TD style='color: #3F3D1D;'><?= $deal->getPaymethod()->getParams() ?></TD>
+                            </TR>
+                            <TR>
+                                <TD style='color:#939598;' align='right'>
+                                    <NOBR>Время доставки</NOBR>
+                                </TD>
+                                <TD style='color: #3F3D1D;'><?= $deal->getDeliveryTime() ?></TD>
+                            </TR>
+                            <TR>
+                                <TD style='color:#939598;' align='right'>
+                                    <NOBR>Дата заказа</NOBR>
+                                </TD>
+                                <TD style='color: #3F3D1D;'><?= date("d.m.Y h:i:s", $deal->getThedate()) ?></TD>
+                            </TR>
+                            <TR>
+                                <TD style='color:#939598;' align='right'>
+                                    <NOBR>Статус заказа</NOBR>
+                                </TD>
+                                <TD style='color: #3F3D1D;'><?= $deal->getStatus()->getParams() ?></TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+            </TABLE>
+        </TD>
+    </TR>
+</TABLE>

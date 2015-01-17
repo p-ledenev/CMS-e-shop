@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRansitional//EN">
+<HTML>
+<HEAD>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <TITLE>Аюрведамаркет :: ayurvedamarket.ru</TITLE>
+
+    <LINK href="/styles.css" rel="stylesheet" type="text/css"/>
+    <SCRIPT type="text/javascript" src="/js/script.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/js/calendar.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/js/tooltip.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/js/jquery-1.5.min.js"></SCRIPT>
+
+    <LINK rel="stylesheet" type="text/css" href="/jquery_plugins/slide_menu/style.css">
+    <LINK rel="stylesheet" type="text/css" href="/jquery_plugins/master_carousel/style.css"/>
+
+    <SCRIPT type="text/javascript" src="/jquery_plugins/master_carousel/jquery.carousel.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/jquery_plugins/slide_menu/jquery.slidemenu.js"></SCRIPT>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <SCRIPT>
+        $(document).ready(function () {
+            slideMenuHandle();
+        });
+
+        $(document).ready(function(){
+            $('a[href*=#]').bind("click", function(e){
+                var anchor = $(this);
+                $('html, body').stop().animate({
+                    scrollTop: $(anchor.attr('href')).offset().top
+                }, 1000);
+                e.preventDefault();
+            });
+            return false;
+        });
+
+    </SCRIPT>
+</HEAD>
+
+<BODY id="body" style="background-color:white;">
+<A name='top' href='javascript:void(0);'></A>

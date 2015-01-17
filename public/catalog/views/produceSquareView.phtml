@@ -1,0 +1,91 @@
+<? /* @var ProduceSquareView $this */
+$produce = $this->getProduce();
+$price = $produce->getPrice();
+$partition = $this->getPartition();
+$cartResultId = $this->getCartResultId();
+$inflowResultId = $this->getInflowResultId();
+$index = $this->getIndex();
+
+$produceId = $produce->getId();
+$mainBodyId = Constants::$mainBodyId;
+
+$cartButton = "<A style='padding: 5px 10px 5px 10px; border-width: 1px; font-size:14px;' class='backcolor_lime color_marsh'
+                href='javascript:void(0);'
+                onClick='ajaxGetRequest(\"/cartadd/$produceId/\", \"$cartResultId\", \"$mainBodyId\", true); refreshCartVidgetsWith(\"$price\", null); return false;'>
+                В КОРЗИНУ
+               </A>";
+
+$inflowButton = "<A class='color_azure arial_family' style='text-decoration: underline; font-size: 12px;'
+                            href='javascript:void(0);'
+                            onClick='ajaxGetRequest(\"/produce_notice_form/$produceId/\",\"$inflowResultId\", \"$mainBodyId\", false); return false;'>Сообщить о поступлении</A>";
+
+$button = ($produce->getQuantity()->equals(ProduceQuantity::$presence)) ? $cartButton : $inflowButton;
+
+$image = new Image($produce->getId(), ImageType::$catalog);
+
+$rightBorder = "border-right: 1px solid #dddddd;";
+$bottomBorder = "border-bottom: 1px solid #dddddd;";
+
+if (!$this->getShowExternalBorders()) {
+    if ($index % 3 == 2 || ($index + 1 == $this->getCount() && $this->getCount() < 3)) $rightBorder = "";
+    if (ceil($this->getCount() / 3) == ceil(($index + 1) / 3)) $bottomBorder = "";
+}
+
+if ($index % 3 == 0)
+    echo "</TR><TR>";
+
+$vednorSubcategory = Subcategory::initEntityByUrl("Subcategory", Constants::$vendorSubcategoryUrl);
+$isVendorPartition = $vednorSubcategory->equals($partition->getSubcategory());
+
+$produceUrl = "/" . $partition->getUrl() . "/" . $produce->getId() . "/";
+$produceTitle = $produce->getTitle() . (($produce->getVendor() && !$isVendorPartition) ? ", " . $produce->getVendor() : "");
+$producePrice = $produce->getPrice();
+$imageUrl = $image->getThumbUrl();
+
+$promotionPartitionUrlList = Array(Constants::$specailOfferPartitionUrl, Constants::$promotionPartitionUrl,
+    Constants::$newestPartitionUrl, Constants::$newDeliveryPartitionUrl, Constants::$newPricePartitionUrl);
+
+$promotionPartition = $produce->inOneOfPartitionList($promotionPartitionUrlList);
+$promotionImage = new Image($promotionPartition->getId(), ImageType::$partition);
+if ($promotionImage->exist())
+    $strPromotionImage = "<DIV style='position: absolute; border: solid red 0px; padding:0 0 0 20px; z-index:2; vertical-align:top;'>
+                            <IMG src='" . $promotionImage->getFullUrl() . "' border='0'>
+                          </DIV>";
+
+$promotionImage2 = new Image($promotionPartition->getId(), ImageType::$promotionPreview);
+if ($promotionImage2->exist())
+    $strPromotionImage = "<DIV style='position: absolute; border: solid red 0px; padding:20px 0 0 0px; z-index:2;
+                            vertical-align:top; text-align:right; width:250px;'>
+                            <IMG src='" . $promotionImage2->getFullUrl() . "' border='0'>
+                          </DIV>";
+?>
+
+<TD style='<?= $rightBorder ?> <?= $bottomBorder ?> text-align:center; vertical-align:top;'
+    width='33%'>
+    <?= $strPromotionImage ?>
+    </DIV>
+    <DIV style="padding: 20px 30px 20px 30px;">
+        <TABLE style='text-align:center;' border='0' cellpadding='10' cellspacing='10'>
+            <TR>
+                <TD style='height:150px; vertical-align:top;'>
+                    <A href='<?= $produceUrl ?>'>
+                        <IMG src='<?= $imageUrl ?>' border="0">
+                    </A>
+                </TD>
+            </TR>
+            <TR>
+                <TD style='height:50px; vertical-align:middle;'>
+                    <A class='color_brown arial_family' style='font-size:14px;'
+                       href='<?= $produceUrl ?>'><?= $produceTitle ?></A>
+                </TD>
+            </TR>
+            <TR>
+                <TD class='color_gray' style='font-size:18px; padding:5px 0 0 0; font-weight:500;'><?= $producePrice ?>-
+                </TD>
+            </TR>
+            <TR>
+                <TD><?= $button ?></TD>
+            </TR>
+        </TABLE>
+    </DIV>
+</TD>

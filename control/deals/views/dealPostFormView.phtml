@@ -1,0 +1,62 @@
+<? /* @var DealPostFormView $this */
+$deal = $this->deal;
+
+$post_bnd = ($deal->getIsPackage() == true) ? "checked" : "";
+$post_np = ($deal->getPaymethod()->equals(Paymethod::$post) || $deal->getPaymethod()->equals(Paymethod::$money)) ? "checked" : "";
+?>
+<table cellpadding='0' cellspacing='0' style='padding:20px 0 0 0;' width='100%'>
+    <form name='print' action='/control/deals/templates/print.php' method='post' target='_blank'>
+        <input type='hidden' name='post_form' value='0'>
+        <input type='hidden' name='package_form' value='0'>
+        <input type='hidden' name='parcel_form' value='0'>
+        <input type='hidden' name='id' value='<?= $deal->getId() ?>'>
+        <input type='hidden' id='print_summ' name='print_summ' value='<?= $deal->getAmountDeclared() ?>'>
+        <tr>
+            <td>
+                <table cellpadding='10' cellspacing='10'>
+                    <tr>
+                        <td style='text-align:left;' class='date red'>Наложенный платеж</td>
+                        <td class='txt black'>
+                            <input class='input' type='checkbox' id='post_np' name='post_np' value='1'
+                                   onClick='show_post_templates(); return true;' <?= $post_np ?>>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style='text-align:left;' class='date red'>Бандероль</td>
+                        <td class='txt black'>
+                            <input class='input' type='checkbox' id='post_bnd' name='post_bnd' value='1'
+                                   onClick='show_post_templates(); set_is_package(); return true;' <?= $post_bnd ?>>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class='yellow_foot line_divs'>
+                <table cellpadding='0' cellspacing='0' border='0' width='640px'>
+                    <tr>
+                        <td id='post_template' style='display:; padding:0 0 0 40px; text-align:left;' width='340px'>
+                            <input type='button' class='big_button' name='post_template'
+                                   style='width:300px;'
+                                   value='Распечатать форму почтового перевода'
+                                   onClick='select_post("post_form"); document.forms["print"].submit(); return true;'>
+                        </td>
+                        <td id='package_template' style='display:none; padding:0 0 0 40px; text-align:left;'
+                            width='290px'>
+                            <input type='button' class='big_button' name='package_template'
+                                   style='width:250px;'
+                                   value='Распечатать форму бандероли'
+                                   onClick='select_post("package_form"); document.forms["print"].submit(); return true;'>
+                        </td>
+                        <td id='parcel_template' style='display:; padding:0 0 0 40px; text-align:left;' width='260px'>
+                            <input type='button' class='big_button' name='parcel_template'
+                                   style='width:220px;'
+                                   value='Распечатать форму посылки'
+                                   onClick='select_post("parcel_form"); document.forms["print"].submit(); return true;'>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </form>
+</table>

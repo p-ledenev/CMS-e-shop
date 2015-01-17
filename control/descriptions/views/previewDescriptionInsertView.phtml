@@ -1,0 +1,56 @@
+<?/* @var PreviewDescriptionInsertView $this */
+$description = $this->getDescription();
+$image = new Image($description->getId(), ImageType::$description);
+$imageView = new ImageLoaderView($image, $this->getUrl());
+?>
+<DIV style='padding:10px 0 5px 15px;'><FONT class="switch FONT17 color2">Добавить описание продукта</FONT></DIV>
+<DIV align='center'>
+    <FORM method='post' action='<?= $this->getUrl() ?>' enctype='multipart/form-data'>
+        <INPUT type='hidden' name='produce' value='<?= $description->getProduce()->getId() ?>'>
+        <INPUT type='hidden' name='id' value='<?= $description->getId() ?>'>
+        <TABLE cellpadding='5' cellspacing='5' width='850px' border='0' align='center'>
+            <TR>
+                <TD class="date red">Приоритет</TD>
+            </TR
+            <TR>
+                <TD style="padding:0 0 10px 0;"><INPUT class="input" name="sort" value="<?= $description->getSort() ?>">
+                </TD>
+            </TR>
+            <TR>
+                <TD class="date red">Описание</TD>
+            </TR>
+            <TR>
+                <TD style="padding:0 0 10px 0;"><TEXTAREA rows="10" cols="100"
+                                                          name="detail"><?= $description->getDetail() ?></TEXTAREA></TD>
+            </TR>
+            <TR>
+                <TD><? $imageView->view(); ?></TD>
+            </TR>
+
+            <TR>
+                <TD>&nbsp;</TD>
+            </TR>
+
+            <TR>
+                <TD class='yellow_foot line_divs' style='verical-align:center;'>
+                    <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                        <TR>
+                            <!-- <TD style='padding: 0 0 0 40px;'>
+                                <INPUT class='big_button' style='text-align:center' type='submit' name='ofill'
+                                       value='Сохранить'>
+                            </TD> -->
+                            <TD style='padding: 0 0 0 40px;'>
+                                <INPUT class='big_button' style='text-align:center' type='submit' name='cfill'
+                                       value='Сохранить и Закрыть'>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+            </TR>
+        </TABLE>
+    </FORM>
+</DIV>
+
+<script type="text/javascript">
+    refresh_image("image_<?=$image->getType()->getCode()?>");
+</SCRIPT>

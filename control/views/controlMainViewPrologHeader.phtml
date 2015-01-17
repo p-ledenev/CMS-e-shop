@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRansitional//EN">
+<HTML>
+<HEAD>
+
+    <TITLE>Административная панель :: portal.avnc.ru</TITLE>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+
+    <LINK href="/control/styles.css" rel="stylesheet" type="text/css"/>
+
+    <SCRIPT type="text/javascript" src="/control/script.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/control/calendar.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/control/ckeditor/ckeditor.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/control/ckfinder/ckfinder.js"></SCRIPT>
+
+    <SCRIPT>
+        function screen_load() {
+
+            var load = document.getElementById("load");
+
+            if (load) load.style.display = "none";
+        }
+
+        function delConfirm(href, text) {
+            if (confirm(text)) {
+                window.location = href;
+            }
+        }
+    </SCRIPT>
+
+</HEAD>
+
+<BODY onload="screen_load();">
+<DIV id="load"></DIV>

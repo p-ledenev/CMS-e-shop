@@ -1,0 +1,147 @@
+<? /* @var $this CustomerFilterView */
+$filter = $this->getFilter();
+?>
+<FORM name='search' method='post' action='<?= $filter->getNavigation()->getUrl() ?>/'>
+    <TABLE width='98%' align='center'>
+        <TR>
+            <TD>
+                <FONT class='switch font17 color2'>Список клиентов</FONT>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD style="padding:0px 0 5px 0;">
+                <TABLE cellpadding="10" cellspacing="10">
+                    <TR>
+                        <TD class="red date">ФИО</TD>
+                        <TD class="red date">Email</TD>
+                        <TD class="red date">Телефон</TD>
+                    </TR>
+                    <TR>
+                        <TD><INPUT class='input' size='30' name='fio' value='<?= $filter->getFio() ?>'></TD>
+                        <TD><INPUT class='input' size='30' name='email' value='<?= $filter->getEmail() ?>'></TD>
+                        <TD><INPUT class='input' size='30' name='phone' value='<?= $filter->getPhone() ?>'></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD style="padding:0 0 10px 0;">
+                <TABLE cellpadding="10" cellspacing="10">
+                    <TR>
+                        <TD class="red date">Период</TD>
+                        <TD class="red date"></TD>
+                        <TD class="red date" style="padding: 0 0 0 20px;">Сортировать по</TD>
+                        <TD class="red date"></TD>
+                        <TD class="red date" style="padding: 0 0 0 20px;">Искать</TD>
+                    </TR>
+                    <TR>
+                        <TD><INPUT class='input' name="date_from" value="<?= date("d.m.Y", $filter->getDateFrom()) ?>"
+                                   size="10"
+                                   onFocus='this.select();lcs(this)'
+                                   onClick='event.cancelBubble=true;this.select();lcs(this)'></TD>
+                        <TD><INPUT class='input' name="date_to" value="<?= date("d.m.Y", $filter->getDateTo()) ?>"
+                                   size="10"
+                                   onFocus='this.select();lcs(this)'
+                                   onClick='event.cancelBubble=true;this.select();lcs(this)'></TD>
+
+                        <TD style="padding: 0 0 0 20px;"><select name="sort_field">
+                                <?
+                                /* @var ClientSortField $item */
+                                foreach (ClientSortField::getAllItems("ClientSortField") as $item) {
+                                    $selected = ($item->equals($filter->getSortField())) ? "selected" : "";
+                                    echo "<option value='" . $item->getCode() . "' $selected>" . $item->getParams() . "</option>";
+                                }
+                                ?>
+                            </select></TD>
+                        <TD><select name="sort_order">
+                                <?
+                                /* @var SortOrder $item */
+                                foreach (SortOrder::getAllItems("SortOrder") as $item) {
+                                    $selected = ($item->equals($filter->getSortOrder())) ? "selected" : "";
+                                    echo "<option value='" . $item->getCode() . "' $selected>" . $item->getParams() . "</option>";
+                                }
+                                ?>
+                            </select></TD>
+                        <TD style="padding: 0 0 0 20px;"><select name="filter_property">
+                                <?
+                                /* @var ClientFilterProperty $item */
+                                foreach (ClientFilterProperty::getAllItems("ClientFilterProperty") as $item) {
+                                    $selected = ($item->equals($filter->getFilterProperty())) ? "selected" : "";
+                                    echo "<option value='" . $item->getCode() . "' $selected>" . $item->getParams() . "</option>";
+                                }
+                                ?>
+                            </select></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD style="padding:0 0 5px 0;">
+                <TABLE cellpadding="10" cellspacing="10">
+                    <TR>
+                        <TD class="red date">Кол-во заказов</TD>
+                        <TD class="red date" style="padding: 0 0 0 20px;">Со скидкой</TD>
+                        <TD class="red date" style="padding: 0 0 0 20px;">Сумма покупок</TD>
+                        <TD class="red date" style="padding: 0 0 0 20px;">Со свойством</TD>
+                        <TD class="red date" style="padding: 0 0 0 20px;">Без свойства</TD>
+                    </TR>
+                    <TR>
+                        <TD>
+                            > <INPUT class='input' size='5' name='more_count' value='<?= $filter->getCountMin() ?>'>
+                            &nbsp;и < <INPUT class='input' size='5' name='less_count'
+                                             value='<?= $filter->getCountMax() ?>'>
+                        </TD>
+                        <TD style="padding: 0 0 0 20px;">
+                            > <INPUT class='input' size='5' name='more_discont'
+                                     value='<?= $filter->getDiscontMin() ?>'>
+                            &nbsp;
+                            и < <INPUT class='input' size='5' name='less_discont'
+                                       value='<?= $filter->getDiscontMax() ?>'>
+                        </TD>
+                        <TD style="padding: 0 0 0 20px;">
+                            > <INPUT class='input' size='5' name='more_total' value='<?= $filter->getAmountMin() ?>'>
+                            &nbsp;
+                            и < <INPUT class='input' size='5' name='less_total' value='<?= $filter->getAmountMax() ?>'>
+                        </TD>
+                        <TD style="padding: 0 0 0 20px;"><select name="with_attribute">
+                                <?
+                                /* @var ClientAttribute $item */
+                                foreach (ClientAttribute::getAllItems("ClientAttribute") as $item) {
+                                    $selected = ($item->equals($filter->getWithAttribute())) ? "selected" : "";
+                                    echo "<option value='" . $item->getCode() . "' $selected>" . $item->getParams() . "</option>";
+                                }
+                                ?>
+                            </select></TD>
+                        <TD style="padding: 0 0 0 20px;"><select name="without_attribute">
+                                <?
+                                /* @var ClientAttribute $item */
+                                foreach (ClientAttribute::getAllItems("ClientAttribute") as $item) {
+                                    $selected = ($item->equals($filter->getWithoutAttribute())) ? "selected" : "";
+                                    echo "<option value='" . $item->getCode() . "' $selected>" . $item->getParams() . "</option>";
+                                }
+                                ?>
+                            </select></TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+
+        <TR>
+            <TD class='yellow_foot line_divs'>
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' name='tser' type='submit' value='Показать'>
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class='big_button' name='tres' type='submit' value='Показать все'>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+    </TABLE>
+</FORM>

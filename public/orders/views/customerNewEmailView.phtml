@@ -1,0 +1,58 @@
+<? /* @var CustomerNewEmailView $this */
+$customer = $this->getCustomer();
+?>
+<table>
+    <tr>
+        <td>
+            <table cellpadding='3' cellspacing='3' border='0' align='left' style='padding: 0 0 10px 0;'>
+                <tr>
+                    <td>ФИО покупателя:</td>
+                    <td><?= $customer->getName() ?></td>
+                </tr>
+                <tr>
+                    <td>Телефон:</td>
+                    <td><?= $customer->getPhone() ?></td>
+                </tr>
+                <tr>
+                    <td>E-mail:</td>
+                    <td><?= $customer->getEmail() ?></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table cellpadding='5' cellspasing='5' style='padding:10px 0 0 0;'>
+                <tr>
+                    <td colspan='2' style='text-align:left; font-weight:bold;'>Для будущих заказов используйте:</td>
+                </tr>
+                <tr>
+                    <td>Логин</td>
+                    <td><?= $customer->getEmail() ?></td>
+                </tr>
+                <tr>
+                    <td>Пароль</td>
+                    <td><?= $this->getPassword() ?></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table cellpadding='5' cellspasing='5' style='padding:20px 0 0 0;'>
+                <TR>
+                    <TD>Для смены пароля перейдите по
+                        <A style='text-decoration:underline; color:#004499;' target="_blank"
+                           href="<?= $_SERVER['HTTP_HOST'] ?>/change/<?= $customer->getCheckword() ?>">ссылке</A>:
+                    </TD>
+                </TR>
+                <TR>
+                    <TD><?= $_SERVER['HTTP_HOST'] ?>/change/<?= $customer->getCheckword() ?></TD>
+                </TR>
+                <TR>
+                    <TD>Ваша 'Контрольная строка': <?= $customer->getCheckword() ?></TD>
+                </TR>
+            </table>
+        </td>
+    </tr>
+</table>

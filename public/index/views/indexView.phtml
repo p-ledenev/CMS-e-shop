@@ -1,0 +1,277 @@
+<?
+$subscriberFilter = new SubscriberFilter("/");
+$subscriberCount = $subscriberFilter->countItemList();
+
+$cutomerFilter = new ClientFilter("/");
+$cutomerFilter->setDateTo(time());
+$cutomerFilter->setFilterProperty(ClientFilterProperty::$any);
+$customerCount = $cutomerFilter->countItemList();
+
+$clubCount = number_format(38607 + $customerCount + $subscriberCount, 0, ".", " ");
+
+$viewList = Array();
+$viewList[] = new ProduceBannerIndexView("/images/top_banners/banner_1_3.jpg", 723, 401, Array(1, 0, 0, 1));
+$viewList[] = new ProduceBannerIndexView("/images/top_banners/banner_2_3.jpg", 9, 401, Array(1, 0, 0, 1));
+$viewList[] = new ProduceBannerIndexView("/images/top_banners/banner_3_3.jpg", 684, 401, Array(1, 0, 0, 1));
+//$viewList[] = new ProduceBannerIndexView("/images/top_banners/banner_4_3.jpg", 1098, 401, Array(1, 0, 0, 1));
+$viewList[] = new ProduceBannerIndexView("/images/top_banners/banner_5_3.jpg", 991, 401, Array(1, 0, 0, 1));
+
+$topBannerView = ViewFactory::getRandomViewFromList($viewList);
+
+$viewList = Array();
+$viewList[] = new ArticleBannerIndexView("/images/top_left_banners/1.jpg", 19265, 200, Array(1, 0, 0, 0));
+$viewList[] = new ArticleBannerIndexView("/images/top_left_banners/2.jpg", 18562, 200, Array(1, 0, 0, 0));
+$viewList[] = new ArticleBannerIndexView("/images/top_left_banners/3.jpg", 18583, 200, Array(1, 0, 0, 0));
+$viewList[] = new ArticleBannerIndexView("/images/top_left_banners/4.jpg", 18006, 200, Array(1, 0, 0, 0));
+$viewList[] = new ArticleBannerIndexView("/images/top_left_banners/5.jpg", 18545, 200, Array(1, 0, 0, 0));
+
+$topLeftBannerView = ViewFactory::getRandomViewFromList($viewList);
+?>
+<IMG style="display:none;" src="/images/main_page/Ayurvedicheskie_podarky_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Ayurvedicheskie_sredstva_dety_2.jpg">
+<IMG style="display:none;" src="/images/main_page/eco_tovary_2.jpg">
+<IMG style="display:none;" src="/images/main_page/India_sladosty_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Genskoe_zdorovye_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Knigi_po_Ayurvede_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Naturalnoe_pitanye_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Ozdorovytelnye_sredstva_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Spezii_i_prjanosty_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Sredstva_dlya_snygenya_vesa_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Uchod_za_volosamy_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Ukreplenye_immunyteta_2.jpg">
+<IMG style="display:none;" src="/images/main_page/Zubnye_pasty_2.jpg">
+
+<TABLE width='100%' cellpadding='0' cellspacing='0' border='0' style='padding: 0px 0 0 0;'
+       style="border-collapse: collapse;">
+<TR>
+    <TD>
+        <TABLE cellpadding="0" cellspcing="0" border="0" width="100%" style="border-collapse: collapse;">
+            <TR>
+                <TD width="347px" height="200px" style="vertical-align: top;">
+                    <A href="/club/" style="text-decoration:none;">
+                        <DIV class="bordercolor_lightgray color_white"
+                             style="border-top-width:1px; width:100%; text-align: left;
+                              background-image: url('/images/banner_club.jpg'); height:200px;">
+                            <DIV
+                                style="font-size: 21px; font-weight: 500; text-align: left; position:relative; left:22px; top:8px;">
+                                Нас <?=$clubCount?>
+                            </DIV>
+                        </DIV>
+                    </A>
+                    <?= $topLeftBannerView->view() ?>
+                </TD>
+                <TD width="650px" height="401px" style="vertical-align: top;">
+                    <?= $topBannerView->view() ?>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellpadding="0" cellspcing="0" border="0" style="border-collapse: collapse;">
+            <TR>
+                <TD width="499px" style="vertical-align: top;">
+                    <DIV class="bordercolor_lightgray"
+                         style="border-top-width:1px; width:100%; text-align:center; cursor:pointer">
+                        <DIV style="background-image: url('/images/main_page/Uchod_za_volosamy.jpg'); height:490px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Uchod_za_volosamy_2.jpg', '/hair_care/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Uchod_za_volosamy_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Uchod_za_volosamy.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                    <DIV class="bordercolor_lightgray"
+                         style="border-top-width:1px; border-right-width:1px; width:100%; text-align: center; cursor:pointer">
+                        <DIV style="
+                             background-image: url('/images/main_page/Zubnye_pasty.jpg');height:225px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Zubnye_pasty_2.jpg', '/dental/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Zubnye_pasty_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Zubnye_pasty.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                </TD>
+                <TD width="498px" style="vertical-align: top;">
+                    <DIV class="bordercolor_lightgray"
+                         style="border-left-width:1px; border-top-width:1px; width:100%; text-align: center; cursor:pointer">
+                        <DIV style="
+                              background-image: url('/images/main_page/Ukreplenye_immunyteta.jpg'); height:225px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Ukreplenye_immunyteta_2.jpg', '/immunitet/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Ukreplenye_immunyteta_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Ukreplenye_immunyteta.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                    <DIV class="bordercolor_lightgray"
+                         style="border-left-width:1px; border-top-width:1px; width:100%; text-align: center; cursor:pointer">
+                        <DIV
+                            style="background-image: url('/images/main_page/Ozdorovytelnye_sredstva.jpg'); height:490px;"
+                            onClick="hrefWithAnimate(this, '/images/main_page/Ozdorovytelnye_sredstva_2.jpg', '/ozdorovitelnye_sredstva/')"
+                            onmouseover="animateWithBackChange(this, '/images/main_page/Ozdorovytelnye_sredstva_2.jpg'); return false;"
+                            onmouseout="animateWithBackChange(this, '/images/main_page/Ozdorovytelnye_sredstva.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellpadding="0" cellspcing="0" border="0" width="100%" style="border-collapse: collapse;">
+            <TR>
+                <TD width="1000px" style="vertical-align: top;">
+                    <A href="/lechebnye_masla/" style="text-decoration:none">
+                        <DIV class="bordercolor_lightgray"
+                             style="border-top-width:1px; width:100%; text-align: center;
+                              background-image: url('/images/main_page/masla_farmolis.jpg'); height:450px;">
+                            &nbsp;
+                        </DIV>
+                    </A>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellpadding="0" cellspcing="0" border="0" style="border-collapse: collapse;">
+            <TR>
+                <TD width="499px" style="vertical-align: top;">
+                    <DIV class="bordercolor_lightgray"
+                         style="border-top-width:1px; border-right-width:0px; width:100%; text-align: center; cursor:pointer">
+                        <DIV style="
+                              background-image: url('/images/main_page/India_sladosty.jpg'); height:480px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/India_sladosty_2.jpg', '/sweets/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/India_sladosty_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/India_sladosty.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                    <DIV class="bordercolor_lightgray"
+                         style="border-top-width:1px; border-bottom-width:1px; width:100%; text-align: center; cursor:pointer">
+                        <DIV style="
+                             background-image: url('/images/main_page/Genskoe_zdorovye.jpg'); height:225px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Genskoe_zdorovye_2.jpg', '/zhenskoe_zdorovye/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Genskoe_zdorovye_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Genskoe_zdorovye.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                    </A>
+                </TD>
+                <TD width="498px" style="vertical-align: top;">
+                    <DIV class="bordercolor_lightgray"
+                         style="border-width:1px; border-bottom-width:0px; width:100%; text-align: center; cursor:pointer">
+                        <DIV style="
+                              background-image: url('/images/main_page/Ayurvedicheskie_podarky.jpg'); height:225px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Ayurvedicheskie_podarky_2.jpg', '/presents/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Ayurvedicheskie_podarky_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Ayurvedicheskie_podarky.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                    <DIV class="bordercolor_lightgray"
+                         style="border-width:1px; width:100%; text-align: center; cursor:pointer">
+                        <DIV style="
+                              background-image: url('/images/main_page/Knigi_po_Ayurvede.jpg'); height:480px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Knigi_po_Ayurvede_2.jpg', '/143/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Knigi_po_Ayurvede_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Knigi_po_Ayurvede.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellpadding="0" cellspcing="0" border="0" width="100%" style="border-collapse: collapse;">
+            <TR>
+                <TD width="1000px" style="vertical-align: top;">
+                    <DIV class="bordercolor_lightgray"
+                         style="width:100%; text-align: center; cursor:pointer;">
+                        <DIV style="
+                              background-image: url('/images/main_page/Sredstva_dlya_snygenya_vesa.jpg'); height:450px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Sredstva_dlya_snygenya_vesa_2.jpg', '/snizhenie_vesa/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Sredstva_dlya_snygenya_vesa_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Sredstva_dlya_snygenya_vesa.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellpadding="0" cellspcing="0" border="0" style="border-collapse: collapse;">
+            <TR>
+                <TD width="499px" style="vertical-align: top;">
+                    <DIV class="bordercolor_lightgray"
+                         style="border-top-width:1px; width:100%; text-align:center; cursor:pointer;">
+                        <DIV style="
+                              background-image: url('/images/main_page/Naturalnoe_pitanye.jpg'); height:490px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Naturalnoe_pitanye_2.jpg', '/226/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Naturalnoe_pitanye_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Naturalnoe_pitanye.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                    <DIV class="bordercolor_lightgray"
+                         style="border-width:1px; border-left-width:0px; width:100%; text-align: center; cursor:pointer;">
+                        <DIV style="
+                             background-image: url('/images/main_page/eco_tovary.jpg');height:225px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/eco_tovary_2.jpg', '/227/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/eco_tovary_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/eco_tovary.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                </TD>
+                <TD width="498px" style="vertical-align: top;">
+                    <DIV class="bordercolor_lightgray"
+                         style="border-left-width:1px; border-top-width:1px; width:100%; text-align: center; cursor:pointer;">
+                        <DIV style="
+                              background-image: url('/images/main_page/Spezii_i_prjanosty.jpg'); height:225px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Spezii_i_prjanosty_2.jpg', '/spices/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Spezii_i_prjanosty_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Spezii_i_prjanosty.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                    <DIV class="bordercolor_lightgray"
+                         style="border-width:1px; border-right-width:0px; width:100%; text-align: center; cursor:pointer;">
+                        <DIV style="
+                              background-image: url('/images/main_page/Ayurvedicheskie_sredstva_dety.jpg'); height:490px;"
+                             onClick="hrefWithAnimate(this, '/images/main_page/Ayurvedicheskie_sredstva_dety_2.jpg', '/detskoe_zdorovye/')"
+                             onmouseover="animateWithBackChange(this, '/images/main_page/Ayurvedicheskie_sredstva_dety_2.jpg'); return false;"
+                             onmouseout="animateWithBackChange(this, '/images/main_page/Ayurvedicheskie_sredstva_dety.jpg'); return false;">
+                            &nbsp;
+                        </DIV>
+                    </DIV>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellpadding="0" cellspcing="0" border="0" width="100%" style="border-collapse: collapse;">
+            <TR>
+                <TD width="1000px" style="vertical-align: top;">
+                    <DIV class="bordercolor_lightgray"
+                         style="width:100%; text-align: center;
+                              background-image: url('/images/5reasons.jpg'); height:525px;">
+                        &nbsp;
+                    </DIV>
+                </TD>
+            </TR>
+        </TABLE>
+    </TD>
+</TR>
+</TABLE>

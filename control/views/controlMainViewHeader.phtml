@@ -1,0 +1,59 @@
+<?
+/* @var ControlMainView $this
+ * @var PermissionManager $permissionController
+ */
+if ($this->getStrInfo())
+    $strError = "<div class='date green' style='font-weight:bold;padding:10;'>> " . $this->getStrInfo() . "</div>";
+
+if ($this->getStrError())
+    $strError = "<DIV class='date color1' style='font-weight:bold; padding:10;'>> " . $this->getStrError() . "</DIV>";
+?>
+<TABLE border="0" cellspacing="0" cellpadding="0" width="100%" height="100%" border='1' valign='top'>
+    <TR>
+        <TD align="center">
+
+            <TABLE height="100%" border="0" cellspacing="0" cellpadding="0" width='100%' align='center' border='0'>
+                <TR>
+                    <TD height="0" valign="top">
+                        <TABLE border="0" valign="top" cellpadding="0" cellspacing="0" width="1291px" height="100%">
+                            <TR>
+                                <TD valign="top" align='left' style='padding:0 20 0 20;'>
+                                    <!--
+                                    <A target="_blank" href="http://www.avnc.ru"><img border='0' src='/control/images/logo.gif'></a>
+                                    -->
+                                </TD>
+                                <TD align='left' style='padding:5 5 0 0; vertical-align:bottom;'>
+                                    <!--
+                                    <A target="_self" href="/"><img border='0' src='/control/images/admin.gif'></a>
+                                    -->
+                                </TD>
+                                <TD style='padding:0 10 0 0; text-align:right;' align='right'>
+                                    <TABLE style='text-align:right;' align='right'>
+                                        <TR>
+                                            <TD class='date right color2'>
+                                                <nobr>
+                                                    <?= $this->getController()->getCustomer()->getName() ?>&nbsp;
+                                                    <A class='date red' style='color:red;' href='?logout=yes'>Выход</A>
+                                                </nobr>
+                                            </TD>
+                                        </TR>
+                                    </TABLE>
+                                </TD>
+                            </TR>
+                            <TR>
+                                <TD colspan='4' height="100%" style='border-top:1px solid #e6e6e6; height:100%;'
+                                    valign='top'>
+                                    <A name="menu"/>
+                                    <TABLE border="0" height="100%" cellpadding="0" cellspacing="0"
+                                           class="global_table">
+                                        <TR>
+                                            <TD valign='top' id='left_menu' class="global_TABLE_td"
+                                                style='padding:0 0 0 10px; width:250px;' width='250px'>
+                                                <?= $this->getController()->getMenu() ?>
+                                            </TD>
+
+                                            <TD id="separator" class="global_table_td" height="100%"></TD>
+
+                                            <TD id="content" class="global_table_td" valign="top" height="100%"
+                                                style='padding:0 30px 0 30px; width:1030' width='1030px'>
+                                                <?= $strError ?>

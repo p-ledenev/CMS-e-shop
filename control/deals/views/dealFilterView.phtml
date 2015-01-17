@@ -1,0 +1,76 @@
+<? /* @var DealFilterView $this */ ?>
+<form name='search' method='post' action='/<?= $this->getFilter()->getNavigation()->getUrl() ?>/'>
+    <TABLE width='98%' align='center'>
+        <TR>
+            <TD>
+                <FONT class="switch font17 color2"> Список заказов </FONT>
+            </TD>
+        </TR>
+        <TR>
+            <TD>
+                <TABLE align='left' cellpadding='5' cellspacing='5'>
+                    <TR>
+                        <TD class="date red"> Период</TD>
+                        <TD class="date red"> Статус</TD>
+                        <TD class="date red"> Заказы от</TD>
+                    </TR>
+                    <TR>
+                        <TD class="date red">
+                            <TABLE cellpadding='0' cellspacing='0'>
+                                <TR>
+                                    <TD class="date red">c</TD>
+                                    <TD style='padding:0 0 5px 5px;'><INPUT class='input' name='date_from'
+                                                                            value="<?= date("d.m.Y", $this->filter->getDateFrom()) ?>"
+                                                                            onFocus="this.select();lcs(this)"
+                                                                            onClick="event.cancelBubble=true;this.select();lcs(this)">
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD class="date red"> по</TD>
+                                    <TD style='padding:0 0 0px 5px;'><INPUT class='input' name='date_to'
+                                                                            value="<?= date("d.m.Y", $this->filter->getDateTo()) ?>"
+                                                                            onFocus="this.select();lcs(this)"
+                                                                            onClick="event.cancelBubble=true;this.select();lcs(this)">
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD valign='top'>
+                            <? $selected[$this->filter->getStatus()->getCode()] = "selected" ?>
+                            <SELECT name='status' style='width:200px;'>
+                                <?
+                                /* @var DealStatus $item */
+                                foreach (DealStatus::getAllItems("DealStatus") as $item) {
+                                    echo "<OPTION value='" . $item->getCode() . "' " .
+                                        $selected[$item->getCode()] . ">" . $item->getParams() . "</OPTION>";
+                                }
+                                ?>
+                            </SELECT>
+                        </TD>
+                        <TD valign='top'>
+                            <? $selected[$this->filter->getMode()] = "selected" ?>
+                            <SELECT name='mode' style='width:200px;'>
+                                <OPTION value='0' <?= $selected['0'] ?>>Всех</OPTION>
+                                <OPTION value='c' <?= $selected['c'] ?>>Частных лиц</OPTION>
+                                <OPTION value='d' <?= $selected['d'] ?>>Дистрибьютеров</OPTION>
+                            </SELECT>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+        <TR>
+            <TD class="yellow_foot line_divs">
+                <TABLE cellpadding='0' cellsapcing='0' border='0'>
+                    <TR>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tser' type="submit" value="Показать">
+                        </TD>
+                        <TD style='padding: 0 0 0 40px;'>
+                            <INPUT class="big_button" name='tres' type="submit" value="Показать все">
+                        </TD>
+                    </TR>
+                </TABLE>
+            </TD>
+        </TR>
+    </TABLE>

@@ -1,0 +1,34 @@
+<? /* @var CarouselView $this */
+?>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#<?=$this->getCarouselId()?>').carousel({
+            itemsPerPage: <?=$this->getImageNum()?>,
+            itemsPerTransition: <?=$this->getImageNum()?>,
+            speed: 600,
+            pagination: null,
+            cycle: <?=$this->getIsCycle() ? "true" : "null"?>
+        });
+    });
+</script>
+
+<DIV width="100%" class="bordercolor_lightgray"
+     style="background: url('<?= $this->getBackgroundImage() ?>') no-repeat 0 0; padding:0px;">
+    <DIV id="<?= $this->getCarouselId() ?>" class="<?= $this->getStyleClass() ?>">
+        <UL>
+            <? foreach ($this->getImageList() as $image) {
+                $imageUrl = ($this->getUseSource()) ? $image->getSourceUrl() : $image->getThumbUrl();
+                ?>
+                <LI>
+                    <A href='<?= $image->getUrlToEntity() ?>' onmousedown=''>
+                        <IMG src='<?= $imageUrl ?>'></A>
+
+                    <DIV style="text-align: center;">
+                        <A style='text-decoration: none;' class="color_marsh arial_family"
+                           href='<?= $image->getUrlToEntity() ?>'><?= $image->getTitle() ?></A>
+                    </DIV>
+                </LI>
+            <? } ?>
+        </UL>
+    </DIV>
+</DIV>
